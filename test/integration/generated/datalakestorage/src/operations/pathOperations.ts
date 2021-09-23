@@ -13,21 +13,21 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataLakeStorageClientContext } from "../dataLakeStorageClientContext";
 import {
-  PathCreateOptionalParams,
-  PathCreateResponse,
+  PathOperationsCreateOptionalParams,
+  PathOperationsCreateResponse,
   PathUpdateAction,
   PathSetAccessControlRecursiveMode,
-  PathUpdateOptionalParams,
-  PathUpdateResponse,
+  PathOperationsUpdateOptionalParams,
+  PathOperationsUpdateResponse,
   PathLeaseAction,
-  PathLeaseOptionalParams,
-  PathLeaseResponse,
-  PathReadOptionalParams,
-  PathReadResponse,
-  PathGetPropertiesOptionalParams,
-  PathGetPropertiesResponse,
-  PathDeleteOptionalParams,
-  PathDeleteResponse
+  PathOperationsLeaseOptionalParams,
+  PathOperationsLeaseResponse,
+  PathOperationsReadOptionalParams,
+  PathOperationsReadResponse,
+  PathOperationsGetPropertiesOptionalParams,
+  PathOperationsGetPropertiesResponse,
+  PathOperationsDeleteOptionalParams,
+  PathOperationsDeleteResponse
 } from "../models";
 
 /** Class containing PathOperations operations. */
@@ -50,7 +50,9 @@ export class PathOperationsImpl implements PathOperations {
    *  To fail if the destination already exists, use a conditional request with If-None-Match: "*".
    * @param options The options parameters.
    */
-  create(options?: PathCreateOptionalParams): Promise<PathCreateResponse> {
+  create(
+    options?: PathOperationsCreateOptionalParams
+  ): Promise<PathOperationsCreateResponse> {
     return this.client.sendOperationRequest({ options }, createOperationSpec);
   }
 
@@ -78,8 +80,8 @@ export class PathOperationsImpl implements PathOperations {
     action: PathUpdateAction,
     mode: PathSetAccessControlRecursiveMode,
     body: coreRestPipeline.RequestBodyType,
-    options?: PathUpdateOptionalParams
-  ): Promise<PathUpdateResponse> {
+    options?: PathOperationsUpdateOptionalParams
+  ): Promise<PathOperationsUpdateResponse> {
     return this.client.sendOperationRequest(
       { action, mode, body, options },
       updateOperationSpec
@@ -104,8 +106,8 @@ export class PathOperationsImpl implements PathOperations {
    */
   lease(
     xMsLeaseAction: PathLeaseAction,
-    options?: PathLeaseOptionalParams
-  ): Promise<PathLeaseResponse> {
+    options?: PathOperationsLeaseOptionalParams
+  ): Promise<PathOperationsLeaseResponse> {
     return this.client.sendOperationRequest(
       { xMsLeaseAction, options },
       leaseOperationSpec
@@ -119,7 +121,9 @@ export class PathOperationsImpl implements PathOperations {
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
-  read(options?: PathReadOptionalParams): Promise<PathReadResponse> {
+  read(
+    options?: PathOperationsReadOptionalParams
+  ): Promise<PathOperationsReadResponse> {
     return this.client.sendOperationRequest({ options }, readOperationSpec);
   }
 
@@ -132,8 +136,8 @@ export class PathOperationsImpl implements PathOperations {
    * @param options The options parameters.
    */
   getProperties(
-    options?: PathGetPropertiesOptionalParams
-  ): Promise<PathGetPropertiesResponse> {
+    options?: PathOperationsGetPropertiesOptionalParams
+  ): Promise<PathOperationsGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { options },
       getPropertiesOperationSpec
@@ -146,7 +150,9 @@ export class PathOperationsImpl implements PathOperations {
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
-  delete(options?: PathDeleteOptionalParams): Promise<PathDeleteResponse> {
+  delete(
+    options?: PathOperationsDeleteOptionalParams
+  ): Promise<PathOperationsDeleteResponse> {
     return this.client.sendOperationRequest({ options }, deleteOperationSpec);
   }
 }

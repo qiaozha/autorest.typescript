@@ -432,7 +432,8 @@ export type ListBlobsIncludeItem =
   | "tags";
 
 /** Optional parameters. */
-export interface PathCreateOptionalParams extends coreClient.OperationOptions {
+export interface PathOperationsCreateOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   pathHttpHeaders?: PathHttpHeaders;
   /** Parameter group */
@@ -464,10 +465,11 @@ export interface PathCreateOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the create operation. */
-export type PathCreateResponse = PathCreateHeaders;
+export type PathOperationsCreateResponse = PathCreateHeaders;
 
 /** Optional parameters. */
-export interface PathUpdateOptionalParams extends coreClient.OperationOptions {
+export interface PathOperationsUpdateOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   pathHttpHeaders?: PathHttpHeaders;
   /** Parameter group */
@@ -505,11 +507,12 @@ export interface PathUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the update operation. */
-export type PathUpdateResponse = PathUpdateHeaders &
+export type PathOperationsUpdateResponse = PathUpdateHeaders &
   SetAccessControlRecursiveResponse;
 
 /** Optional parameters. */
-export interface PathLeaseOptionalParams extends coreClient.OperationOptions {
+export interface PathOperationsLeaseOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -527,10 +530,11 @@ export interface PathLeaseOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the lease operation. */
-export type PathLeaseResponse = PathLeaseHeaders;
+export type PathOperationsLeaseResponse = PathLeaseHeaders;
 
 /** Optional parameters. */
-export interface PathReadOptionalParams extends coreClient.OperationOptions {
+export interface PathOperationsReadOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -546,7 +550,7 @@ export interface PathReadOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the read operation. */
-export type PathReadResponse = PathReadHeaders & {
+export type PathOperationsReadResponse = PathReadHeaders & {
   /**
    * BROWSER ONLY
    *
@@ -564,7 +568,7 @@ export type PathReadResponse = PathReadHeaders & {
 };
 
 /** Optional parameters. */
-export interface PathGetPropertiesOptionalParams
+export interface PathOperationsGetPropertiesOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
@@ -581,10 +585,11 @@ export interface PathGetPropertiesOptionalParams
 }
 
 /** Contains response data for the getProperties operation. */
-export type PathGetPropertiesResponse = PathGetPropertiesHeaders;
+export type PathOperationsGetPropertiesResponse = PathGetPropertiesHeaders;
 
 /** Optional parameters. */
-export interface PathDeleteOptionalParams extends coreClient.OperationOptions {
+export interface PathOperationsDeleteOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -600,7 +605,7 @@ export interface PathDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the delete operation. */
-export type PathDeleteResponse = PathDeleteHeaders;
+export type PathOperationsDeleteResponse = PathDeleteHeaders;
 
 /** Optional parameters. */
 export interface DataLakeStorageClientOptionalParams

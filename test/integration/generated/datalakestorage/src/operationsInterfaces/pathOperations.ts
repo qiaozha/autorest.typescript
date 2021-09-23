@@ -8,21 +8,21 @@
 
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
-  PathCreateOptionalParams,
-  PathCreateResponse,
+  PathOperationsCreateOptionalParams,
+  PathOperationsCreateResponse,
   PathUpdateAction,
   PathSetAccessControlRecursiveMode,
-  PathUpdateOptionalParams,
-  PathUpdateResponse,
+  PathOperationsUpdateOptionalParams,
+  PathOperationsUpdateResponse,
   PathLeaseAction,
-  PathLeaseOptionalParams,
-  PathLeaseResponse,
-  PathReadOptionalParams,
-  PathReadResponse,
-  PathGetPropertiesOptionalParams,
-  PathGetPropertiesResponse,
-  PathDeleteOptionalParams,
-  PathDeleteResponse
+  PathOperationsLeaseOptionalParams,
+  PathOperationsLeaseResponse,
+  PathOperationsReadOptionalParams,
+  PathOperationsReadResponse,
+  PathOperationsGetPropertiesOptionalParams,
+  PathOperationsGetPropertiesResponse,
+  PathOperationsDeleteOptionalParams,
+  PathOperationsDeleteResponse
 } from "../models";
 
 /** Interface representing a PathOperations. */
@@ -35,7 +35,9 @@ export interface PathOperations {
    *  To fail if the destination already exists, use a conditional request with If-None-Match: "*".
    * @param options The options parameters.
    */
-  create(options?: PathCreateOptionalParams): Promise<PathCreateResponse>;
+  create(
+    options?: PathOperationsCreateOptionalParams
+  ): Promise<PathOperationsCreateResponse>;
   /**
    * Uploads data to be appended to a file, flushes (writes) previously uploaded data to a file, sets
    * properties for a file or directory, or sets access control for a file or directory. Data can only be
@@ -60,8 +62,8 @@ export interface PathOperations {
     action: PathUpdateAction,
     mode: PathSetAccessControlRecursiveMode,
     body: coreRestPipeline.RequestBodyType,
-    options?: PathUpdateOptionalParams
-  ): Promise<PathUpdateResponse>;
+    options?: PathOperationsUpdateOptionalParams
+  ): Promise<PathOperationsUpdateResponse>;
   /**
    * Create and manage a lease to restrict write and delete access to the path. This operation supports
    * conditional HTTP requests.  For more information, see [Specifying Conditional Headers for Blob
@@ -80,8 +82,8 @@ export interface PathOperations {
    */
   lease(
     xMsLeaseAction: PathLeaseAction,
-    options?: PathLeaseOptionalParams
-  ): Promise<PathLeaseResponse>;
+    options?: PathOperationsLeaseOptionalParams
+  ): Promise<PathOperationsLeaseResponse>;
   /**
    * Read the contents of a file.  For read operations, range requests are supported. This operation
    * supports conditional HTTP requests.  For more information, see [Specifying Conditional Headers for
@@ -89,7 +91,9 @@ export interface PathOperations {
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
-  read(options?: PathReadOptionalParams): Promise<PathReadResponse>;
+  read(
+    options?: PathOperationsReadOptionalParams
+  ): Promise<PathOperationsReadResponse>;
   /**
    * Get Properties returns all system and user defined properties for a path. Get Status returns all
    * system defined properties for a path. Get Access Control List returns the access control list for a
@@ -99,13 +103,15 @@ export interface PathOperations {
    * @param options The options parameters.
    */
   getProperties(
-    options?: PathGetPropertiesOptionalParams
-  ): Promise<PathGetPropertiesResponse>;
+    options?: PathOperationsGetPropertiesOptionalParams
+  ): Promise<PathOperationsGetPropertiesResponse>;
   /**
    * Delete the file or directory. This operation supports conditional HTTP requests.  For more
    * information, see [Specifying Conditional Headers for Blob Service
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
-  delete(options?: PathDeleteOptionalParams): Promise<PathDeleteResponse>;
+  delete(
+    options?: PathOperationsDeleteOptionalParams
+  ): Promise<PathOperationsDeleteResponse>;
 }

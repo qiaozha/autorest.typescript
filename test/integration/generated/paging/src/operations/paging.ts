@@ -7,6 +7,7 @@
  */
 
 import { createSpan } from "../tracing";
+import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Paging } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";

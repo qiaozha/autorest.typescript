@@ -34,6 +34,11 @@ export interface ProductProperties {
     | "OK";
 }
 
+export interface CloudError {
+  code?: number;
+  message?: string;
+}
+
 export interface Sku {
   name?: string;
   id?: string;
@@ -62,4 +67,28 @@ export interface SubProductProperties {
     | "Deleting"
     | "Deleted"
     | "OK";
+}
+
+export interface OperationResult {
+  /** The status of the request */
+  status?:
+    | "Succeeded"
+    | "Failed"
+    | "canceled"
+    | "Accepted"
+    | "Creating"
+    | "Created"
+    | "Updating"
+    | "Updated"
+    | "Deleting"
+    | "Deleted"
+    | "OK";
+  error?: OperationResultError;
+}
+
+export interface OperationResultError {
+  /** The error code for an operation failure */
+  code?: number;
+  /** The detailed arror message */
+  message?: string;
 }

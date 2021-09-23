@@ -9,6 +9,11 @@ export interface BasicDef {
   color?: "cyan" | "Magenta" | "YELLOW" | "blacK";
 }
 
+export interface ErrorModel {
+  status?: number;
+  message?: string;
+}
+
 export interface IntWrapper {
   field1?: number;
   field2?: number;
@@ -26,12 +31,12 @@ export interface FloatWrapper {
 
 export interface DoubleWrapper {
   field1?: number;
-  field_56_zeros_after_the_dot_and_negative_zero_before_dot_and_this_is_a_long_field_name_on_purpose?: number;
+  field56ZerosAfterTheDotAndNegativeZeroBeforeDotAndThisIsALongFieldNameOnPurpose?: number;
 }
 
 export interface BooleanWrapper {
-  field_true?: boolean;
-  field_false?: boolean;
+  fieldTrue?: boolean;
+  fieldFalse?: boolean;
 }
 
 export interface StringWrapper {
@@ -41,18 +46,18 @@ export interface StringWrapper {
 }
 
 export interface DateWrapper {
-  field?: Date | string;
-  leap?: Date | string;
+  field?: Date;
+  leap?: Date;
 }
 
 export interface DatetimeWrapper {
-  field?: Date | string;
-  now?: Date | string;
+  field?: Date;
+  now?: Date;
 }
 
 export interface Datetimerfc1123Wrapper {
-  field?: Date | string;
-  now?: Date | string;
+  field?: Date;
+  now?: Date;
 }
 
 export interface DurationWrapper {
@@ -104,6 +109,25 @@ export interface FishBase {
     | "cookiecuttershark";
 }
 
+export interface DotFishBase {
+  fishType: string;
+  species?: string;
+  "fish.type": "DotSalmon";
+}
+
+export interface DotFishMarket {
+  sampleSalmon?: DotSalmon;
+  salmons?: Array<DotSalmon>;
+  sampleFish?: DotFish;
+  fishes?: Array<DotFish>;
+}
+
+export interface DotSalmon extends DotFishBase {
+  location?: string;
+  iswild?: boolean;
+  "fish.type": "DotSalmon";
+}
+
 export interface SalmonBase extends FishBase {
   location?: string;
   iswild?: boolean;
@@ -115,14 +139,24 @@ export interface ReadonlyObj {
   size?: number;
 }
 
+export interface MyBaseTypeBase {
+  propB1?: string;
+  helper?: MyBaseHelperType;
+  kind: "Kind1";
+}
+
+export interface MyBaseHelperType {
+  propBH1?: string;
+}
+
 export interface SmartSalmon extends SalmonBase, Record<string, unknown> {
-  college_degree?: string;
+  collegeDegree?: string;
   fishtype: "smart_salmon";
 }
 
 export interface SharkBase extends FishBase {
   age?: number;
-  birthday: Date | string;
+  birthday: Date;
   fishtype: "shark" | "sawshark" | "goblin" | "cookiecuttershark";
 }
 
@@ -143,6 +177,11 @@ export interface Cookiecuttershark extends SharkBase {
   fishtype: "cookiecuttershark";
 }
 
+export interface MyDerivedType extends MyBaseTypeBase {
+  propD1?: string;
+  kind: "Kind1";
+}
+
 export type Fish =
   | Salmon
   | SmartSalmon
@@ -150,5 +189,7 @@ export type Fish =
   | Sawshark
   | Goblinshark
   | Cookiecuttershark;
+export type DotFish = DotSalmon;
 export type Salmon = SalmonBase | SmartSalmon;
+export type MyBaseType = MyDerivedType;
 export type Shark = SharkBase | Sawshark | Goblinshark | Cookiecuttershark;

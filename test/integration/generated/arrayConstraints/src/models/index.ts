@@ -12,7 +12,7 @@ export interface Product {
   integer?: number;
   string?: string;
   /** The OS of agent machine */
-  custom?: OS;
+  custom?: $DO_NOT_NORMALIZE$OS;
 }
 
 /** Known values of {@link Enum0} that the service accepts. */
@@ -38,7 +38,7 @@ export enum KnownOS {
 }
 
 /**
- * Defines values for OS. \
+ * Defines values for $DO_NOT_NORMALIZE$OS. \
  * {@link KnownOS} can be used interchangeably with OS,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
