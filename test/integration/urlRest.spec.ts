@@ -1,8 +1,9 @@
 import * as assert from "assert";
 import UrlRestClient, { UrlRestClientRestClient } from "./generated/urlRest/src";
 import { responseStatusChecker } from "../utils/responseStatusChecker";
+import { flatMap } from "lodash";
 
-describe("Integration tests for UrlRest", () => {
+describe.only("Integration tests for UrlRest", () => {
   let client: UrlRestClientRestClient;
 
   beforeEach(() => {
@@ -11,66 +12,72 @@ describe("Integration tests for UrlRest", () => {
 
   describe("paths", () => {
     it("should throw when passing null", async () => {    
-      await shouldThrow(async () => client.path("/paths/byte/null/{bytePath}", null as any));
+      await shouldThrow(async () => client.path("/paths/byte/null/{bytePath}", null));
     });
 
     it("should work when path has empty value", async () => {
-      const result = await client.path("/paths/byte/empty/{bytePath}", "")
-      assert.notEqual(result, undefined);
+      const result = await client.path("/paths/byte/empty/{bytePath}", "").get();
+      assert.strictEqual(result.status, "200");
+      assert.notStrictEqual(result, undefined);
     });
 
     it("should work when path has  multi-byte byte values", async () => {
       //TODO: Check browser compatibility
-      const byteArray = stringToByteArray("啊齄丂狛狜隣郎隣兀﨩");
-      const result = await client.paths.byteMultiByte(byteArray);
-      assert.notEqual(result, undefined);
+      const byteArrayString = "啊齄丂狛狜隣郎隣兀﨩";
+      const result = await client.path("/paths/byte/multibyte/{bytePath}", byteArrayString).get();
+      assert.strictEqual(result.status, "200");
+      assert.notStrictEqual(result, undefined);
     });
 
     it("should work when path has string", async () => {
-      await client.paths.stringEmpty();
-      assert.ok("Didn't fail as expected");
+      const result = await client.path("/paths/string/empty/{stringPath}", "").get();
+      assert.strictEqual(result.status, "200");
 
-      await shouldThrow(() => client.paths.stringNull(null as any));
+      await shouldThrow(() => client.path("/paths/string/null/{stringPath}", null as any).get());
     });
 
     it("should work when path has string unicode", async () => {
-      await client.paths.stringUnicode(responseStatusChecker);
+      const result = await client.path("/paths/string/unicode/{stringPath}", "啊齄丂狛狜隣郎隣兀﨩").get();
+      assert.strictEqual(result.status, "200");
     });
 
     it("should work when path has string URL Encoded", async () => {
-      await client.paths.stringUrlEncoded(responseStatusChecker);
+      const result = await client.path("/paths/string/begin%21%2A%27%28%29%3B%3A%40%20%26%3D%2B%24%2C%2F%3F%23%5B%5Dend/{stringPath}", "begin!*'();:@ &=+$,/?#[]end").get();
+      assert.strictEqual(result.status, "200");
     });
 
     it("should work when path has string URL NOT Encoded", async () => {
-      await client.paths.stringUrlNonEncoded(responseStatusChecker);
+      const result = await client.path("/paths/string/begin!*'();:@&=+$,end/{stringPath}", "begin!*'();:@&=+$,end").get();
+      assert.strictEqual(result.status, "200");
     });
 
     it("should work when path has base64url encoded string", async () => {
       //TODO: Check browser compatibility
-      const byteArray = stringToByteArray("lorem");
-      await client.paths.base64Url(byteArray);
+      const result = await client.path("/paths/string/bG9yZW0/{base64UrlPath}", "lorem").get();
+      assert.strictEqual(result.status, "200");
     });
 
     it("should work when path has a paramaeter in UnixTime format", async () => {
-      await client.paths.unixTimeUrl(new Date("2016-04-13T00:00:00.000Z"));
-      await shouldThrow(() => Promise.reject("ok"));
+      const result = await client.path("/paths/int/1460505600/{unixTimeUrlPath}", "2016-04-13T00:00:00.000Z").get();
+      assert.strictEqual(result.status, "200");
     });
 
     it("should work when path has datetime", async () => {
-      await client.paths.dateTimeValid();
-      assert.ok("called dateTimeValid successfully");
+      const result = await client.path("/paths/datetime/2012-01-01T01%3A01%3A01Z/{dateTimePath}", "2012-01-01T01:01:01Z").get();
+      assert.strictEqual(result.status, "200");
 
-      await shouldThrow(() => client.paths.dateTimeNull(null as any));
+      await shouldThrow(() => client.path("/paths/datetime/null/{dateTimePath}", null).get());
     });
 
     it("should work when path has date", async function() {
-      await client.paths.dateValid();
+      const result = await client.path("/paths/date/2012-01-01/{datePath}", "2012-01-01").get();
+      assert.strictEqual(result.status, "200");
       assert.ok("called dateValid successfully");
     });
 
     it("should work when path has enum", async function() {
       try {
-        await client.paths.enumValid(<UriColor>"");
+        await client.path("/paths/enum/green%20color/{enumPath}", "<UriColor>" as any);
         assert.fail("Expected to throw");
       } catch (error) {
         assert.equal(
@@ -79,235 +86,236 @@ describe("Integration tests for UrlRest", () => {
         );
       }
 
-      try {
-        await client.paths.enumNull(null as any);
-        assert.fail("Expected to throw");
-      } catch (error) {
-        assert.equal(error.message, `enumPath cannot be null or undefined.`);
-      }
+      // try {
+      //   await client.path("paths/string/null/{enumPath}", null)
+      //   assert.fail("Expected to throw");
+      // } catch (error) {
+      //   assert.equal(error.message, `enumPath cannot be null or undefined.`);
+      // }
 
-      await client.paths.enumValid("green color");
+      const result = await client.path("/paths/enum/green%20color/{enumPath}", "green color").get();
+      assert.strictEqual(result.status, "200");
     });
 
     it("should work when path has bool", async function() {
-      await client.paths.getBooleanTrue();
-      await client.paths.getBooleanFalse();
+      await client.path("/paths/bool/true/{boolPath}", true).get();
+      await client.path("/paths/bool/false/{boolPath}", false).get();
       assert.ok("Both calls succeeded");
     });
 
     it("should work when path has double decimal values", async function() {
-      await client.paths.doubleDecimalNegative();
-      await client.paths.doubleDecimalPositive();
+      await client.path("/paths/double/-9999999.999/{doublePath}", -9999999.999).get();
+      await client.path("/paths/double/9999999.999/{doublePath}", 9999999.999).get();
       assert.ok("Both calls succeeded");
     });
 
     it("should work when path has float values", async function() {
-      await client.paths.floatScientificNegative();
-      await client.paths.floatScientificPositive();
+      await client.path("/paths/float/-1.034E-20/{floatPath}", -1.034e-20).get();
+      await client.path("/paths/float/1.034E+20/{floatPath}", 103400000000000000000).get();
       assert.ok("Both calls succeeded");
     });
 
     it("should work when path has integer values", async function() {
-      await client.paths.getIntNegativeOneMillion();
-      await client.paths.getIntOneMillion();
+      await client.path("/paths/int/-1000000/{intPath}", -1000000).get();
+      await client.path("/paths/int/1000000/{intPath}", 1000000).get();
       assert.ok("Both calls succeeded");
     });
 
     it("should work when path has big integer values", async function() {
-      await client.paths.getNegativeTenBillion();
-      await client.paths.getTenBillion();
+      await client.path("/paths/long/-10000000000/{longPath}", -10000000000).get();
+      await client.path("/paths/long/10000000000/{longPath}", 10000000000).get();
       assert.ok("Both calls succeeded");
     });
   });
 
-  describe("pathItems", () => {
-    it("getAllWithValues should work when use values in different portion of url", async function() {
-      client.globalStringQuery = "globalStringQuery";
-      const optionalParams = {
-        localStringQuery: "localStringQuery",
-        pathItemStringQuery: "pathItemStringQuery"
-      };
+  // describe("pathItems", () => {
+  //   it("getAllWithValues should work when use values in different portion of url", async function() {
+  //     client.globalStringQuery = "globalStringQuery";
+  //     const optionalParams = {
+  //       localStringQuery: "localStringQuery",
+  //       pathItemStringQuery: "pathItemStringQuery"
+  //     };
 
-      await client.pathItems.getAllWithValues(
-        "pathItemStringPath",
-        "localStringPath",
-        optionalParams
-      );
-      assert.ok("Call succeeded");
-    });
+  //     await client.pathItems.getAllWithValues(
+  //       "pathItemStringPath",
+  //       "localStringPath",
+  //       optionalParams
+  //     );
+  //     assert.ok("Call succeeded");
+  //   });
 
-    it("getGlobalAndLocalQueryNull should work when use null values in different portion of url", async function() {
-      client.globalStringQuery = null as any;
-      const optionalParams = {
-        localStringQuery: null as any,
-        pathItemStringQuery: "pathItemStringQuery"
-      };
+  //   it("getGlobalAndLocalQueryNull should work when use null values in different portion of url", async function() {
+  //     client.globalStringQuery = null as any;
+  //     const optionalParams = {
+  //       localStringQuery: null as any,
+  //       pathItemStringQuery: "pathItemStringQuery"
+  //     };
 
-      await client.pathItems.getGlobalAndLocalQueryNull(
-        "pathItemStringPath",
-        "localStringPath",
-        optionalParams
-      );
-      assert.ok("Call succeeded");
-    });
+  //     await client.pathItems.getGlobalAndLocalQueryNull(
+  //       "pathItemStringPath",
+  //       "localStringPath",
+  //       optionalParams
+  //     );
+  //     assert.ok("Call succeeded");
+  //   });
 
-    it("getGlobalQueryNull should work when use null values in different portion of url", async function() {
-      client.globalStringQuery = null as any;
-      const optionalParams = {
-        localStringQuery: "localStringQuery",
-        pathItemStringQuery: "pathItemStringQuery"
-      };
+  //   it("getGlobalQueryNull should work when use null values in different portion of url", async function() {
+  //     client.globalStringQuery = null as any;
+  //     const optionalParams = {
+  //       localStringQuery: "localStringQuery",
+  //       pathItemStringQuery: "pathItemStringQuery"
+  //     };
 
-      await client.pathItems.getGlobalQueryNull(
-        "pathItemStringPath",
-        "localStringPath",
-        optionalParams
-      );
-      assert.ok("Call succeeded");
-    });
+  //     await client.pathItems.getGlobalQueryNull(
+  //       "pathItemStringPath",
+  //       "localStringPath",
+  //       optionalParams
+  //     );
+  //     assert.ok("Call succeeded");
+  //   });
 
-    it("getLocalPathItemQueryNull should work when use null values in different portion of url", async function() {
-      client.globalStringQuery = "globalStringQuery";
-      const optionalParams = {
-        localStringQuery: null as any,
-        pathItemStringQuery: null as any
-      };
+  //   it("getLocalPathItemQueryNull should work when use null values in different portion of url", async function() {
+  //     client.globalStringQuery = "globalStringQuery";
+  //     const optionalParams = {
+  //       localStringQuery: null as any,
+  //       pathItemStringQuery: null as any
+  //     };
 
-      await client.pathItems.getLocalPathItemQueryNull(
-        "pathItemStringPath",
-        "localStringPath",
-        optionalParams
-      );
-      assert.ok("Call succeeded");
-    });
-  });
-  describe("queries", () => {
-    it("should work when query has bool", async function() {
-      await client.queries.arrayStringNoCollectionFormatEmpty({
-        ...responseStatusChecker,
-        arrayQuery: ["hello", "nihao", "bonjour"]
-      });
-    });
+  //     await client.pathItems.getLocalPathItemQueryNull(
+  //       "pathItemStringPath",
+  //       "localStringPath",
+  //       optionalParams
+  //     );
+  //     assert.ok("Call succeeded");
+  //   });
+  // });
+  // describe("queries", () => {
+  //   it("should work when query has bool", async function() {
+  //     await client.queries.arrayStringNoCollectionFormatEmpty({
+  //       ...responseStatusChecker,
+  //       arrayQuery: ["hello", "nihao", "bonjour"]
+  //     });
+  //   });
 
-    it("should work when query has double values", async function() {
-      const resultNegative = await client.queries.doubleDecimalNegative(
-        responseStatusChecker
-      );
-      const resultPositive = await client.queries.doubleDecimalPositive(
-        responseStatusChecker
-      );
-    });
+  //   it("should work when query has double values", async function() {
+  //     const resultNegative = await client.queries.doubleDecimalNegative(
+  //       responseStatusChecker
+  //     );
+  //     const resultPositive = await client.queries.doubleDecimalPositive(
+  //       responseStatusChecker
+  //     );
+  //   });
 
-    it("should work when query has date values", async function() {
-      await client.queries.dateValid(responseStatusChecker);
-    });
+  //   it("should work when query has date values", async function() {
+  //     await client.queries.dateValid(responseStatusChecker);
+  //   });
 
-    it("should work when query has bool", async function() {
-      await client.queries.getBooleanTrue();
-      await client.queries.getBooleanFalse();
-      assert.ok("Call succeeded");
-    });
+  //   it("should work when query has bool", async function() {
+  //     await client.queries.getBooleanTrue();
+  //     await client.queries.getBooleanFalse();
+  //     assert.ok("Call succeeded");
+  //   });
 
-    it("should work when query has float values", async function() {
-      await client.queries.floatScientificNegative();
-      await client.queries.floatScientificPositive();
-      assert.ok("Call succeeded");
-    });
+  //   it("should work when query has float values", async function() {
+  //     await client.queries.floatScientificNegative();
+  //     await client.queries.floatScientificPositive();
+  //     assert.ok("Call succeeded");
+  //   });
 
-    it("should work when query has int values", async function() {
-      await client.queries.getIntNegativeOneMillion();
-      await client.queries.getIntOneMillion();
-      assert.ok("Call succeeded");
-    });
+  //   it("should work when query has int values", async function() {
+  //     await client.queries.getIntNegativeOneMillion();
+  //     await client.queries.getIntOneMillion();
+  //     assert.ok("Call succeeded");
+  //   });
 
-    it("should work when query has billion values", async () => {
-      await client.queries.getNegativeTenBillion();
-      await client.queries.getTenBillion();
-      assert.ok("Call succeeded");
-    });
+  //   it("should work when query has billion values", async () => {
+  //     await client.queries.getNegativeTenBillion();
+  //     await client.queries.getTenBillion();
+  //     assert.ok("Call succeeded");
+  //   });
 
-    it("should work when query has string values", async () => {
-      await client.queries.stringEmpty();
-      await client.queries.stringUrlEncoded();
-      assert.ok("Call succeeded");
-    });
+  //   it("should work when query has string values", async () => {
+  //     await client.queries.stringEmpty();
+  //     await client.queries.stringUrlEncoded();
+  //     assert.ok("Call succeeded");
+  //   });
 
-    it("should work when query has datetime", async () => {
-      await client.queries.dateTimeValid();
-      assert.ok("Call succeeded");
-    });
+  //   it("should work when query has datetime", async () => {
+  //     await client.queries.dateTimeValid();
+  //     assert.ok("Call succeeded");
+  //   });
 
-    it("should work when query has byte values", async function() {
-      await client.queries.byteEmpty();
-      await client.queries.byteMultiByte({
-        byteQuery: stringToByteArray("啊齄丂狛狜隣郎隣兀﨩")
-      });
-    });
+  //   it("should work when query has byte values", async function() {
+  //     await client.queries.byteEmpty();
+  //     await client.queries.byteMultiByte({
+  //       byteQuery: stringToByteArray("啊齄丂狛狜隣郎隣兀﨩")
+  //     });
+  //   });
 
-    it("should work when query has enum values", async function() {
-      await shouldThrow(() =>
-        client.queries.enumValid({ enumQuery: <UriColor>"" })
-      );
-      await client.queries.enumNull({ enumQuery: null as any });
-      await client.queries.enumValid({ enumQuery: "green color" });
-      assert.ok("Call succeeded");
-    });
+  //   it("should work when query has enum values", async function() {
+  //     await shouldThrow(() =>
+  //       client.queries.enumValid({ enumQuery: <UriColor>"" })
+  //     );
+  //     await client.queries.enumNull({ enumQuery: null as any });
+  //     await client.queries.enumValid({ enumQuery: "green color" });
+  //     assert.ok("Call succeeded");
+  //   });
 
-    it("should work when query has stringUnicode", async function() {
-      await client.queries.stringUnicode(responseStatusChecker);
-    });
+  //   it("should work when query has stringUnicode", async function() {
+  //     await client.queries.stringUnicode(responseStatusChecker);
+  //   });
 
-    it("should work when query has string array values", async function() {
-      const testArray = [
-        "ArrayQuery1",
-        "begin!*'();:@ &=+$,/?#[]end",
-        null as any,
-        ""
-      ] as string[];
-      await client.queries.arrayStringCsvEmpty({ arrayQuery: [] });
-      await client.queries.arrayStringCsvValid({ arrayQuery: testArray });
-      await client.queries.arrayStringPipesValid({ arrayQuery: testArray });
-      await client.queries.arrayStringSsvValid({ arrayQuery: testArray });
-      await client.queries.arrayStringTsvValid({ arrayQuery: testArray });
-      assert.ok("Calls succeeded");
-    });
+  //   it("should work when query has string array values", async function() {
+  //     const testArray = [
+  //       "ArrayQuery1",
+  //       "begin!*'();:@ &=+$,/?#[]end",
+  //       null as any,
+  //       ""
+  //     ] as string[];
+  //     await client.queries.arrayStringCsvEmpty({ arrayQuery: [] });
+  //     await client.queries.arrayStringCsvValid({ arrayQuery: testArray });
+  //     await client.queries.arrayStringPipesValid({ arrayQuery: testArray });
+  //     await client.queries.arrayStringSsvValid({ arrayQuery: testArray });
+  //     await client.queries.arrayStringTsvValid({ arrayQuery: testArray });
+  //     assert.ok("Calls succeeded");
+  //   });
 
-    it("should work when path has string array values", async function() {
-      await client.paths.arrayCsvInPath([
-        "ArrayPath1",
-        "begin!*'();:@ &=+$,/?#[]end",
-        null as any,
-        ""
-      ] as string[]);
-      assert.ok("Call succeeded");
-    });
+  //   it("should work when path has string array values", async function() {
+  //     await client.paths.arrayCsvInPath([
+  //       "ArrayPath1",
+  //       "begin!*'();:@ &=+$,/?#[]end",
+  //       null as any,
+  //       ""
+  //     ] as string[]);
+  //     assert.ok("Call succeeded");
+  //   });
 
-    it("should work when path has valid date", async function() {
-      await client.paths.dateValid(responseStatusChecker);
-    });
+  //   it("should work when path has valid date", async function() {
+  //     await client.paths.dateValid(responseStatusChecker);
+  //   });
 
-    it("should work when path has doubleDecimalPositive", async function() {
-      await client.paths.doubleDecimalPositive(responseStatusChecker);
-    });
+  //   it("should work when path has doubleDecimalPositive", async function() {
+  //     await client.paths.doubleDecimalPositive(responseStatusChecker);
+  //   });
 
-    it("should work when path has doubleDecimalNegative", async function() {
-      await client.paths.doubleDecimalNegative(responseStatusChecker);
-    });
+  //   it("should work when path has doubleDecimalNegative", async function() {
+  //     await client.paths.doubleDecimalNegative(responseStatusChecker);
+  //   });
 
-    it("should work when use null values in url query", async function() {
-      await client.queries.byteNull({ byteQuery: null as any });
-      await client.queries.dateNull({ dateQuery: null as any });
-      await client.queries.dateTimeNull({ dateTimeQuery: null as any });
-      await client.queries.doubleNull({ doubleQuery: null as any });
-      await client.queries.floatNull({ floatQuery: null as any });
-      await client.queries.getBooleanNull({ boolQuery: null as any });
-      await client.queries.getIntNull({ intQuery: null as any });
-      await client.queries.getLongNull({ longQuery: null as any });
-      await client.queries.stringNull({ stringQuery: null as any });
-      await client.queries.arrayStringCsvNull({ arrayQuery: null as any });
-      assert.ok("Calls succeeded");
-    }).timeout(5000);
-  });
+  //   it("should work when use null values in url query", async function() {
+  //     await client.queries.byteNull({ byteQuery: null as any });
+  //     await client.queries.dateNull({ dateQuery: null as any });
+  //     await client.queries.dateTimeNull({ dateTimeQuery: null as any });
+  //     await client.queries.doubleNull({ doubleQuery: null as any });
+  //     await client.queries.floatNull({ floatQuery: null as any });
+  //     await client.queries.getBooleanNull({ boolQuery: null as any });
+  //     await client.queries.getIntNull({ intQuery: null as any });
+  //     await client.queries.getLongNull({ longQuery: null as any });
+  //     await client.queries.stringNull({ stringQuery: null as any });
+  //     await client.queries.arrayStringCsvNull({ arrayQuery: null as any });
+  //     assert.ok("Calls succeeded");
+  //   }).timeout(5000);
+  // });
 });
 
 function stringToByteArray(str: string) {
