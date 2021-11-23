@@ -18,7 +18,7 @@ import {
   LrosaDs,
   LROsCustomHeader
 } from "./operationsInterfaces";
-import { LROClientContext } from "./lROClientContext";
+import { LROClientContext } from "./LROClientContext";
 import { LROClientOptionalParams } from "./models";
 
 export class LROClient extends LROClientContext {
@@ -28,14 +28,14 @@ export class LROClient extends LROClientContext {
    */
   constructor(options?: LROClientOptionalParams) {
     super(options);
-    this.lROs = new LROsImpl(this);
-    this.lRORetrys = new LRORetrysImpl(this);
+    this.LROs = new LROsImpl(this);
+    this.LRORetrys = new LRORetrysImpl(this);
     this.lrosaDs = new LrosaDsImpl(this);
-    this.lROsCustomHeader = new LROsCustomHeaderImpl(this);
+    this.LROsCustomHeader = new LROsCustomHeaderImpl(this);
   }
 
-  lROs: LROs;
-  lRORetrys: LRORetrys;
+  LROs: LROs;
+  LRORetrys: LRORetrys;
   lrosaDs: LrosaDs;
-  lROsCustomHeader: LROsCustomHeader;
+  LROsCustomHeader: LROsCustomHeader;
 }

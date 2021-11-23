@@ -671,7 +671,7 @@ const getHeadersOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      headersMapper: Mappers.XmlGetHeadersHeaders
+      headersMapper: Mappers.XmlGetHeaders
     }
   },
   urlParameters: [Parameters.$host],

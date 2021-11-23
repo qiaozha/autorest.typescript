@@ -37,7 +37,7 @@ export const FileUploadRangeFromURLHeaders: coreClient.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      xMsContentCrc64: {
+      XMsContentCrc64: {
         serializedName: "x-ms-content-crc64",
         xmlName: "x-ms-content-crc64",
         type: {
@@ -65,7 +65,7 @@ export const FileUploadRangeFromURLHeaders: coreClient.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      isServerEncrypted: {
+      IsServerEncrypted: {
         serializedName: "x-ms-request-server-encrypted",
         xmlName: "x-ms-request-server-encrypted",
         type: {

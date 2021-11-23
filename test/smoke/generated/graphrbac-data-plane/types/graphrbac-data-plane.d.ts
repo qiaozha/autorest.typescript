@@ -710,7 +710,7 @@ export declare interface Groups {
      * @param parameters The check group membership parameters.
      * @param options The options parameters.
      */
-    isMemberOf(parameters: CheckGroupMembershipParameters, options?: GroupsIsMemberOfOptionalParams): Promise<GroupsIsMemberOfResponse>;
+    IsMemberOf(parameters: CheckGroupMembershipParameters, options?: GroupsIsMemberOfOptionalParams): Promise<GroupsIsMemberOfResponse>;
     /**
      * Remove a member from a group.
      * @param groupObjectId The object ID of the group from which to remove the member.
@@ -812,7 +812,7 @@ export declare type GroupsGetResponse = ADGroup;
 export declare interface GroupsIsMemberOfOptionalParams extends coreClient.OperationOptions {
 }
 
-/** Contains response data for the isMemberOf operation. */
+/** Contains response data for the IsMemberOf operation. */
 export declare type GroupsIsMemberOfResponse = CheckGroupMembershipResult;
 
 /** Optional parameters. */

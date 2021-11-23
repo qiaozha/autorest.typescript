@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GetImpl } from "./operations";
-import { Get } from "./operationsInterfaces";
+import { GETImpl } from "./operations";
+import { GET } from "./operationsInterfaces";
 import { UrlClientContext } from "./urlClientContext";
 import { UrlClientOptionalParams } from "./models";
 
@@ -19,8 +19,8 @@ export class UrlClient extends UrlClientContext {
    */
   constructor($host: string, options?: UrlClientOptionalParams) {
     super($host, options);
-    this.get = new GetImpl(this);
+    this.GET = new GETImpl(this);
   }
 
-  get: Get;
+  GET: GET;
 }

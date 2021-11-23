@@ -44,7 +44,7 @@ export class AzureSpecialPropertiesClient extends AzureSpecialPropertiesClientCo
     options?: AzureSpecialPropertiesClientOptionalParams
   ) {
     super(credentials, subscriptionId, options);
-    this.xMsClientRequestId = new XMsClientRequestIdImpl(this);
+    this.XMsClientRequestId = new XMsClientRequestIdImpl(this);
     this.subscriptionInCredentials = new SubscriptionInCredentialsImpl(this);
     this.subscriptionInMethod = new SubscriptionInMethodImpl(this);
     this.apiVersionDefault = new ApiVersionDefaultImpl(this);
@@ -54,7 +54,7 @@ export class AzureSpecialPropertiesClient extends AzureSpecialPropertiesClientCo
     this.header = new HeaderImpl(this);
   }
 
-  xMsClientRequestId: XMsClientRequestId;
+  XMsClientRequestId: XMsClientRequestId;
   subscriptionInCredentials: SubscriptionInCredentials;
   subscriptionInMethod: SubscriptionInMethod;
   apiVersionDefault: ApiVersionDefault;

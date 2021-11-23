@@ -96,17 +96,17 @@ import {
   LROsPut200SucceededNoState200Response,
   LROsPut200SucceededNoStatedefaultResponse,
   LROsPut202Retry200202Response,
-  LROsPut202Retry200defaultResponse,
+  LROsPut202Retry200DefaultResponse,
   LROsPut201CreatingSucceeded200200Response,
   LROsPut201CreatingSucceeded200201Response,
-  LROsPut201CreatingSucceeded200defaultResponse,
+  LROsPut201CreatingSucceeded200DefaultResponse,
   LROsPut200UpdatingSucceeded204200Response,
-  LROsPut200UpdatingSucceeded204defaultResponse,
+  LROsPut200UpdatingSucceeded204DefaultResponse,
   LROsPut201CreatingFailed200200Response,
   LROsPut201CreatingFailed200201Response,
-  LROsPut201CreatingFailed200defaultResponse,
+  LROsPut201CreatingFailed200DefaultResponse,
   LROsPut200Acceptedcanceled200200Response,
-  LROsPut200Acceptedcanceled200defaultResponse,
+  LROsPut200Acceptedcanceled200DefaultResponse,
   LROsPutNoHeaderInRetry202Response,
   LROsPutNoHeaderInRetrydefaultResponse,
   LROsPutAsyncRetrySucceeded200Response,
@@ -132,18 +132,18 @@ import {
   LROsDeleteProvisioning202Accepted200SucceededdefaultResponse,
   LROsDeleteProvisioning202DeletingFailed200200Response,
   LROsDeleteProvisioning202DeletingFailed200202Response,
-  LROsDeleteProvisioning202DeletingFailed200defaultResponse,
+  LROsDeleteProvisioning202DeletingFailed200DefaultResponse,
   LROsDeleteProvisioning202Deletingcanceled200200Response,
   LROsDeleteProvisioning202Deletingcanceled200202Response,
-  LROsDeleteProvisioning202Deletingcanceled200defaultResponse,
+  LROsDeleteProvisioning202Deletingcanceled200DefaultResponse,
   LROsDelete204Succeeded204Response,
   LROsDelete204SucceededdefaultResponse,
   LROsDelete202Retry200200Response,
   LROsDelete202Retry200202Response,
-  LROsDelete202Retry200defaultResponse,
+  LROsDelete202Retry200DefaultResponse,
   LROsDelete202NoRetry204200Response,
   LROsDelete202NoRetry204202Response,
-  LROsDelete202NoRetry204defaultResponse,
+  LROsDelete202NoRetry204DefaultResponse,
   LROsDeleteNoHeaderInRetry202Response,
   LROsDeleteNoHeaderInRetry204Response,
   LROsDeleteNoHeaderInRetrydefaultResponse,
@@ -162,9 +162,9 @@ import {
   LROsPost200WithPayload202Response,
   LROsPost200WithPayloaddefaultResponse,
   LROsPost202Retry200202Response,
-  LROsPost202Retry200defaultResponse,
+  LROsPost202Retry200DefaultResponse,
   LROsPost202NoRetry204202Response,
-  LROsPost202NoRetry204defaultResponse,
+  LROsPost202NoRetry204DefaultResponse,
   LROsPostDoubleHeadersFinalLocationGet202Response,
   LROsPostDoubleHeadersFinalLocationGetdefaultResponse,
   LROsPostDoubleHeadersFinalAzureHeaderGet202Response,
@@ -183,43 +183,43 @@ import {
   LROsPostAsyncRetrycanceleddefaultResponse,
   LRORetrysPut201CreatingSucceeded200200Response,
   LRORetrysPut201CreatingSucceeded200201Response,
-  LRORetrysPut201CreatingSucceeded200defaultResponse,
+  LRORetrysPut201CreatingSucceeded200DefaultResponse,
   LRORetrysPutAsyncRelativeRetrySucceeded200Response,
   LRORetrysPutAsyncRelativeRetrySucceededdefaultResponse,
   LRORetrysDeleteProvisioning202Accepted200Succeeded200Response,
   LRORetrysDeleteProvisioning202Accepted200Succeeded202Response,
   LRORetrysDeleteProvisioning202Accepted200SucceededdefaultResponse,
   LRORetrysDelete202Retry200202Response,
-  LRORetrysDelete202Retry200defaultResponse,
+  LRORetrysDelete202Retry200DefaultResponse,
   LRORetrysDeleteAsyncRelativeRetrySucceeded202Response,
   LRORetrysDeleteAsyncRelativeRetrySucceededdefaultResponse,
   LRORetrysPost202Retry200202Response,
-  LRORetrysPost202Retry200defaultResponse,
+  LRORetrysPost202Retry200DefaultResponse,
   LRORetrysPostAsyncRelativeRetrySucceeded202Response,
   LRORetrysPostAsyncRelativeRetrySucceededdefaultResponse,
   LrosaDsPutNonRetry400200Response,
   LrosaDsPutNonRetry400201Response,
-  LrosaDsPutNonRetry400defaultResponse,
+  LrosaDsPutNonRetry400DefaultResponse,
   LrosaDsPutNonRetry201Creating400200Response,
   LrosaDsPutNonRetry201Creating400201Response,
-  LrosaDsPutNonRetry201Creating400defaultResponse,
+  LrosaDsPutNonRetry201Creating400DefaultResponse,
   LrosaDsPutNonRetry201Creating400InvalidJson200Response,
   LrosaDsPutNonRetry201Creating400InvalidJson201Response,
   LrosaDsPutNonRetry201Creating400InvalidJsondefaultResponse,
   LrosaDsPutAsyncRelativeRetry400200Response,
-  LrosaDsPutAsyncRelativeRetry400defaultResponse,
+  LrosaDsPutAsyncRelativeRetry400DefaultResponse,
   LrosaDsDeleteNonRetry400202Response,
-  LrosaDsDeleteNonRetry400defaultResponse,
+  LrosaDsDeleteNonRetry400DefaultResponse,
   LrosaDsDelete202NonRetry400202Response,
-  LrosaDsDelete202NonRetry400defaultResponse,
+  LrosaDsDelete202NonRetry400DefaultResponse,
   LrosaDsDeleteAsyncRelativeRetry400202Response,
-  LrosaDsDeleteAsyncRelativeRetry400defaultResponse,
+  LrosaDsDeleteAsyncRelativeRetry400DefaultResponse,
   LrosaDsPostNonRetry400202Response,
-  LrosaDsPostNonRetry400defaultResponse,
+  LrosaDsPostNonRetry400DefaultResponse,
   LrosaDsPost202NonRetry400202Response,
-  LrosaDsPost202NonRetry400defaultResponse,
+  LrosaDsPost202NonRetry400DefaultResponse,
   LrosaDsPostAsyncRelativeRetry400202Response,
-  LrosaDsPostAsyncRelativeRetry400defaultResponse,
+  LrosaDsPostAsyncRelativeRetry400DefaultResponse,
   LrosaDsPutError201NoProvisioningStatePayload200Response,
   LrosaDsPutError201NoProvisioningStatePayload201Response,
   LrosaDsPutError201NoProvisioningStatePayloaddefaultResponse,
@@ -258,9 +258,9 @@ import {
   LROsCustomHeaderPutAsyncRetrySucceededdefaultResponse,
   LROsCustomHeaderPut201CreatingSucceeded200200Response,
   LROsCustomHeaderPut201CreatingSucceeded200201Response,
-  LROsCustomHeaderPut201CreatingSucceeded200defaultResponse,
+  LROsCustomHeaderPut201CreatingSucceeded200DefaultResponse,
   LROsCustomHeaderPost202Retry200202Response,
-  LROsCustomHeaderPost202Retry200defaultResponse,
+  LROsCustomHeaderPost202Retry200DefaultResponse,
   LROsCustomHeaderPostAsyncRetrySucceeded202Response,
   LROsCustomHeaderPostAsyncRetrySucceededdefaultResponse
 } from "./responses";
@@ -322,7 +322,7 @@ export interface LROsPut202Retry200 {
   /** Long running put request, service returns a 202 to the initial request, with a location header that points to a polling URL that returns a 200 and an entity that doesn't contains ProvisioningState */
   put(
     options?: LROsPut202Retry200Parameters
-  ): Promise<LROsPut202Retry200202Response | LROsPut202Retry200defaultResponse>;
+  ): Promise<LROsPut202Retry200202Response | LROsPut202Retry200DefaultResponse>;
 }
 
 export interface LROsPut201CreatingSucceeded200 {
@@ -332,7 +332,7 @@ export interface LROsPut201CreatingSucceeded200 {
   ): Promise<
     | LROsPut201CreatingSucceeded200200Response
     | LROsPut201CreatingSucceeded200201Response
-    | LROsPut201CreatingSucceeded200defaultResponse
+    | LROsPut201CreatingSucceeded200DefaultResponse
   >;
 }
 
@@ -342,7 +342,7 @@ export interface LROsPut200UpdatingSucceeded204 {
     options?: LROsPut200UpdatingSucceeded204Parameters
   ): Promise<
     | LROsPut200UpdatingSucceeded204200Response
-    | LROsPut200UpdatingSucceeded204defaultResponse
+    | LROsPut200UpdatingSucceeded204DefaultResponse
   >;
 }
 
@@ -353,7 +353,7 @@ export interface LROsPut201CreatingFailed200 {
   ): Promise<
     | LROsPut201CreatingFailed200200Response
     | LROsPut201CreatingFailed200201Response
-    | LROsPut201CreatingFailed200defaultResponse
+    | LROsPut201CreatingFailed200DefaultResponse
   >;
 }
 
@@ -363,7 +363,7 @@ export interface LROsPut200Acceptedcanceled200 {
     options?: LROsPut200Acceptedcanceled200Parameters
   ): Promise<
     | LROsPut200Acceptedcanceled200200Response
-    | LROsPut200Acceptedcanceled200defaultResponse
+    | LROsPut200Acceptedcanceled200DefaultResponse
   >;
 }
 
@@ -475,7 +475,7 @@ export interface LROsDeleteProvisioning202DeletingFailed200 {
   ): Promise<
     | LROsDeleteProvisioning202DeletingFailed200200Response
     | LROsDeleteProvisioning202DeletingFailed200202Response
-    | LROsDeleteProvisioning202DeletingFailed200defaultResponse
+    | LROsDeleteProvisioning202DeletingFailed200DefaultResponse
   >;
 }
 
@@ -486,7 +486,7 @@ export interface LROsDeleteProvisioning202Deletingcanceled200 {
   ): Promise<
     | LROsDeleteProvisioning202Deletingcanceled200200Response
     | LROsDeleteProvisioning202Deletingcanceled200202Response
-    | LROsDeleteProvisioning202Deletingcanceled200defaultResponse
+    | LROsDeleteProvisioning202Deletingcanceled200DefaultResponse
   >;
 }
 
@@ -506,7 +506,7 @@ export interface LROsDelete202Retry200 {
   ): Promise<
     | LROsDelete202Retry200200Response
     | LROsDelete202Retry200202Response
-    | LROsDelete202Retry200defaultResponse
+    | LROsDelete202Retry200DefaultResponse
   >;
 }
 
@@ -517,7 +517,7 @@ export interface LROsDelete202NoRetry204 {
   ): Promise<
     | LROsDelete202NoRetry204200Response
     | LROsDelete202NoRetry204202Response
-    | LROsDelete202NoRetry204defaultResponse
+    | LROsDelete202NoRetry204DefaultResponse
   >;
 }
 
@@ -599,7 +599,7 @@ export interface LROsPost202Retry200 {
   post(
     options?: LROsPost202Retry200Parameters
   ): Promise<
-    LROsPost202Retry200202Response | LROsPost202Retry200defaultResponse
+    LROsPost202Retry200202Response | LROsPost202Retry200DefaultResponse
   >;
 }
 
@@ -608,7 +608,7 @@ export interface LROsPost202NoRetry204 {
   post(
     options?: LROsPost202NoRetry204Parameters
   ): Promise<
-    LROsPost202NoRetry204202Response | LROsPost202NoRetry204defaultResponse
+    LROsPost202NoRetry204202Response | LROsPost202NoRetry204DefaultResponse
   >;
 }
 
@@ -691,7 +691,7 @@ export interface LRORetrysPut201CreatingSucceeded200 {
   ): Promise<
     | LRORetrysPut201CreatingSucceeded200200Response
     | LRORetrysPut201CreatingSucceeded200201Response
-    | LRORetrysPut201CreatingSucceeded200defaultResponse
+    | LRORetrysPut201CreatingSucceeded200DefaultResponse
   >;
 }
 
@@ -722,7 +722,7 @@ export interface LRORetrysDelete202Retry200 {
     options?: LRORetrysDelete202Retry200Parameters
   ): Promise<
     | LRORetrysDelete202Retry200202Response
-    | LRORetrysDelete202Retry200defaultResponse
+    | LRORetrysDelete202Retry200DefaultResponse
   >;
 }
 
@@ -742,7 +742,7 @@ export interface LRORetrysPost202Retry200 {
     options?: LRORetrysPost202Retry200Parameters
   ): Promise<
     | LRORetrysPost202Retry200202Response
-    | LRORetrysPost202Retry200defaultResponse
+    | LRORetrysPost202Retry200DefaultResponse
   >;
 }
 
@@ -763,7 +763,7 @@ export interface LrosaDsPutNonRetry400 {
   ): Promise<
     | LrosaDsPutNonRetry400200Response
     | LrosaDsPutNonRetry400201Response
-    | LrosaDsPutNonRetry400defaultResponse
+    | LrosaDsPutNonRetry400DefaultResponse
   >;
 }
 
@@ -774,7 +774,7 @@ export interface LrosaDsPutNonRetry201Creating400 {
   ): Promise<
     | LrosaDsPutNonRetry201Creating400200Response
     | LrosaDsPutNonRetry201Creating400201Response
-    | LrosaDsPutNonRetry201Creating400defaultResponse
+    | LrosaDsPutNonRetry201Creating400DefaultResponse
   >;
 }
 
@@ -795,7 +795,7 @@ export interface LrosaDsPutAsyncRelativeRetry400 {
     options?: LrosaDsPutAsyncRelativeRetry400Parameters
   ): Promise<
     | LrosaDsPutAsyncRelativeRetry400200Response
-    | LrosaDsPutAsyncRelativeRetry400defaultResponse
+    | LrosaDsPutAsyncRelativeRetry400DefaultResponse
   >;
 }
 
@@ -805,7 +805,7 @@ export interface LrosaDsDeleteNonRetry400 {
     options?: LrosaDsDeleteNonRetry400Parameters
   ): Promise<
     | LrosaDsDeleteNonRetry400202Response
-    | LrosaDsDeleteNonRetry400defaultResponse
+    | LrosaDsDeleteNonRetry400DefaultResponse
   >;
 }
 
@@ -815,7 +815,7 @@ export interface LrosaDsDelete202NonRetry400 {
     options?: LrosaDsDelete202NonRetry400Parameters
   ): Promise<
     | LrosaDsDelete202NonRetry400202Response
-    | LrosaDsDelete202NonRetry400defaultResponse
+    | LrosaDsDelete202NonRetry400DefaultResponse
   >;
 }
 
@@ -825,7 +825,7 @@ export interface LrosaDsDeleteAsyncRelativeRetry400 {
     options?: LrosaDsDeleteAsyncRelativeRetry400Parameters
   ): Promise<
     | LrosaDsDeleteAsyncRelativeRetry400202Response
-    | LrosaDsDeleteAsyncRelativeRetry400defaultResponse
+    | LrosaDsDeleteAsyncRelativeRetry400DefaultResponse
   >;
 }
 
@@ -834,7 +834,7 @@ export interface LrosaDsPostNonRetry400 {
   post(
     options?: LrosaDsPostNonRetry400Parameters
   ): Promise<
-    LrosaDsPostNonRetry400202Response | LrosaDsPostNonRetry400defaultResponse
+    LrosaDsPostNonRetry400202Response | LrosaDsPostNonRetry400DefaultResponse
   >;
 }
 
@@ -844,7 +844,7 @@ export interface LrosaDsPost202NonRetry400 {
     options?: LrosaDsPost202NonRetry400Parameters
   ): Promise<
     | LrosaDsPost202NonRetry400202Response
-    | LrosaDsPost202NonRetry400defaultResponse
+    | LrosaDsPost202NonRetry400DefaultResponse
   >;
 }
 
@@ -854,7 +854,7 @@ export interface LrosaDsPostAsyncRelativeRetry400 {
     options?: LrosaDsPostAsyncRelativeRetry400Parameters
   ): Promise<
     | LrosaDsPostAsyncRelativeRetry400202Response
-    | LrosaDsPostAsyncRelativeRetry400defaultResponse
+    | LrosaDsPostAsyncRelativeRetry400DefaultResponse
   >;
 }
 
@@ -1037,7 +1037,7 @@ export interface LROsCustomHeaderPut201CreatingSucceeded200 {
   ): Promise<
     | LROsCustomHeaderPut201CreatingSucceeded200200Response
     | LROsCustomHeaderPut201CreatingSucceeded200201Response
-    | LROsCustomHeaderPut201CreatingSucceeded200defaultResponse
+    | LROsCustomHeaderPut201CreatingSucceeded200DefaultResponse
   >;
 }
 
@@ -1047,7 +1047,7 @@ export interface LROsCustomHeaderPost202Retry200 {
     options?: LROsCustomHeaderPost202Retry200Parameters
   ): Promise<
     | LROsCustomHeaderPost202Retry200202Response
-    | LROsCustomHeaderPost202Retry200defaultResponse
+    | LROsCustomHeaderPost202Retry200DefaultResponse
   >;
 }
 

@@ -7,6 +7,6 @@
  */
 
 export * from "./models";
-export { LROClient } from "./lROClient";
-export { LROClientContext } from "./lROClientContext";
+export { LROClient } from "./LROClient";
+export { LROClientContext } from "./LROClientContext";
 export * from "./operationsInterfaces";

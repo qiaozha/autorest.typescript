@@ -10,7 +10,7 @@ import { LROs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { LROClientContext } from "../lROClientContext";
+import { LROClientContext } from "../LROClientContext";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -3329,19 +3329,19 @@ const patch200SucceededIgnoreHeadersOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.Product,
-      headersMapper: Mappers.LROsPatch200SucceededIgnoreHeadersHeaders
+      headersMapper: Mappers.LROsPatch200SucceededIgnoreHeaders
     },
     201: {
       bodyMapper: Mappers.Product,
-      headersMapper: Mappers.LROsPatch200SucceededIgnoreHeadersHeaders
+      headersMapper: Mappers.LROsPatch200SucceededIgnoreHeaders
     },
     202: {
       bodyMapper: Mappers.Product,
-      headersMapper: Mappers.LROsPatch200SucceededIgnoreHeadersHeaders
+      headersMapper: Mappers.LROsPatch200SucceededIgnoreHeaders
     },
     204: {
       bodyMapper: Mappers.Product,
-      headersMapper: Mappers.LROsPatch200SucceededIgnoreHeadersHeaders
+      headersMapper: Mappers.LROsPatch200SucceededIgnoreHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError

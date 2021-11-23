@@ -39,7 +39,7 @@ export const ComplexTypeNoMeta: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ComplexTypeNoMeta",
     modelProperties: {
-      id: {
+      ID: {
         serializedName: "ID",
         xmlName: "ID",
         type: {
@@ -82,7 +82,7 @@ export const ComplexTypeWithMeta: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ComplexTypeWithMeta",
     modelProperties: {
-      id: {
+      ID: {
         serializedName: "ID",
         xmlName: "ID",
         type: {
@@ -1231,11 +1231,11 @@ export const ModelWithUrlProperty: coreClient.CompositeMapper = {
   }
 };
 
-export const XmlGetHeadersHeaders: coreClient.CompositeMapper = {
+export const XmlGetHeaders: coreClient.CompositeMapper = {
   serializedName: "Xml_getHeadersHeaders",
   type: {
     name: "Composite",
-    className: "XmlGetHeadersHeaders",
+    className: "XmlGetHeaders",
     modelProperties: {
       customHeader: {
         serializedName: "custom-header",

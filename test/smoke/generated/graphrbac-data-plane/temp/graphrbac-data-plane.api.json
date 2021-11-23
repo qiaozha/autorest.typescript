@@ -6544,12 +6544,12 @@
             },
             {
               "kind": "MethodSignature",
-              "canonicalReference": "@msinternal/graphrbac-data-plane!Groups#isMemberOf:member(1)",
+              "canonicalReference": "@msinternal/graphrbac-data-plane!Groups#IsMemberOf:member(1)",
               "docComment": "/**\n * Checks whether the specified user, group, contact, or service principal is a direct or transitive member of the specified group.\n *\n * @param parameters - The check group membership parameters.\n *\n * @param options - The options parameters.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "isMemberOf(parameters: "
+                  "text": "IsMemberOf(parameters: "
                 },
                 {
                   "kind": "Reference",
@@ -6615,7 +6615,7 @@
                   }
                 }
               ],
-              "name": "isMemberOf"
+              "name": "IsMemberOf"
             },
             {
               "kind": "MethodSignature",
@@ -7646,7 +7646,7 @@
         {
           "kind": "TypeAlias",
           "canonicalReference": "@msinternal/graphrbac-data-plane!GroupsIsMemberOfResponse:type",
-          "docComment": "/**\n * Contains response data for the isMemberOf operation.\n */\n",
+          "docComment": "/**\n * Contains response data for the IsMemberOf operation.\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",

@@ -19,7 +19,7 @@ export interface RootWithRefAndNoMeta {
 /** I am a complex type with no XML node */
 export interface ComplexTypeNoMeta {
   /** The id of the res */
-  id?: string;
+  ID?: string;
 }
 
 /** I am root, and I ref a model WITH meta */
@@ -33,7 +33,7 @@ export interface RootWithRefAndMeta {
 /** I am a complex type with XML node */
 export interface ComplexTypeWithMeta {
   /** The id of the res */
-  id?: string;
+  ID?: string;
 }
 
 /** Data about a slideshow */
@@ -270,7 +270,7 @@ export interface ModelWithUrlProperty {
 }
 
 /** Defines headers for Xml_getHeaders operation. */
-export interface XmlGetHeadersHeaders {
+export interface XmlGetHeaders {
   /** A custom response header. */
   customHeader?: string;
 }
@@ -403,7 +403,7 @@ export interface XmlGetHeadersOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getHeaders operation. */
-export type XmlGetHeadersResponse = XmlGetHeadersHeaders;
+export type XmlGetHeadersResponse = XmlGetHeaders;
 
 /** Optional parameters. */
 export interface XmlGetEmptyListOptionalParams

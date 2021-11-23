@@ -3,6 +3,7 @@
 import { Operation, OperationGroup } from "@autorest/codemodel";
 import { getLanguageMetadata } from "./languageHelpers";
 import { TypeDetails, PropertyKind } from "../models/modelDetails";
+import { Style, uncapitalize } from "@azure-tools/codegen";
 
 interface ReservedName {
   name: string;
@@ -90,7 +91,8 @@ const ReservedModelNames: ReservedName[] = [
 
 export enum CasingConvention {
   Pascal,
-  Camel
+  Camel,
+  None
 }
 
 export function guardReservedNames(name: string, nameType: NameType): string {
@@ -125,12 +127,17 @@ function getSuffix(nameType?: NameType) {
  */
 export function normalizeTypeName({ kind, typeName }: TypeDetails) {
   // Only Enum and Composite kinds need normalization
+  let tempTypeName = "";
+  if (typeName.endsWith("[]")) {
+    tempTypeName = "[]"
+    typeName = typeName.replace("[]", "");
+  }
   if ([PropertyKind.Enum, PropertyKind.Composite].includes(kind)) {
-    return `${normalizeName(typeName, NameType.Interface)}`;
+    return `${normalizeName(typeName, NameType.Interface)}${tempTypeName}`;
   }
 
   // Other kinds are already in the form they need to be
-  return typeName;
+  return typeName + tempTypeName;
 }
 
 export function normalizeName(
@@ -189,6 +196,8 @@ function getCasingConvention(nameType: NameType) {
     case NameType.Operation:
     case NameType.Parameter:
       return CasingConvention.Camel;
+    default:
+      return CasingConvention.None;
   }
 }
 
@@ -198,16 +207,20 @@ function getCasingConvention(nameType: NameType) {
  * on Modeler four namer for this once it is stable
  */
 function toCasing(str: string, casing: CasingConvention): string {
-  let value = str;
-  if (value === value.toUpperCase()) {
-    value = str.toLowerCase();
+  if (str === "$host") {
+    return str;
+  }
+  if (casing === CasingConvention.Camel) {
+    if(!str.match(/a-z/)) {
+      return Style.camel(uncapitalize(str), true, {}, 5);
+    }
+    return Style.camel(str, true, {}, 5);
+  }
+  if (casing === CasingConvention.Pascal) {
+    return Style.pascal(str, true, {}, 5);
   }
 
-  const firstChar =
-    casing === CasingConvention.Pascal
-      ? value.charAt(0).toUpperCase()
-      : value.charAt(0).toLocaleLowerCase();
-  return `${firstChar}${value.substring(1)}`;
+  return str;
 }
 
 function getNameParts(name: string) {

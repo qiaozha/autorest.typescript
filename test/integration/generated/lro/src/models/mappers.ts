@@ -198,10 +198,10 @@ export const SubProduct: coreClient.CompositeMapper = {
   }
 };
 
-export const LROsPatch200SucceededIgnoreHeadersHeaders: coreClient.CompositeMapper = {
+export const LROsPatch200SucceededIgnoreHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LROsPatch200SucceededIgnoreHeadersHeaders",
+    className: "LROsPatch200SucceededIgnoreHeaders",
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",

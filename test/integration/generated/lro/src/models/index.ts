@@ -74,7 +74,7 @@ export type SubProduct = SubResource & {
 };
 
 /** Defines headers for LROs_patch200SucceededIgnoreHeaders operation. */
-export interface LROsPatch200SucceededIgnoreHeadersHeaders {
+export interface LROsPatch200SucceededIgnoreHeaders {
   /** This header should be ignored in this case */
   azureAsyncOperation?: string;
 }
@@ -678,7 +678,7 @@ export interface LROsPatch200SucceededIgnoreHeadersOptionalParams
 }
 
 /** Contains response data for the patch200SucceededIgnoreHeaders operation. */
-export type LROsPatch200SucceededIgnoreHeadersResponse = LROsPatch200SucceededIgnoreHeadersHeaders &
+export type LROsPatch200SucceededIgnoreHeadersResponse = LROsPatch200SucceededIgnoreHeaders &
   Product;
 
 /** Optional parameters. */

@@ -346,13 +346,13 @@ export class GroupsImpl implements Groups {
    * @param parameters The check group membership parameters.
    * @param options The options parameters.
    */
-  isMemberOf(
+  IsMemberOf(
     parameters: CheckGroupMembershipParameters,
     options?: GroupsIsMemberOfOptionalParams
   ): Promise<GroupsIsMemberOfResponse> {
     return this.client.sendOperationRequest(
       { parameters, options },
-      isMemberOfOperationSpec
+      IsMemberOfOperationSpec
     );
   }
 
@@ -578,7 +578,7 @@ export class GroupsImpl implements Groups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const isMemberOfOperationSpec: coreClient.OperationSpec = {
+const IsMemberOfOperationSpec: coreClient.OperationSpec = {
   path: "/{tenantID}/isMemberOf",
   httpMethod: "POST",
   responses: {
