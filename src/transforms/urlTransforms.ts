@@ -3,12 +3,15 @@ import {
   ImplementationLocation,
   ParameterLocation
 } from "@autorest/codemodel";
+import { TypeDetails } from "../models/modelDetails";
 import { getLanguageMetadata } from "../utils/languageHelpers";
+import { getTypeForSchema } from "../utils/schemaHelpers";
 
 export interface EndpointDetails {
   isCustom: boolean;
   endpoint?: string;
-  parameterName?: string;
+  parameterNames?: string[];
+  parameterTypes?: TypeDetails[];
 }
 
 export function transformBaseUrl(codeModel: CodeModel): EndpointDetails {
@@ -20,14 +23,17 @@ export function transformBaseUrl(codeModel: CodeModel): EndpointDetails {
     return name === "$host" && Boolean(p.clientDefaultValue);
   });
 
-  let parameterName: string | undefined;
+  let parameterNames: string[] | undefined;
+  let parameterTypes: TypeDetails[] | undefined;
 
   if (!$host) {
     // There are some swaggers that contain no operations for those we'll keep an empty endpoint
     if (codeModel.operationGroups && codeModel.operationGroups.length) {
       // No support yet for multi-baseUrl yet Issue #553
       const { requests } = codeModel.operationGroups[0].operations[0];
-      parameterName = getEndpointParameter(codeModel);
+      const params = getEndpointParameters(codeModel);
+      parameterNames = params?.map(item => item.name);
+      parameterTypes = params?.map(item => item.type);
       isCustom = true;
       endpoint = requests![0].protocol.http!.uri;
     }
@@ -36,13 +42,14 @@ export function transformBaseUrl(codeModel: CodeModel): EndpointDetails {
   }
 
   return {
-    parameterName,
+    parameterNames,
     endpoint: endpoint,
-    isCustom
+    isCustom,
+    parameterTypes
   };
 }
 
-function getEndpointParameter(codeModel: CodeModel) {
+export function getEndpointParameters(codeModel: CodeModel) {
   if (!codeModel.globalParameters || !codeModel.globalParameters.length) {
     return;
   }
@@ -56,10 +63,17 @@ function getEndpointParameter(codeModel: CodeModel) {
   // Currently only support one parametrized host
   if (
     !uriParameters.length ||
-    !getLanguageMetadata(uriParameters[0].language).serializedName
+    uriParameters.some(param => {
+      !getLanguageMetadata(param.language)?.serializedName;
+    })
   ) {
     return;
   }
 
-  return getLanguageMetadata(uriParameters[0].language).serializedName;
+  return uriParameters.map(param => {
+    return {
+      name: getLanguageMetadata(param.language).serializedName,
+      type: getTypeForSchema(param.schema)
+    };
+  });
 }

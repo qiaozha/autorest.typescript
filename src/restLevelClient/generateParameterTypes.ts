@@ -44,6 +44,8 @@ export function generateParameterInterfaces(
 
   const operations = getAllOperations(model);
   let hasHeaders = false;
+  const clientParameterDefinitions = buildClientParameterDefinition(model);
+  parametersFile.addInterfaces([clientParameterDefinitions])
 
   for (const operation of operations) {
     const operationName = normalizeName(
@@ -203,6 +205,26 @@ function getRequestHeaderInterfaceDefinition(
       };
     })
   };
+}
+
+function buildClientParameterDefinition(model: CodeModel): InterfaceDeclarationStructure | undefined {
+  const clientParameters = model.globalParameters;
+  const clientParameterDefinitions = [];
+  clientParameters?.forEach(item => {
+    clientParameterDefinitions.push({
+      isExported: true,
+      kind: StructureKind.Interface,
+      name: headerParameterInterfaceName,
+      properties: [
+        {
+          name: "headers",
+          type: `RawHttpHeadersInput & ${operationName}Headers`,
+          kind: StructureKind.PropertySignature
+        }
+      ]    
+    })
+  })
+  return undefined;
 }
 
 function buildHeaderParameterDefinitions(

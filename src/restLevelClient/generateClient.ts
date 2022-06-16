@@ -16,7 +16,10 @@ import {
 import * as path from "path";
 
 import { getAutorestOptions, getSession } from "../autorestSession";
-import { transformBaseUrl } from "../transforms/urlTransforms";
+import {
+  getEndpointParameters,
+  transformBaseUrl
+} from "../transforms/urlTransforms";
 import { NameType, normalizeName } from "../utils/nameUtils";
 import { isConstantSchema } from "./schemaHelpers";
 import { getLanguageMetadata } from "../utils/languageHelpers";
@@ -40,9 +43,15 @@ export function generateClient(model: CodeModel, project: Project) {
 
   // Get all paths
   const clientName = getLanguageMetadata(model.language).name;
-  const uriParameter = getClientUriParameter();
+  const clientParams = getClientUriParameter();
 
-  const { addCredentials, credentialKeyHeaderName, multiClient, batch, credentialScopes } = getAutorestOptions();
+  const {
+    addCredentials,
+    credentialKeyHeaderName,
+    multiClient,
+    batch,
+    credentialScopes
+  } = getAutorestOptions();
   const credentialTypes = addCredentials ? ["TokenCredential"] : [];
 
   if (credentialKeyHeaderName) {
@@ -50,12 +59,20 @@ export function generateClient(model: CodeModel, project: Project) {
   }
 
   const commonClientParams = [
-    ...(uriParameter ? [{ name: uriParameter, type: "string" }] : []),
-    ...(addCredentials === false || !credentialScopes || credentialScopes.length === 0
+    ...(clientParams
+      ? clientParams.map(uriParameter => {
+          return { name: uriParameter.name, type: uriParameter.type.typeName };
+        })
+      : []),
+    ...(addCredentials === false ||
+    !credentialScopes ||
+    credentialScopes.length === 0
       ? []
       : [{ name: "credentials", type: credentialTypes.join(" | ") }])
   ];
-  const clientInterfaceName = clientName.endsWith("Client")? `${clientName}`: `${clientName}Client`;
+  const clientInterfaceName = clientName.endsWith("Client")
+    ? `${clientName}`
+    : `${clientName}Client`;
 
   const functionStatement = {
     isExported: true,
@@ -105,13 +122,16 @@ function getClientFactoryBody(
   let clientPackageName = packageDetails.nameWithoutScope;
   const packageVersion = packageDetails.version;
   const { model } = getSession();
-  const { endpoint, parameterName } = transformBaseUrl(model);
+  const { endpoint, parameterNames } = transformBaseUrl(model);
   let baseUrl: string;
-  if (parameterName) {
-    const parsedEndpoint = endpoint?.replace(
-      `{${parameterName}}`,
-      `\${${parameterName}}`
-    );
+  if (parameterNames && parameterNames.length > 0) {
+    let parsedEndpoint = endpoint;
+    for (const parameterName of parameterNames) {
+      parsedEndpoint = parsedEndpoint?.replace(
+        `{${parameterName}}`,
+        `\${${parameterName}}`
+      );
+    }
     baseUrl = `options.baseUrl ?? \`${parsedEndpoint}\``;
   } else {
     baseUrl = `options.baseUrl ?? "${endpoint}"`;
@@ -237,6 +257,6 @@ function getApiVersion(): string | undefined {
 
 function getClientUriParameter() {
   const { model } = getSession();
-  const { parameterName } = transformBaseUrl(model);
-  return parameterName;
+  const params = getEndpointParameters(model);
+  return params;
 }
