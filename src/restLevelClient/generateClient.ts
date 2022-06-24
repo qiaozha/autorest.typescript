@@ -4,7 +4,8 @@ import {
   ParameterLocation,
   ImplementationLocation,
   OAuth2SecurityScheme,
-  KeySecurityScheme
+  KeySecurityScheme,
+  SchemaType
 } from "@autorest/codemodel";
 
 import {
@@ -29,6 +30,7 @@ import { generateMethodShortcutImplementation } from "./generateMethodShortcuts"
 import { Paths } from "./interfaces";
 import { pathDictionary } from "./generateClientDefinition";
 import { getSecurityInfoFromModel } from "../utils/schemaHelpers";
+import { Schema } from "js-yaml";
 
 export function generateClient(model: CodeModel, project: Project) {
   const name = normalizeName(
@@ -65,10 +67,10 @@ export function generateClient(model: CodeModel, project: Project) {
   const commonClientParams = [
     ...(clientParams
       ? clientParams.map(uriParameter => {
-          if (uriParameter.type.typeName !== "string") {
-            parameterImported.push(uriParameter.type.typeName);
+          if (uriParameter.type !== SchemaType.Constant && uriParameter.type !== SchemaType.String) {
+            parameterImported.push(uriParameter.type);
           }
-          return { name: uriParameter.name, type: uriParameter.type.typeName };
+          return { name: uriParameter.name, type: uriParameter.type };
         })
       : []),
     ...(addCredentials === false ||

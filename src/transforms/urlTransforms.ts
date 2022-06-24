@@ -1,9 +1,11 @@
 import {
   CodeModel,
   ImplementationLocation,
-  ParameterLocation
+  ParameterLocation,
+  SchemaContext
 } from "@autorest/codemodel";
 import { TypeDetails } from "../models/modelDetails";
+import { primitiveSchemaToType } from "../restLevelClient/schemaHelpers";
 import { getLanguageMetadata } from "../utils/languageHelpers";
 import { getTypeForSchema } from "../utils/schemaHelpers";
 
@@ -11,7 +13,7 @@ export interface EndpointDetails {
   isCustom: boolean;
   endpoint?: string;
   parameterNames?: string[];
-  parameterTypes?: TypeDetails[];
+  parameterTypes?: string[];
 }
 
 export function transformBaseUrl(codeModel: CodeModel): EndpointDetails {
@@ -24,7 +26,7 @@ export function transformBaseUrl(codeModel: CodeModel): EndpointDetails {
   });
 
   let parameterNames: string[] | undefined;
-  let parameterTypes: TypeDetails[] | undefined;
+  let parameterTypes: string[] | undefined;
 
   if (!$host) {
     // There are some swaggers that contain no operations for those we'll keep an empty endpoint
@@ -73,7 +75,11 @@ export function getEndpointParameters(codeModel: CodeModel) {
   return uriParameters.map(param => {
     return {
       name: getLanguageMetadata(param.language).serializedName,
-      type: getTypeForSchema(param.schema)
+      type: primitiveSchemaToType(param.schema, [
+        SchemaContext.Input,
+        SchemaContext.Exception
+      ]),
+      schema: param.schema
     };
   });
 }
