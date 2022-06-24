@@ -11,7 +11,8 @@ import {
   Project,
   PropertySignatureStructure,
   SourceFile,
-  StructureKind
+  StructureKind,
+  TypeAliasDeclarationStructure
 } from "ts-morph";
 import * as path from 'path';
 import { getLanguageMetadata } from "../utils/languageHelpers";
@@ -45,7 +46,9 @@ export function generateParameterInterfaces(
   const operations = getAllOperations(model);
   let hasHeaders = false;
   const clientParameterDefinitions = buildClientParameterDefinition(model);
-  parametersFile.addInterfaces([clientParameterDefinitions])
+  if(clientParameterDefinitions) {
+    parametersFile.addTypeAliases(clientParameterDefinitions)
+  }
 
   for (const operation of operations) {
     const operationName = normalizeName(
@@ -207,24 +210,21 @@ function getRequestHeaderInterfaceDefinition(
   };
 }
 
-function buildClientParameterDefinition(model: CodeModel): InterfaceDeclarationStructure | undefined {
+function buildClientParameterDefinition(model: CodeModel): TypeAliasDeclarationStructure[] | undefined {
   const clientParameters = model.globalParameters;
-  const clientParameterDefinitions = [];
+  const clientParameterDefinitions: TypeAliasDeclarationStructure[] = [];
   clientParameters?.forEach(item => {
     clientParameterDefinitions.push({
       isExported: true,
-      kind: StructureKind.Interface,
-      name: headerParameterInterfaceName,
-      properties: [
-        {
-          name: "headers",
-          type: `RawHttpHeadersInput & ${operationName}Headers`,
-          kind: StructureKind.PropertySignature
-        }
-      ]    
+      kind: StructureKind.TypeAlias,
+      name: normalizeName(getLanguageMetadata(item.language).name, NameType.Class),
+      type: primitiveSchemaToType(item.schema, [
+        SchemaContext.Input,
+        SchemaContext.Exception
+      ])
     })
   })
-  return undefined;
+  return clientParameterDefinitions;
 }
 
 function buildHeaderParameterDefinitions(
