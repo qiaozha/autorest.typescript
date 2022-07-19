@@ -11,13 +11,8 @@ import {
   buildMethodDefinitions,
   getPathParamDefinitions
 } from "./helpers/operationHelpers";
-import { Methods, Paths } from "./interfaces";
+import { Methods, Paths, RLCModel } from "./interfaces";
 
-export interface RLCModel {
-  libraryName: string;
-  srcPath: string;
-  paths: Paths;
-}
 
 export function buildClientDefinitions(
   model: RLCModel,

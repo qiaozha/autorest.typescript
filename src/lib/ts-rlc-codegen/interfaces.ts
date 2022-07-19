@@ -35,3 +35,15 @@ export interface OperationAnnotations {
   isLongRunning?: boolean;
   isPageable?: boolean;
 }
+
+export interface RLCModel {
+  libraryName: string;
+  srcPath: string;
+  paths: Paths;
+  clientName: string;
+  security: any;
+  globalParameters: any[];
+  multiClient: boolean;
+  batch: string[];
+  operationGroups: any[];
+}
