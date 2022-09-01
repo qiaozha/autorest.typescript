@@ -21,7 +21,8 @@
           "in": "path",
           "required": true,
           "description": "The endpoint to use.",
-          "type": "string"
+          "type": "string",
+          "x-ms-parameter-location": "client"
         }
       ]
     },

@@ -6,10 +6,11 @@ import { KeyCredential } from "@azure/core-auth";
 import { MicrosoftCognitiveLanguageServiceAnalyzeTextAuthoringClient } from "./clientDefinitions";
 
 export default function createClient(
+  Endpoint: string,
   credentials: KeyCredential,
   options: ClientOptions = {}
 ): MicrosoftCognitiveLanguageServiceAnalyzeTextAuthoringClient {
-  const baseUrl = options.baseUrl ?? "{Endpoint}/language";
+  const baseUrl = options.baseUrl ?? `${Endpoint}/language`;
   options.apiVersion = options.apiVersion ?? "2022-05-15-preview";
   options = {
     ...options,

@@ -35,7 +35,7 @@ export interface AzureCoreFoundationsInnerErrorOutput {
 }
 
 // @public (undocumented)
-function createClient(credentials: KeyCredential, options?: ClientOptions): MicrosoftCognitiveLanguageServiceAnalyzeTextAuthoringClient;
+function createClient(Endpoint: string, credentials: KeyCredential, options?: ClientOptions): MicrosoftCognitiveLanguageServiceAnalyzeTextAuthoringClient;
 export default createClient;
 
 // @public (undocumented)
@@ -68,18 +68,7 @@ export interface DeploymentsDeleteDeploymentDefaultResponse extends HttpResponse
 }
 
 // @public (undocumented)
-export type DeploymentsDeleteDeploymentParameters = DeploymentsDeleteDeploymentPathParam & RequestParameters;
-
-// @public (undocumented)
-export interface DeploymentsDeleteDeploymentPathParam {
-    // (undocumented)
-    pathParameters: DeploymentsDeleteDeploymentPathParameters;
-}
-
-// @public (undocumented)
-export interface DeploymentsDeleteDeploymentPathParameters {
-    Endpoint: string;
-}
+export type DeploymentsDeleteDeploymentParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeploymentsDeployProject200Headers {
@@ -120,18 +109,7 @@ export interface DeploymentsDeployProjectDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type DeploymentsDeployProjectParameters = DeploymentsDeployProjectPathParam & RequestParameters;
-
-// @public (undocumented)
-export interface DeploymentsDeployProjectPathParam {
-    // (undocumented)
-    pathParameters: DeploymentsDeployProjectPathParameters;
-}
-
-// @public (undocumented)
-export interface DeploymentsDeployProjectPathParameters {
-    Endpoint: string;
-}
+export type DeploymentsDeployProjectParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeploymentsGetDeployment {
@@ -157,18 +135,7 @@ export interface DeploymentsGetDeploymentDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type DeploymentsGetDeploymentParameters = DeploymentsGetDeploymentPathParam & RequestParameters;
-
-// @public (undocumented)
-export interface DeploymentsGetDeploymentPathParam {
-    // (undocumented)
-    pathParameters: DeploymentsGetDeploymentPathParameters;
-}
-
-// @public (undocumented)
-export interface DeploymentsGetDeploymentPathParameters {
-    Endpoint: string;
-}
+export type DeploymentsGetDeploymentParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeploymentsList {
@@ -192,18 +159,7 @@ export interface DeploymentsListDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type DeploymentsListParameters = DeploymentsListPathParam & RequestParameters;
-
-// @public (undocumented)
-export interface DeploymentsListPathParam {
-    // (undocumented)
-    pathParameters: DeploymentsListPathParameters;
-}
-
-// @public (undocumented)
-export interface DeploymentsListPathParameters {
-    Endpoint: string;
-}
+export type DeploymentsListParameters = RequestParameters;
 
 // @public
 export interface DeploymentsOperations {
@@ -253,18 +209,7 @@ export interface DeploymentsSwapDeploymentsMediaTypesParam {
 }
 
 // @public (undocumented)
-export type DeploymentsSwapDeploymentsParameters = DeploymentsSwapDeploymentsPathParam & DeploymentsSwapDeploymentsMediaTypesParam & DeploymentsSwapDeploymentsBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface DeploymentsSwapDeploymentsPathParam {
-    // (undocumented)
-    pathParameters: DeploymentsSwapDeploymentsPathParameters;
-}
-
-// @public (undocumented)
-export interface DeploymentsSwapDeploymentsPathParameters {
-    Endpoint: string;
-}
+export type DeploymentsSwapDeploymentsParameters = DeploymentsSwapDeploymentsMediaTypesParam & DeploymentsSwapDeploymentsBodyParam & RequestParameters;
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
@@ -298,18 +243,7 @@ export interface GlobalGetSupportedLanguagesDefaultResponse extends HttpResponse
 }
 
 // @public (undocumented)
-export type GlobalGetSupportedLanguagesParameters = GlobalGetSupportedLanguagesQueryParam & GlobalGetSupportedLanguagesPathParam & RequestParameters;
-
-// @public (undocumented)
-export interface GlobalGetSupportedLanguagesPathParam {
-    // (undocumented)
-    pathParameters: GlobalGetSupportedLanguagesPathParameters;
-}
-
-// @public (undocumented)
-export interface GlobalGetSupportedLanguagesPathParameters {
-    Endpoint: string;
-}
+export type GlobalGetSupportedLanguagesParameters = GlobalGetSupportedLanguagesQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface GlobalGetSupportedLanguagesQueryParam {
@@ -350,18 +284,7 @@ export interface GlobalListTrainingConfigVersionsDefaultResponse extends HttpRes
 }
 
 // @public (undocumented)
-export type GlobalListTrainingConfigVersionsParameters = GlobalListTrainingConfigVersionsQueryParam & GlobalListTrainingConfigVersionsPathParam & RequestParameters;
-
-// @public (undocumented)
-export interface GlobalListTrainingConfigVersionsPathParam {
-    // (undocumented)
-    pathParameters: GlobalListTrainingConfigVersionsPathParameters;
-}
-
-// @public (undocumented)
-export interface GlobalListTrainingConfigVersionsPathParameters {
-    Endpoint: string;
-}
+export type GlobalListTrainingConfigVersionsParameters = GlobalListTrainingConfigVersionsQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface GlobalListTrainingConfigVersionsQueryParam {
@@ -457,18 +380,7 @@ export interface JobsGetDeploymentStatusDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type JobsGetDeploymentStatusParameters = JobsGetDeploymentStatusPathParam & RequestParameters;
-
-// @public (undocumented)
-export interface JobsGetDeploymentStatusPathParam {
-    // (undocumented)
-    pathParameters: JobsGetDeploymentStatusPathParameters;
-}
-
-// @public (undocumented)
-export interface JobsGetDeploymentStatusPathParameters {
-    Endpoint: string;
-}
+export type JobsGetDeploymentStatusParameters = RequestParameters;
 
 // @public (undocumented)
 export interface JobsGetSwapDeploymentsStatus {
@@ -492,18 +404,7 @@ export interface JobsGetSwapDeploymentsStatusDefaultResponse extends HttpRespons
 }
 
 // @public (undocumented)
-export type JobsGetSwapDeploymentsStatusParameters = JobsGetSwapDeploymentsStatusPathParam & RequestParameters;
-
-// @public (undocumented)
-export interface JobsGetSwapDeploymentsStatusPathParam {
-    // (undocumented)
-    pathParameters: JobsGetSwapDeploymentsStatusPathParameters;
-}
-
-// @public (undocumented)
-export interface JobsGetSwapDeploymentsStatusPathParameters {
-    Endpoint: string;
-}
+export type JobsGetSwapDeploymentsStatusParameters = RequestParameters;
 
 // @public
 export interface JobsOperations {
@@ -754,18 +655,7 @@ export interface ProjectsCreateOrUpdateMediaTypesParam {
 }
 
 // @public (undocumented)
-export type ProjectsCreateOrUpdateParameters = ProjectsCreateOrUpdatePathParam & ProjectsCreateOrUpdateMediaTypesParam & ProjectsCreateOrUpdateBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface ProjectsCreateOrUpdatePathParam {
-    // (undocumented)
-    pathParameters: ProjectsCreateOrUpdatePathParameters;
-}
-
-// @public (undocumented)
-export interface ProjectsCreateOrUpdatePathParameters {
-    Endpoint: string;
-}
+export type ProjectsCreateOrUpdateParameters = ProjectsCreateOrUpdateMediaTypesParam & ProjectsCreateOrUpdateBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface ProjectsDelete202Headers {
@@ -791,18 +681,7 @@ export interface ProjectsDeleteDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ProjectsDeleteParameters = ProjectsDeletePathParam & RequestParameters;
-
-// @public (undocumented)
-export interface ProjectsDeletePathParam {
-    // (undocumented)
-    pathParameters: ProjectsDeletePathParameters;
-}
-
-// @public (undocumented)
-export interface ProjectsDeletePathParameters {
-    Endpoint: string;
-}
+export type ProjectsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ProjectsExport {
@@ -833,18 +712,7 @@ export interface ProjectsExportDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ProjectsExportParameters = ProjectsExportQueryParam & ProjectsExportPathParam & RequestParameters;
-
-// @public (undocumented)
-export interface ProjectsExportPathParam {
-    // (undocumented)
-    pathParameters: ProjectsExportPathParameters;
-}
-
-// @public (undocumented)
-export interface ProjectsExportPathParameters {
-    Endpoint: string;
-}
+export type ProjectsExportParameters = ProjectsExportQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface ProjectsExportQueryParam {
@@ -875,18 +743,7 @@ export interface ProjectsGetDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ProjectsGetParameters = ProjectsGetPathParam & RequestParameters;
-
-// @public (undocumented)
-export interface ProjectsGetPathParam {
-    // (undocumented)
-    pathParameters: ProjectsGetPathParameters;
-}
-
-// @public (undocumented)
-export interface ProjectsGetPathParameters {
-    Endpoint: string;
-}
+export type ProjectsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ProjectsImportx {
@@ -917,18 +774,7 @@ export interface ProjectsImportxDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ProjectsImportxParameters = ProjectsImportxPathParam & RequestParameters;
-
-// @public (undocumented)
-export interface ProjectsImportxPathParam {
-    // (undocumented)
-    pathParameters: ProjectsImportxPathParameters;
-}
-
-// @public (undocumented)
-export interface ProjectsImportxPathParameters {
-    Endpoint: string;
-}
+export type ProjectsImportxParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ProjectsList {
@@ -952,18 +798,7 @@ export interface ProjectsListDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ProjectsListParameters = ProjectsListQueryParam & ProjectsListPathParam & RequestParameters;
-
-// @public (undocumented)
-export interface ProjectsListPathParam {
-    // (undocumented)
-    pathParameters: ProjectsListPathParameters;
-}
-
-// @public (undocumented)
-export interface ProjectsListPathParameters {
-    Endpoint: string;
-}
+export type ProjectsListParameters = ProjectsListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface ProjectsListQueryParam {
@@ -1032,18 +867,7 @@ export interface ProjectsTrainMediaTypesParam {
 }
 
 // @public (undocumented)
-export type ProjectsTrainParameters = ProjectsTrainPathParam & ProjectsTrainMediaTypesParam & ProjectsTrainBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface ProjectsTrainPathParam {
-    // (undocumented)
-    pathParameters: ProjectsTrainPathParameters;
-}
-
-// @public (undocumented)
-export interface ProjectsTrainPathParameters {
-    Endpoint: string;
-}
+export type ProjectsTrainParameters = ProjectsTrainMediaTypesParam & ProjectsTrainBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface Routes {
