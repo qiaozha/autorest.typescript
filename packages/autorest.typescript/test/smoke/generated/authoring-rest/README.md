@@ -1,4 +1,4 @@
-# AuthoringService client library for JavaScript
+# Microsoft Cognitive Language client library for JavaScript
 
 
 
@@ -21,13 +21,13 @@ Key links:
 
 ### Install the `@msinternal/authoring-rest` package
 
-Install the AuthoringService client REST client library for JavaScript with `npm`:
+Install the Microsoft Cognitive Language client REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @msinternal/authoring-rest
 ```
 
-### Create and authenticate a `AuthoringService`
+### Create and authenticate a `MicrosoftCognitiveLanguageServiceAnalyzeTextAuthoring`
 
 To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
 provide an instance of the desired credential type obtained from the

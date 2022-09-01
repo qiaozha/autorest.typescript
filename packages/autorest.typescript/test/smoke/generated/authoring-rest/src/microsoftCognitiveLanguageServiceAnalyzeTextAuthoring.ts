@@ -3,12 +3,12 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { KeyCredential } from "@azure/core-auth";
-import { AuthoringServiceClient } from "./clientDefinitions";
+import { MicrosoftCognitiveLanguageServiceAnalyzeTextAuthoringClient } from "./clientDefinitions";
 
 export default function createClient(
   credentials: KeyCredential,
   options: ClientOptions = {}
-): AuthoringServiceClient {
+): MicrosoftCognitiveLanguageServiceAnalyzeTextAuthoringClient {
   const baseUrl = options.baseUrl ?? "{Endpoint}/language";
   options.apiVersion = options.apiVersion ?? "2022-05-15-preview";
   options = {
@@ -34,7 +34,7 @@ export default function createClient(
     baseUrl,
     credentials,
     options
-  ) as AuthoringServiceClient;
+  ) as MicrosoftCognitiveLanguageServiceAnalyzeTextAuthoringClient;
 
   return {
     ...client,

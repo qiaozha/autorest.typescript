@@ -388,7 +388,7 @@ export interface Routes {
   ): GlobalListTrainingConfigVersions;
 }
 
-export type AuthoringServiceClient = Client & {
+export type MicrosoftCognitiveLanguageServiceAnalyzeTextAuthoringClient = Client & {
   path: Routes;
   projects: ProjectsOperations;
   deployments: DeploymentsOperations;

@@ -14,15 +14,6 @@ import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 
-// @public (undocumented)
-export type AuthoringServiceClient = Client & {
-    path: Routes;
-    projects: ProjectsOperations;
-    deployments: DeploymentsOperations;
-    jobs: JobsOperations;
-    global: GlobalOperations;
-};
-
 // @public
 export interface AzureCoreFoundationsErrorOutput {
     code: string;
@@ -44,7 +35,7 @@ export interface AzureCoreFoundationsInnerErrorOutput {
 }
 
 // @public (undocumented)
-function createClient(credentials: KeyCredential, options?: ClientOptions): AuthoringServiceClient;
+function createClient(credentials: KeyCredential, options?: ClientOptions): MicrosoftCognitiveLanguageServiceAnalyzeTextAuthoringClient;
 export default createClient;
 
 // @public (undocumented)
@@ -525,6 +516,15 @@ export interface JobWarningOutput {
     code: string;
     message: string;
 }
+
+// @public (undocumented)
+export type MicrosoftCognitiveLanguageServiceAnalyzeTextAuthoringClient = Client & {
+    path: Routes;
+    projects: ProjectsOperations;
+    deployments: DeploymentsOperations;
+    jobs: JobsOperations;
+    global: GlobalOperations;
+};
 
 // @public
 export interface PagedSupportedLanguageOutput {

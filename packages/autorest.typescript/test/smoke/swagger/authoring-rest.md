@@ -5,7 +5,6 @@
 
 ```yaml
 package-name: "@msinternal/authoring-rest"
-title: AuthoringService
 product-doc-link: https://azure.microsoft.com
 generate-metadata: true
 license-header: MICROSOFT_MIT_NO_VERSION
