@@ -147,12 +147,7 @@ export function getParameterAssignment(exampleValue: ExampleValue, isRLCSample: 
             : prop;
           propName = normalizeName(initPropName, NameType.Property, true);
         }
-        let propRetValue: string;
-        if (propName.indexOf("/") > -1 || propName.match(/^\d/)) {
-          propRetValue = `"${propName}": ` + getParameterAssignment(property);
-        } else {
-          propRetValue = `${propName}: ` + getParameterAssignment(property);
-        }
+        const propRetValue = `"${propName}": ` + getParameterAssignment(property);
         values.push(propRetValue);
       }
       if (values.length > 0) {

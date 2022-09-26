@@ -333,7 +333,7 @@ function convertMethodLevelParameters(
         getLanguageMetadata(p.parameter.language).serializedName ||
         p.parameter.language.default.name;
       querySideAssignments.push(
-        `${name}: ` + getParameterAssignment(p.exampleValue, true)
+        `"${name}": ` + getParameterAssignment(p.exampleValue, true)
       );
     });
   if (querySideAssignments.length > 0) {
