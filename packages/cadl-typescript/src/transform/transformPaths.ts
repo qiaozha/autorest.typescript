@@ -12,6 +12,7 @@ import {
 import { getDoc, ignoreDiagnostics, Program } from "@cadl-lang/compiler";
 import {
   getHttpOperation,
+  getRequestVisibility,
   HttpOperation,
   HttpOperationParameters,
   HttpOperationResponse
@@ -134,6 +135,7 @@ function transformOperation(
   } else if (paths[route.path]?.methods[route.verb]) {
     paths[route.path]?.methods[route.verb]?.push(method);
   } else {
+    const visibility = getRequestVisibility(route.verb);
     paths[route.path] = {
       description: getDoc(program, route.operation) ?? "",
       name: route.operation.name || "Client",
@@ -143,8 +145,8 @@ function transformOperation(
           return {
             name: p.name,
             type: p.param.sourceProperty
-              ? getSchemaForType(program, p.param.sourceProperty?.type).type
-              : getSchemaForType(program, p.param.type).type,
+              ? getSchemaForType(program, p.param.sourceProperty?.type, visibility).type
+              : getSchemaForType(program, p.param.type, visibility).type,
             description: getDoc(program, p.param)
           };
         }),

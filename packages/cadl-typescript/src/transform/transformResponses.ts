@@ -20,7 +20,8 @@ import { Program, getDoc, ignoreDiagnostics } from "@cadl-lang/compiler";
 import {
   getHttpOperation,
   HttpOperation,
-  HttpOperationResponse
+  HttpOperationResponse,
+  Visibility
 } from "@cadl-lang/rest/http";
 import {
   getImportedModelName,
@@ -120,9 +121,7 @@ function transformHeaders(
       if (!value) {
         continue;
       }
-      const typeSchema = getSchemaForType(program, value!.type, [
-        SchemaContext.Output
-      ]) as Schema;
+      const typeSchema = getSchemaForType(program, value!.type, Visibility.Read) as Schema;
       const type = getTypeName(typeSchema);
       const header: ResponseHeaderSchema = {
         name: `"${key.toLowerCase()}"`,
@@ -163,9 +162,7 @@ function transformBody(
       descriptions.add("Value may contain any sequence of octets");
       continue;
     }
-    const bodySchema = getSchemaForType(program, body!.type, [
-      SchemaContext.Output
-    ]) as Schema;
+    const bodySchema = getSchemaForType(program, body!.type, Visibility.Read) as Schema;
     if (bodySchema.fromCore) {
       fromCore = true;
     }

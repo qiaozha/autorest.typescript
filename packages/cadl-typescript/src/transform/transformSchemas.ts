@@ -7,25 +7,25 @@ import {
   listOperationGroups,
   listOperationsInOperationGroup
 } from "@azure-tools/cadl-dpg";
-import { SchemaContext } from "@azure-tools/rlc-common";
 import { ignoreDiagnostics, Model, Program, Type } from "@cadl-lang/compiler";
-import { getHttpOperation, HttpOperation } from "@cadl-lang/rest/http";
+import { getHttpOperation, getRequestVisibility, HttpOperation, Visibility } from "@cadl-lang/rest/http";
 import {
   getSchemaForType,
   includeDerivedModel,
   getBodyType
 } from "../modelUtils.js";
 
+interface PendingSchema {
+  type: Type,
+  visibility: Visibility
+}
+
 export function transformSchemas(
   program: Program,
   client: Client,
   dpgContext: DpgContext
 ) {
-  const schemas: Map<string, SchemaContext[]> = new Map<
-    string,
-    SchemaContext[]
-  >();
-  const schemaMap: Map<any, any> = new Map<any, any>();
+  const schemaMap: Set<PendingSchema> = new Set<PendingSchema>();
   const operationGroups = listOperationGroups(dpgContext, client);
   const modelKey = Symbol("typescript-models-" + client.name);
   for (const operationGroup of operationGroups) {
@@ -44,9 +44,11 @@ export function transformSchemas(
     transformSchemaForRoute(route);
   }
   function transformSchemaForRoute(route: HttpOperation) {
+    const visibility = getRequestVisibility(route.verb);
+
     const bodyModel = getBodyType(program, route);
     if (bodyModel && bodyModel.kind === "Model") {
-      getGeneratedModels(bodyModel, SchemaContext.Input);
+      getGeneratedModels(bodyModel, visibility);
     }
     for (const resp of route.responses) {
       if (
@@ -62,52 +64,21 @@ export function transformSchemas(
         if (!respModel) {
           continue;
         }
-        getGeneratedModels(respModel.type, SchemaContext.Output);
+        getGeneratedModels(respModel.type, Visibility.Read);
       }
     }
   }
-  program.stateMap(modelKey).forEach((context, cadlModel) => {
-    const model = getSchemaForType(program, cadlModel, context);
-    if (model) {
-      model.usage = context;
-    }
+  return Array.from(schemaMap).map((item) => {
+    const model = getSchemaForType(program, item.type, item.visibility);
     if (model.name === "") {
       return;
     }
-    const pureModel = JSON.stringify(trimUsage(model));
-    schemaMap.set(pureModel, model);
-    let usage = schemas.get(pureModel) ?? [];
-    if (!usage?.includes(context)) {
-      usage = usage.concat(context as SchemaContext[]);
-    }
-    schemas.set(pureModel, usage);
+    return model;
   });
-  function trimUsage(model: any) {
-    if (typeof model !== "object") {
-      return model;
-    }
-    const tmpModel = Object.assign({}, model);
-    const tmpModelKeys = Object.keys(tmpModel).filter((item) => {
-      return item !== "usage";
-    });
-    const ordered = tmpModelKeys.sort().reduce((obj, key) => {
-      (obj as any)[key] = trimUsage(tmpModel[key]);
-      return obj;
-    }, {});
-    return ordered;
+  function setModelMap(type: Type, visibility: Visibility) {
+    schemaMap.add({ type, visibility});
   }
-  function setModelMap(type: Type, schemaContext: SchemaContext) {
-    if (program.stateMap(modelKey).get(type)) {
-      const context = program.stateMap(modelKey).get(type);
-      if (context && context.indexOf(schemaContext) === -1) {
-        context.push(schemaContext);
-        program.stateMap(modelKey).set(type, context);
-      }
-    } else {
-      program.stateMap(modelKey).set(type, [schemaContext]);
-    }
-  }
-  function getGeneratedModels(model: Type, context: SchemaContext) {
+  function getGeneratedModels(model: Type, visibility: Visibility) {
     if (model.kind === "Model") {
       if (model.templateArguments && model.templateArguments.length > 0) {
         for (const temp of model.templateArguments) {
@@ -115,37 +86,35 @@ export function transformSchemas(
             !program.stateMap(modelKey).get(temp) ||
             !program.stateMap(modelKey).get(temp)?.includes(context)
           ) {
-            getGeneratedModels(temp, context);
+            getGeneratedModels(temp, visibility);
             break;
           }
         }
       }
 
-      setModelMap(model, context);
+      setModelMap(model, visibility);
       const indexer = (model as Model).indexer;
       if (indexer?.value && !program.stateMap(modelKey).get(indexer?.value)) {
-        setModelMap(indexer.value, context);
+        setModelMap(indexer.value, visibility);
       }
       for (const prop of model.properties) {
         if (
           prop[1].type.kind === "Model" &&
-          (!program.stateMap(modelKey).get(prop[1].type) ||
-            !program.stateMap(modelKey).get(prop[1].type)?.includes(context))
+          (!schemaMap.has({type: prop[1].type, visibility}))
         ) {
           if (prop[1].type.name === "Error") {
             continue;
           }
-          getGeneratedModels(prop[1].type, context);
+          getGeneratedModels(prop[1].type, visibility);
         }
       }
       const baseModel = model.baseModel;
       if (
         baseModel &&
         baseModel.kind === "Model" &&
-        (!program.stateMap(modelKey).get(baseModel) ||
-          !program.stateMap(modelKey).get(baseModel)?.includes(context))
+        (!schemaMap.has({type: baseModel, visibility}))
       ) {
-        getGeneratedModels(baseModel, context);
+        getGeneratedModels(baseModel, visibility);
       }
       const derivedModels = model.derivedModels.filter(includeDerivedModel);
 
@@ -153,16 +122,11 @@ export function transformSchemas(
       for (const child of derivedModels) {
         if (
           child.kind === "Model" &&
-          (!program.stateMap(modelKey).get(child) ||
-            !program.stateMap(modelKey).get(child)?.includes(context))
+          (!schemaMap.has({type: child, visibility}))
         ) {
-          getGeneratedModels(child, context);
+          getGeneratedModels(child, visibility);
         }
       }
     }
   }
-  const allSchemas = Array.from(schemas, function (item) {
-    return { ...schemaMap.get(item[0]), usage: item[1] };
-  });
-  return allSchemas;
 }

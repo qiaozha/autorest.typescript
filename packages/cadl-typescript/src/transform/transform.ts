@@ -32,7 +32,7 @@ import {
   Service,
   getDoc
 } from "@cadl-lang/compiler";
-import { getServers } from "@cadl-lang/rest/http";
+import { getServers, Visibility } from "@cadl-lang/rest/http";
 import { join } from "path";
 import {
   getFormattedPropertyDoc,
@@ -143,7 +143,7 @@ export function transformUrlInfo(
           continue;
         }
 
-        const schema = getSchemaForType(program, type);
+        const schema = getSchemaForType(program, type, Visibility.All);
         urlParameters.push({
           name: key,
           type: getTypeName(schema),

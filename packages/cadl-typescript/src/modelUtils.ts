@@ -48,7 +48,8 @@ import {
   getPathParamName,
   getQueryParamName,
   isStatusCode,
-  HttpOperation
+  HttpOperation,
+  Visibility
 } from "@cadl-lang/rest/http";
 import { getPagedResult, isFixed } from "@azure-tools/cadl-azure-core";
 import { extractPagedMetadataNested } from "./operationUtil.js";
@@ -62,11 +63,11 @@ export function getBinaryType(usage: SchemaContext[]) {
 export function getSchemaForType(
   program: Program,
   typeInput: Type,
-  usage?: SchemaContext[],
+  visibility: Visibility,
   needRef?: boolean
 ) {
   const type = getEffectiveModelFromType(program, typeInput);
-  const builtinType = mapCadlTypeToTypeScript(program, type, usage);
+  const builtinType = mapCadlTypeToTypeScript(program, type, visibility);
   if (builtinType !== undefined) {
     // add in description elements for types derived from primitive types (SecureString, etc.)
     const doc = getDoc(program, type);
@@ -76,15 +77,15 @@ export function getSchemaForType(
     return builtinType;
   }
   if (type.kind === "Model") {
-    const schema = getSchemaForModel(program, type, usage, needRef) as any;
-    if (usage && usage.includes(SchemaContext.Output)) {
+    const schema = getSchemaForModel(program, type, visibility, needRef) as any;
+    if (visibility & Visibility.Read) {
       schema.outputTypeName = `${schema.name}Output`;
       schema.typeName = `${schema.name}`;
     }
-    schema.usage = usage;
+    schema.visibility = visibility
     return schema;
   } else if (type.kind === "Union") {
-    return getSchemaForUnion(program, type, usage);
+    return getSchemaForUnion(program, type, visibility);
   } else if (type.kind === "Enum") {
     return getSchemaForEnum(program, type);
   } else if (type.kind === "Scalar") {
@@ -92,7 +93,7 @@ export function getSchemaForType(
   }
   if (isUnknownType(type)) {
     const returnType: any = { type: "unknown" };
-    if (usage && usage.includes(SchemaContext.Output)) {
+    if (visibility & Visibility.Read) {
       returnType.outputTypeName = "any";
       returnType.typeName = "unknown";
     }
@@ -144,7 +145,7 @@ function getSchemaForScalar(program: Program, scalar: Scalar) {
 function getSchemaForUnion(
   program: Program,
   union: Union,
-  usage?: SchemaContext[]
+  visibility: Visibility
 ) {
   const nonNullOptions = union.options.filter((t) => !isNullType(t));
   const nullable = union.options.length != nonNullOptions.length;
@@ -157,7 +158,7 @@ function getSchemaForUnion(
 
   for (const option of nonNullOptions) {
     // We already know it's not a model type
-    values.push(getSchemaForType(program, option, usage));
+    values.push(getSchemaForType(program, option, visibility));
   }
 
   const schema: any = {};
@@ -310,7 +311,7 @@ function isSchemaProperty(program: Program, property: ModelProperty) {
 function getSchemaForModel(
   program: Program,
   model: Model,
-  usage?: SchemaContext[],
+  visibility: Visibility,
   needRef?: boolean
 ) {
   const friendlyName = getFriendlyName(program, model);
@@ -392,10 +393,10 @@ function getSchemaForModel(
     };
   }
   for (const child of derivedModels) {
-    const childSchema = getSchemaForType(program, child, usage, true);
+    const childSchema = getSchemaForType(program, child, visibility, true);
     for (const [name, prop] of child.properties) {
       if (name === discriminator?.propertyName) {
-        const propSchema = getSchemaForType(program, prop.type, usage, true);
+        const propSchema = getSchemaForType(program, prop.type, visibility, true);
         childSchema.discriminatorValue = propSchema.type.replace(/"/g, "");
         break;
       }
@@ -437,7 +438,7 @@ function getSchemaForModel(
       continue;
     }
 
-    const propSchema = getSchemaForType(program, prop.type, usage, true);
+    const propSchema = getSchemaForType(program, prop.type, visibility, true);
     if (propSchema === undefined) {
       continue;
     }
@@ -449,7 +450,7 @@ function getSchemaForModel(
       prop,
       propSchema
     );
-    propSchema.usage = usage;
+    propSchema.visibility = visibility;
     // Use the description from ModelProperty not devired from Model Type
     propSchema.description = propertyDescription;
     modelSchema.properties[name] = propSchema;
@@ -509,15 +510,15 @@ function getSchemaForModel(
   ) {
     // Take the base model schema but carry across the documentation property
     // that we set before
-    const baseSchema = getSchemaForType(program, model.baseModel, usage);
+    const baseSchema = getSchemaForType(program, model.baseModel, visibility);
     modelSchema = {
       ...baseSchema,
       description: modelSchema.description
     };
   } else if (model.baseModel) {
     modelSchema.parents = {
-      all: [getSchemaForType(program, model.baseModel, usage, true)],
-      immediate: [getSchemaForType(program, model.baseModel, usage, true)]
+      all: [getSchemaForType(program, model.baseModel, visibility, true)],
+      immediate: [getSchemaForType(program, model.baseModel, visibility, true)]
     };
   }
   return modelSchema;
@@ -527,7 +528,7 @@ function getSchemaForModel(
 function mapCadlTypeToTypeScript(
   program: Program,
   cadlType: Type,
-  usage?: SchemaContext[]
+  visibility: Visibility
 ): any {
   switch (cadlType.kind) {
     case "Number":
@@ -537,7 +538,7 @@ function mapCadlTypeToTypeScript(
     case "Boolean":
       return { type: `${cadlType.value}` };
     case "Model":
-      return mapCadlStdTypeToTypeScript(program, cadlType, usage);
+      return mapCadlStdTypeToTypeScript(program, cadlType, visibility);
   }
   if (cadlType.kind === undefined) {
     if (typeof cadlType === "string") {
@@ -646,7 +647,7 @@ function getSchemaForEnum(program: Program, e: Enum) {
 function mapCadlStdTypeToTypeScript(
   program: Program,
   cadlType: Model,
-  usage?: SchemaContext[]
+  visibility: Visibility
 ): any | undefined {
   const indexer = (cadlType as Model).indexer;
   if (indexer !== undefined) {
@@ -657,7 +658,7 @@ function mapCadlStdTypeToTypeScript(
         const valueType = getSchemaForType(
           program,
           indexer.value!,
-          usage,
+          visibility,
           true
         );
         schema = {
@@ -671,13 +672,13 @@ function mapCadlStdTypeToTypeScript(
         ) {
           schema.typeName = `Record<string, ${valueType.name}>`;
           schema.valueTypeName = valueType.name;
-          if (usage && usage.includes(SchemaContext.Output)) {
+          if (visibility & Visibility.Read) {
             schema.outputTypeName = `Record<string, ${valueType.name}Output>`;
             schema.outputValueTypeName = `${valueType.name}Output`;
           }
         } else if (isUnknownType(indexer.value!)) {
           schema.typeName = `Record<string, ${valueType.type}>`;
-          if (usage && usage.includes(SchemaContext.Output)) {
+          if (visibility & Visibility.Read) {
             schema.outputTypeName = `Record<string, ${valueType.outputTypeName}>`;
           }
         } else {
@@ -686,7 +687,7 @@ function mapCadlStdTypeToTypeScript(
       } else if (name === "integer") {
         schema = {
           type: "array",
-          items: getSchemaForType(program, indexer.value!, usage, true),
+          items: getSchemaForType(program, indexer.value!, visibility, true),
           description: getDoc(program, cadlType)
         };
         if (
@@ -697,7 +698,7 @@ function mapCadlStdTypeToTypeScript(
           !schema.items.enum
         ) {
           schema.typeName = `Array<${schema.items.name}>`;
-          if (usage && usage.includes(SchemaContext.Output)) {
+          if (visibility & Visibility.Read) {
             schema.outputTypeName = `Array<${schema.items.name}Output>`;
           }
         } else {
@@ -710,8 +711,7 @@ function mapCadlStdTypeToTypeScript(
               .join(" | ");
             if (
               schema.items.outputTypeName &&
-              usage &&
-              usage.includes(SchemaContext.Output)
+              visibility & Visibility.Read
             ) {
               schema.outputTypeName = schema.items.outputTypeName
                 .split("|")
@@ -728,7 +728,7 @@ function mapCadlStdTypeToTypeScript(
         }
       }
 
-      schema.usage = usage;
+      schema.visibility = visibility;
       return schema;
     }
   }

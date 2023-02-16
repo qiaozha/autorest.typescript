@@ -13,9 +13,11 @@ import {
 import { ignoreDiagnostics, Program, Type } from "@cadl-lang/compiler";
 import {
   getHttpOperation,
+  getRequestVisibility,
   HttpOperation,
   HttpOperationParameter,
-  HttpOperationParameters
+  HttpOperationParameters,
+  Visibility
 } from "@cadl-lang/rest/http";
 import {
   getImportedModelName,
@@ -81,6 +83,7 @@ export function transformToParameterTypes(
     const headerParams = transformHeaderParameters(program, parameters);
     // transform body
     const bodyType = getBodyType(program, route);
+    const visibility = getRequestVisibility(route.verb);
     let bodyParameter = undefined;
     if (bodyType) {
       bodyParameter = transformBodyParameters(
@@ -88,6 +91,7 @@ export function transformToParameterTypes(
         parameters,
         headerParams,
         outputImportedSet,
+        visibility,
         bodyType
       );
     }
@@ -105,10 +109,7 @@ function getParameterMetadata(
   paramType: "query" | "path" | "header",
   parameter: HttpOperationParameter
 ): ParameterMetadata {
-  const schema = getSchemaForType(program, parameter.param.type, [
-    SchemaContext.Input,
-    SchemaContext.Exception
-  ]) as Schema;
+  const schema = getSchemaForType(program, parameter.param.type, Visibility.Query) as Schema;
   let type = getTypeName(schema);
   const name = getParameterName(parameter.name);
   let description =
@@ -197,6 +198,7 @@ function transformBodyParameters(
   parameters: HttpOperationParameters,
   headers: ParameterMetadata[],
   importedModels: Set<string>,
+  visibility: Visibility,
   inputBodyType?: Type
 ): ParameterBodyMetadata | undefined {
   const bodyType =
@@ -215,7 +217,8 @@ function transformBodyParameters(
       bodyType,
       parameters,
       importedModels,
-      headers
+      headers,
+      visibility
     );
   } else if (hasBinaryContent) {
     // Case 2: Handle the binary body
@@ -226,7 +229,8 @@ function transformBodyParameters(
       program,
       bodyType,
       parameters,
-      importedModels
+      importedModels,
+      visibility
     );
   }
 }
@@ -236,20 +240,23 @@ function transformNormalBody(
   bodyType: Type,
   parameters: HttpOperationParameters,
   importedModels: Set<string>,
-  headers: ParameterMetadata[]
+  headers: ParameterMetadata[],
+  visibility: Visibility
 ) {
   const description = extractDescriptionsFromBody(
     program,
     bodyType,
-    parameters
+    parameters,
+    visibility
   ).join("\n\n");
   const type = extractNameFromCadlType(
     program,
     bodyType,
     importedModels,
-    headers
+    visibility,
+    headers,
   );
-  const schema = getSchemaForType(program, bodyType);
+  const schema = getSchemaForType(program, bodyType, visibility);
   return {
     isPartialBody: false,
     body: [
@@ -294,16 +301,18 @@ function transformMultiFormBody(
   program: Program,
   bodyType: Type,
   parameters: HttpOperationParameters,
-  importedModels: Set<string>
+  importedModels: Set<string>,
+  visibility: Visibility
 ): ParameterBodyMetadata | undefined {
   const isModelBody = bodyType.kind === "Model";
 
   if (!isModelBody) {
-    const type = extractNameFromCadlType(program, bodyType, importedModels);
+    const type = extractNameFromCadlType(program, bodyType, importedModels, visibility);
     const description = extractDescriptionsFromBody(
       program,
       bodyType,
-      parameters
+      parameters,
+      visibility
     ).join("\n\n");
     return {
       isPartialBody: true,
@@ -326,10 +335,7 @@ function transformMultiFormBody(
 
   for (const [paramName, paramType] of bodyType.properties) {
     let type: string;
-    const bodySchema = getSchemaForType(program, paramType.type, [
-      SchemaContext.Input,
-      SchemaContext.Exception
-    ]) as any;
+    const bodySchema = getSchemaForType(program, paramType.type, visibility) as any;
     if (bodySchema?.format === "byte") {
       type = getBinaryType([SchemaContext.Input, SchemaContext.Exception]);
     } else if (bodySchema?.items?.format === "byte") {
@@ -338,7 +344,7 @@ function transformMultiFormBody(
         SchemaContext.Exception
       ])}>`;
     } else {
-      type = extractNameFromCadlType(program, paramType.type, importedModels);
+      type = extractNameFromCadlType(program, paramType.type, importedModels, visibility);
     }
     bodyParameters.body!.push({
       name: paramName,
@@ -365,12 +371,10 @@ function extractNameFromCadlType(
   program: Program,
   cadlType: Type,
   importedModels: Set<string>,
-  headers?: ParameterMetadata[]
+  visibility: Visibility,
+  headers?: ParameterMetadata[],
 ) {
-  const bodySchema = getSchemaForType(program, cadlType, [
-    SchemaContext.Input,
-    SchemaContext.Exception
-  ]) as Schema;
+  const bodySchema = getSchemaForType(program, cadlType, visibility) as Schema;
   const importedNames = getImportedModelName(bodySchema);
   if (importedNames) {
     importedNames.forEach(importedModels.add, importedModels);
@@ -426,17 +430,15 @@ function generateAnomymousModelSigniture(
 function extractDescriptionsFromBody(
   program: Program,
   bodyType: Type,
-  parameters: HttpOperationParameters
+  parameters: HttpOperationParameters,
+  visibility: Visibility
 ) {
   const description =
     parameters.bodyParameter &&
     getFormattedPropertyDoc(
       program,
       parameters.bodyParameter,
-      getSchemaForType(program, bodyType, [
-        SchemaContext.Input,
-        SchemaContext.Exception
-      ])
+      getSchemaForType(program, bodyType, visibility)
     );
   return description ? [description] : [];
 }
