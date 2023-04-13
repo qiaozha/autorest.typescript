@@ -1,5 +1,5 @@
 {
-  "name": "@azure-rest/batch",
+  "name": "@azure/batch-modular",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "version": "1.0.0-beta.1",
@@ -8,13 +8,13 @@
   "license": "MIT",
   "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/batch.d.ts",
+  "types": "./types/batch-modular.d.ts",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/batch.d.ts",
+    "types/batch-modular.d.ts",
     "README.md",
     "LICENSE",
     "review/*"

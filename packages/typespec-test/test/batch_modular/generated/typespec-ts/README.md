@@ -6,8 +6,8 @@ A client for issuing REST requests to the Azure Batch service.
 
 Key links:
 
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/batch)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/batch?view=azure-node-preview)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/batch-modular)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/batch-modular?view=azure-node-preview)
 
 ## Getting started
 
@@ -19,12 +19,12 @@ Key links:
 
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 
-### Install the `@azure-rest/batch` package
+### Install the `@azure/batch-modular` package
 
 Install the Azure BatchService REST client REST client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure-rest/batch
+npm install @azure/batch-modular
 ```
 
 ### Create and authenticate a `BatchServiceClient`

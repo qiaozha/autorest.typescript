@@ -9,6 +9,6 @@ options:
     isModularLibrary: true
     "emitter-output-dir": "{project-root}/generated/typespec-ts"
     packageDetails:
-      name: "@azure-rest/batch"
+      name: "@azure/batch-modular"
       description: "Batch Service"
       version: "1.0.0-beta.1"
