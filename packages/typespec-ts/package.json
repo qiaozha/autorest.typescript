@@ -56,6 +56,7 @@
     "@azure/logger": "^1.0.4"
   },
   "dependencies": {
+    "deep-diff": "^1.0.2",
     "@typespec/compiler": "~0.43.0",
     "@azure-tools/typespec-azure-core": "~0.29.0",
     "@typespec/rest": "~0.43.0",
@@ -63,7 +64,7 @@
     "tslib": "^2.3.1",
     "@azure-tools/rlc-common": "^0.12.0",
     "ts-morph": "^15.1.0",
-    "@azure-tools/typespec-client-generator-core": "~0.29.0",
+    "@azure-tools/typespec-client-generator-core": "0.30.0-dev.11",
     "fs-extra": "^11.1.0",
     "@typespec/openapi": "0.43.0",
     "@typespec/openapi3": "0.43.0",
