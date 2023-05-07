@@ -7,7 +7,7 @@ function generate(path) {
   const command = `cd ${path} && npx tsp compile ./spec`;
   console.log(command);
   const result = execSync(command);
-  console.log("TypeSpec output:", result.toString());
+  console.log("TypeSpec output:", result.toString("utf8"));
   if (result.stderr) {
     console.log(Error(result.stderr));
     process.exitCode = 1;
@@ -19,9 +19,9 @@ function build(path) {
   console.log(command);
   try {
     const result = execSync(command);
-    console.log("build output:", result.toString());
+    console.log("build output:", result.toString("utf8"));
   } catch (e) {
-    console.log(Error(e.stdout.toString()));
+    console.log(Error(e.stdout.toString("utf8")));
     process.exitCode = 1;
   }
 }
