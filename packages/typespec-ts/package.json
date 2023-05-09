@@ -56,7 +56,6 @@
     "@azure/logger": "^1.0.4"
   },
   "dependencies": {
-    "deep-diff": "^1.0.2",
     "@typespec/compiler": "~0.43.0",
     "@azure-tools/typespec-azure-core": "~0.29.0",
     "@typespec/rest": "~0.43.0",
