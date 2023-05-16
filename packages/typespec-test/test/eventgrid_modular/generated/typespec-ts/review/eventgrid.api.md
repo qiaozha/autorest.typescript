@@ -6,32 +6,29 @@
 
 import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions as ClientOptions_2 } from '@azure-rest/core-client';
+import { HttpResponse } from '@azure-rest/core-client';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export interface AcknowledgeBatchOfCloudEventsOptions extends RequestOptions {
+export interface AcknowledgeCloudEventsOptions extends RequestOptions {
     contentType?: string;
 }
 
-// @public (undocumented)
-export class AzureMessagingEventGridClient {
-    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: ClientOptions);
-    // (undocumented)
-    acknowledgeBatchOfCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeBatchOfCloudEventsOptions): Promise<LockTokensResponse>;
-    // (undocumented)
-    publishBatchOfCloudEvents(events: CloudEventEvent[], topicName: string, options?: PublishBatchOfCloudEventsOptions): Promise<void>;
-    // (undocumented)
-    publishCloudEvent(id: string, source: string, type: string, specversion: string, topicName: string, options?: PublishCloudEventOptions): Promise<void>;
-    // (undocumented)
-    receiveBatchOfCloudEvents(topicName: string, eventSubscriptionName: string, options?: ReceiveBatchOfCloudEventsOptions): Promise<ReceiveResponse>;
-    // (undocumented)
-    releaseBatchOfCloudEvents(tokens: LockToken[], topicName: string, eventSubscriptionName: string, options?: ReleaseBatchOfCloudEventsOptions): Promise<LockTokensResponse>;
+// @public
+export interface AcknowledgeOptions {
+    lockTokens: string[];
+}
+
+// @public
+export interface AcknowledgeResult {
+    failedLockTokens: FailedLockToken[];
+    succeededLockTokens: string[];
 }
 
 // @public
 export interface BrokerProperties {
-    lockToken: LockToken;
+    deliveryCount: number;
+    lockToken: string;
 }
 
 // @public (undocumented)
@@ -39,8 +36,8 @@ export interface ClientOptions extends ClientOptions_2 {
 }
 
 // @public
-export interface CloudEventEvent {
-    data?: Record<string, any>;
+export interface CloudEvent {
+    data?: any;
     dataBase64?: string;
     datacontenttype?: string;
     dataschema?: string;
@@ -52,65 +49,93 @@ export interface CloudEventEvent {
     type: string;
 }
 
+// @public (undocumented)
+export class EventGridClient {
+    constructor(endpoint: string, credential: AzureKeyCredential, options?: ClientOptions);
+    // (undocumented)
+    acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeCloudEventsOptions): Promise<AcknowledgeResult>;
+    // (undocumented)
+    publishCloudEvent(event: CloudEvent, topicName: string, options?: PublishCloudEventOptions): Promise<Record<string, any>>;
+    // (undocumented)
+    publishCloudEvents(events: CloudEvent[], topicName: string, options?: PublishCloudEventsOptions): Promise<Record<string, any>>;
+    // (undocumented)
+    receiveCloudEvents(topicName: string, eventSubscriptionName: string, options?: ReceiveCloudEventsOptions): Promise<ReceiveResult>;
+    // (undocumented)
+    rejectCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RejectCloudEventsOptions): Promise<RejectResult>;
+    // (undocumented)
+    releaseCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: ReleaseCloudEventsOptions): Promise<ReleaseResult>;
+}
+
 // @public
 export interface FailedLockToken {
-    errorCode: number;
+    errorCode: string;
     errorDescription: string;
-    lockToken: LockToken;
-}
-
-// @public
-export interface LockToken {
     lockToken: string;
-}
-
-// @public
-export interface LockTokenInput {
-    lockTokens: string[];
-}
-
-// @public
-export interface LockTokensResponse {
-    failedLockTokens: FailedLockToken[];
-    succeededLockTokens: string[];
-}
-
-// @public (undocumented)
-export interface PublishBatchOfCloudEventsOptions extends RequestOptions {
-    contentType?: string;
 }
 
 // @public (undocumented)
 export interface PublishCloudEventOptions extends RequestOptions {
     contentType?: string;
-    data?: Record<string, any>;
-    dataBase64?: string;
-    datacontenttype?: string;
-    dataschema?: string;
-    subject?: string;
-    time?: Date;
 }
 
 // @public (undocumented)
-export interface ReceiveBatchOfCloudEventsOptions extends RequestOptions {
+export interface PublishCloudEventRequest {
+    // (undocumented)
+    event: CloudEvent;
+}
+
+// @public (undocumented)
+export interface PublishCloudEventsOptions extends RequestOptions {
+    contentType?: string;
+}
+
+// @public (undocumented)
+export interface ReceiveCloudEventsOptions extends RequestOptions {
     maxEvents?: number;
-    timeout?: number;
+    maxWaitTime?: number;
 }
 
 // @public
 export interface ReceiveDetails {
     brokerProperties: BrokerProperties;
-    event: CloudEventEvent;
+    event: CloudEvent;
 }
 
 // @public
-export interface ReceiveResponse {
+export interface ReceiveResult {
     value: ReceiveDetails[];
 }
 
 // @public (undocumented)
-export interface ReleaseBatchOfCloudEventsOptions extends RequestOptions {
+export interface RejectCloudEventsOptions extends RequestOptions {
     contentType?: string;
+}
+
+// @public
+export interface RejectOptions {
+    lockTokens: string[];
+}
+
+// @public
+export interface RejectResult {
+    failedLockTokens: FailedLockToken[];
+    succeededLockTokens: string[];
+}
+
+// @public (undocumented)
+export interface ReleaseCloudEventsOptions extends RequestOptions {
+    contentType?: string;
+}
+
+// @public
+export interface ReleaseOptions {
+    lockTokens: string[];
+}
+
+// @public
+export interface ReleaseResult {
+    failedLockTokens: FailedLockToken[];
+    succeededLockTokens: string[];
 }
 
 // @public (undocumented)
@@ -120,6 +145,7 @@ export interface RequestOptions {
         headers?: RawHttpHeadersInput;
         allowInsecureConnection?: boolean;
         skipUrlEncoding?: boolean;
+        onResponse?: (response: HttpResponse) => void;
     };
 }
 
