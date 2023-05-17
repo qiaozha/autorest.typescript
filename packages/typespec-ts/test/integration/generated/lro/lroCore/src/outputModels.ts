@@ -25,6 +25,12 @@ export interface OperationStatusOutput {
   error?: ErrorModel;
 }
 
+/** A response containing error details. */
+export interface ErrorResponseOutput {
+  /** The error object. */
+  error: ErrorModel;
+}
+
 /** Provides status details for long running operations. */
 export interface ResourceOperationStatusOutput {
   /** The unique ID of the operation. */

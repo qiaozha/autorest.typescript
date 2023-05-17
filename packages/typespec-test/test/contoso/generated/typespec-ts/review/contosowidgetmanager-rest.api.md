@@ -136,6 +136,11 @@ export interface DeleteWidgetLogicalResponse extends HttpResponse {
 export type DeleteWidgetParameters = RequestParameters;
 
 // @public
+export interface ErrorResponseOutput {
+    error: ErrorModel;
+}
+
+// @public
 export interface FakedSharedModel {
     createdDate: Date | string;
     tag: string;

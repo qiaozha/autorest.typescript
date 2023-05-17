@@ -33,6 +33,12 @@ export interface ProjectOutput {
   readonly lastDeployedDateTime: string;
 }
 
+/** A response containing error details. */
+export interface ErrorResponseOutput {
+  /** The error object. */
+  error: ErrorModel;
+}
+
 /** Provides status details for long running operations. */
 export interface OperationStatusOutput {
   /** The unique ID of the operation. */

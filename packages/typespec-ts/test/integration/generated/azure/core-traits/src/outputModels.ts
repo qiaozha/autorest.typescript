@@ -1,20 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/** Provides the 'Repeatability-*' headers to enable repeatable requests. */
-export interface RepeatabilityRequestHeadersOutput {}
+import { ErrorModel } from "@azure-rest/core-client";
 
-/** Provides the 'Repeatability-*' headers to enable repeatable requests. */
-export interface RepeatabilityResponseHeadersOutput {}
-
-/** Provides the 'If-*' headers to enable conditional (cached) responses */
-export interface ConditionalRequestHeadersOutput {}
-
-/** Provides the 'ETag' header to enable conditional (cached) requests */
-export interface EtagResponseEnvelopeOutput {}
-
-/** Provides the 'x-ms-client-request-id' header to enable request correlation in requests and responses. */
-export interface ClientRequestIdHeaderOutput {}
+/** A response containing error details. */
+export interface ErrorResponseOutput {
+  /** The error object. */
+  error: ErrorModel;
+}
 
 /** Sample Model */
 export interface UserOutput {

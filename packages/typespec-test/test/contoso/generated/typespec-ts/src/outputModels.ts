@@ -4,6 +4,12 @@
 import { Paged } from "@azure/core-paging";
 import { ErrorModel } from "@azure-rest/core-client";
 
+/** A response containing error details. */
+export interface ErrorResponseOutput {
+  /** The error object. */
+  error: ErrorModel;
+}
+
 /** A widget. */
 export interface WidgetOutput {
   /** The widget name. */

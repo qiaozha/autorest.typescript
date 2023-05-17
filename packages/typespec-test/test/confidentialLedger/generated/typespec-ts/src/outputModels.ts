@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ErrorModel } from "@azure-rest/core-client";
+
 /** Identifier for collections. */
 export interface CollectionOutput {
   /** The collection id. */
@@ -25,6 +27,12 @@ export interface LedgerEntryOutput {
   readonly collectionId: string;
   /** A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read. */
   readonly transactionId: string;
+}
+
+/** A response containing error details. */
+export interface ErrorResponseOutput {
+  /** The error object. */
+  error: ErrorModel;
 }
 
 /** A receipt certifying the transaction at the specified id. */
