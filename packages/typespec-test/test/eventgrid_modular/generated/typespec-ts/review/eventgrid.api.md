@@ -73,6 +73,25 @@ export interface FailedLockToken {
     lockToken: string;
 }
 
+<<<<<<< HEAD
+=======
+// @public
+export interface LockTokenInput {
+    lockTokens: string[];
+}
+
+// @public (undocumented)
+export interface LockTokensResponse {
+    failedLockTokens: FailedLockToken[];
+    succeededLockTokens: string[];
+}
+
+// @public (undocumented)
+export interface PublishBatchOfCloudEventsOptions extends RequestOptions {
+    contentType?: string;
+}
+
+>>>>>>> main
 // @public (undocumented)
 export interface PublishCloudEventOptions extends RequestOptions {
     contentType?: string;
