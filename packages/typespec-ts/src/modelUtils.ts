@@ -82,7 +82,7 @@ export function getSchemaForType(
   needRef: boolean = false,
   relevantProperty?: ModelProperty
 ) {
-  const type = getEffectiveModelFromType(program, typeInput);
+  let type = getEffectiveModelFromType(program, typeInput);
 
   const builtinType = mapCadlTypeToTypeScript(program, dpgContext, type, usage);
   if (builtinType !== undefined) {
@@ -94,6 +94,17 @@ export function getSchemaForType(
     return builtinType;
   }
   if (type.kind === "Model") {
+    if (type.name === "" && type.templateMapper && type.templateMapper.args.length > 0) {
+      for(const temp of type.templateMapper.args) {
+        if (temp.kind === "Model" ) {
+          if (temp.name === "") {
+            continue;
+          }
+          type = temp;
+          break;
+        }
+      }
+    }
     const schema = getSchemaForModel(
       program,
       dpgContext,

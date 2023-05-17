@@ -45,9 +45,6 @@ export function transformSchemas(
     transformSchemaForRoute(route);
   }
   function transformSchemaForRoute(route: HttpOperation) {
-    if (route.operation.name.toLowerCase() === "publishcloudevent") {
-      route;
-    }
     const bodyModel = getBodyType(program, route);
     if (bodyModel && bodyModel.kind === "Model") {
       getGeneratedModels(bodyModel, SchemaContext.Input);
@@ -105,14 +102,20 @@ export function transformSchemas(
         model.templateMapper.args &&
         model.templateMapper.args.length > 0
       ) {
-        const temp = model.templateMapper.args[0];
-        if (
-          temp &&
-          temp.kind === "Model" &&
-          (!program.stateMap(modelKey).get(temp) ||
-            !program.stateMap(modelKey).get(temp)?.includes(context))
-        ) {
-          getGeneratedModels(temp, context);
+        for (const temp of model.templateMapper.args) {
+          if (temp && temp.kind === "Model") {
+            if (temp.name === "") {
+              continue;
+            }
+            if (
+              !program.stateMap(modelKey).get(temp) ||
+              !program.stateMap(modelKey).get(temp)?.includes(context)
+            ) {
+              getGeneratedModels(temp, context);
+              break;
+            }
+            break;
+          }
         }
       }
 
