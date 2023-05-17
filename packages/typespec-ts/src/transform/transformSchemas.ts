@@ -45,6 +45,9 @@ export function transformSchemas(
     transformSchemaForRoute(route);
   }
   function transformSchemaForRoute(route: HttpOperation) {
+    if (route.operation.name.toLowerCase() === "publishcloudevent") {
+      route;
+    }
     const bodyModel = getBodyType(program, route);
     if (bodyModel && bodyModel.kind === "Model") {
       getGeneratedModels(bodyModel, SchemaContext.Input);

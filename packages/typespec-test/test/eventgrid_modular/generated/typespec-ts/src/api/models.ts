@@ -16,7 +16,7 @@ export interface CloudEvent {
   /** Event data specific to the event type. */
   data?: any;
   /** Event data specific to the event type, encoded as a base64 string. */
-  dataBase64?: string;
+  dataBase64?: any;
   /** Type of event related to the originating occurrence. */
   type: string;
   /** The time (in UTC) the event was generated, in RFC3339 format. */
@@ -53,7 +53,6 @@ export interface BrokerProperties {
   deliveryCount: number;
 }
 
-<<<<<<< HEAD
 /** Array of lock token strings for the corresponding received Cloud Events to be acknowledged. */
 export interface AcknowledgeOptions {
   /** String array of lock tokens. */
@@ -63,11 +62,6 @@ export interface AcknowledgeOptions {
 /** The result of the Acknowledge operation. */
 export interface AcknowledgeResult {
   /** Array of LockToken values for failed cloud events. Each LockToken includes the lock token value along with the related error information (namely, the error code and description). */
-=======
-/** */
-export interface LockTokensResponse {
-  /** Array of LockToken values for failed cloud events. */
->>>>>>> main
   failedLockTokens: FailedLockToken[];
   /** Array of lock tokens values for the successfully acknowledged cloud events. */
   succeededLockTokens: string[];
@@ -104,6 +98,36 @@ export interface RejectOptions {
 }
 
 /** The result of the Reject operation. */
+export interface RejectResult {
+  /** Array of LockToken values for failed cloud events. Each LockToken includes the lock token value along with the related error information (namely, the error code and description). */
+  failedLockTokens: FailedLockToken[];
+  /** Array of lock tokens values for the successfully rejected cloud events. */
+  succeededLockTokens: string[];
+}
+
+/** */
+export interface ReceiveResult {
+  /** Array of receive responses, one per cloud event. */
+  value: ReceiveDetails[];
+}
+
+/** */
+export interface AcknowledgeResult {
+  /** Array of LockToken values for failed cloud events. Each LockToken includes the lock token value along with the related error information (namely, the error code and description). */
+  failedLockTokens: FailedLockToken[];
+  /** Array of lock tokens values for the successfully acknowledged cloud events. */
+  succeededLockTokens: string[];
+}
+
+/** */
+export interface ReleaseResult {
+  /** Array of LockToken values for failed cloud events. Each LockToken includes the lock token value along with the related error information (namely, the error code and description). */
+  failedLockTokens: FailedLockToken[];
+  /** Array of lock tokens values for the successfully released cloud events. */
+  succeededLockTokens: string[];
+}
+
+/** */
 export interface RejectResult {
   /** Array of LockToken values for failed cloud events. Each LockToken includes the lock token value along with the related error information (namely, the error code and description). */
   failedLockTokens: FailedLockToken[];

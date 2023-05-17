@@ -4,7 +4,7 @@
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
-  PublishResultOutput,
+  Output,
   ReceiveResultOutput,
   AcknowledgeResultOutput,
   ReleaseResultOutput,
@@ -14,7 +14,7 @@ import {
 /** The request has succeeded. */
 export interface PublishCloudEvent200Response extends HttpResponse {
   status: "200";
-  body: PublishResultOutput;
+  body: Output;
 }
 
 export interface PublishCloudEventDefaultHeaders {
@@ -31,7 +31,7 @@ export interface PublishCloudEventDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface PublishCloudEvents200Response extends HttpResponse {
   status: "200";
-  body: PublishResultOutput;
+  body: Output;
 }
 
 export interface PublishCloudEventsDefaultHeaders {
