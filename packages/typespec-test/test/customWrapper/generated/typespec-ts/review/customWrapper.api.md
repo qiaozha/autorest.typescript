@@ -6,7 +6,6 @@
 
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
-import { ErrorModel } from '@azure-rest/core-client';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
@@ -73,11 +72,6 @@ export interface DeployProjectDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type DeployProjectParameters = DeployProjectBodyParam & RequestParameters;
-
-// @public
-export interface ErrorResponseOutput {
-    error: ErrorModel;
-}
 
 // @public (undocumented)
 export interface GetDeployment {

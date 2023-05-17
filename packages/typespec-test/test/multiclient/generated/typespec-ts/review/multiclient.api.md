@@ -6,7 +6,6 @@
 
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
-import { ErrorModel } from '@azure-rest/core-client';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { Paged } from '@azure/core-paging';
@@ -179,11 +178,6 @@ interface DeleteWithHeaders204Response extends HttpResponse {
 type DeleteWithHeadersParameters = RequestParameters;
 
 // @public
-interface ErrorResponseOutput {
-    error: ErrorModel;
-}
-
-// @public
 interface Get200Response extends HttpResponse {
     // (undocumented)
     body: ResourceOutput;
@@ -291,7 +285,6 @@ declare namespace Models {
 declare namespace OutputModels {
     export {
         ResourceOutput,
-        ErrorResponseOutput,
         ResourceListOutput
     }
 }

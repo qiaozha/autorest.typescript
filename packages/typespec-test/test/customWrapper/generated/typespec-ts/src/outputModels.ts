@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ErrorModel } from "@azure-rest/core-client";
-
-/** A response containing error details. */
-export interface ErrorResponseOutput {
-  /** The error object. */
-  error: ErrorModel;
-}
-
 /** The details of a project deployment. */
 export interface DeploymentOutput {
   /** The name of the deployment. */

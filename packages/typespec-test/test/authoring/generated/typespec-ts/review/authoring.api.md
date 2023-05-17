@@ -264,11 +264,6 @@ export interface DeployProjectLogicalResponse extends HttpResponse {
 // @public (undocumented)
 export type DeployProjectParameters = DeployProjectBodyParam & RequestParameters;
 
-// @public
-export interface ErrorResponseOutput {
-    error: ErrorModel;
-}
-
 // @public (undocumented)
 export interface Export {
     post(options: ExportParameters): StreamableMethod<Export202Response | ExportDefaultResponse>;

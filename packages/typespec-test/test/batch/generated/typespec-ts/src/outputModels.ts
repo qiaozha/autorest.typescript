@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { Paged } from "@azure/core-paging";
-import { ErrorModel } from "@azure-rest/core-client";
 
 /** The result of listing the applications available in an Account. */
 export interface ApplicationListResultOutput {
@@ -20,12 +19,6 @@ export interface ApplicationOutput {
   displayName: string;
   /** The list of available versions of the application. */
   versions: string[];
-}
-
-/** A response containing error details. */
-export interface ErrorResponseOutput {
-  /** The error object. */
-  error: ErrorModel;
 }
 
 /** Usage metrics for a Pool across an aggregation interval. */

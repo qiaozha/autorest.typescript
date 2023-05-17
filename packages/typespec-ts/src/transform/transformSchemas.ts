@@ -104,7 +104,7 @@ export function transformSchemas(
       ) {
         for (const temp of model.templateMapper.args) {
           if (temp && temp.kind === "Model") {
-            if (temp.name === "") {
+            if (temp.name === "" && model.name !== "") {
               continue;
             }
             if (
@@ -112,7 +112,6 @@ export function transformSchemas(
               !program.stateMap(modelKey).get(temp)?.includes(context)
             ) {
               getGeneratedModels(temp, context);
-              break;
             }
             break;
           }

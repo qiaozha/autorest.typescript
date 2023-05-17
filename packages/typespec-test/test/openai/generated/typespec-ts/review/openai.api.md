@@ -6,7 +6,6 @@
 
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
-import { ErrorModel } from '@azure-rest/core-client';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
@@ -78,6 +77,11 @@ function createClient(endpoint: string, credentials: TokenCredential | KeyCreden
 export default createClient;
 
 // @public
+export interface DeploymentOutput {
+    readonly deploymentId: string;
+}
+
+// @public
 export interface EmbeddingItemOutput {
     embedding: number[];
     index: number;
@@ -104,11 +108,6 @@ export interface EmbeddingsOutput {
 export interface EmbeddingsUsageOutput {
     prompt_tokens: number;
     total_tokens: number;
-}
-
-// @public
-export interface ErrorResponseOutput {
-    error: ErrorModel;
 }
 
 // @public (undocumented)

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { Paged } from "@azure/core-paging";
-import { ErrorModel } from "@azure-rest/core-client";
 
 /** Details about a user. */
 export interface UserOutput {
@@ -24,12 +23,6 @@ export interface UserOrderOutput {
   userId: number;
   /** The user's order detail */
   detail: string;
-}
-
-/** A response containing error details. */
-export interface ErrorResponseOutput {
-  /** The error object. */
-  error: ErrorModel;
 }
 
 export interface UserListResultsOutput {

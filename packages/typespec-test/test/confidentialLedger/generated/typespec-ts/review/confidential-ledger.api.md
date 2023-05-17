@@ -6,7 +6,6 @@
 
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
-import { ErrorModel } from '@azure-rest/core-client';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -146,11 +145,6 @@ export interface DeleteUserDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type DeleteUserParameters = RequestParameters;
-
-// @public
-export interface ErrorResponseOutput {
-    error: ErrorModel;
-}
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
