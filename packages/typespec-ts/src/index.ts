@@ -221,42 +221,36 @@ export function removeUnusedInterfaces(project: Project) {
   });
 
   unusedInterfaces.forEach((interfaceDeclaration) => {
-    const interfaceName = interfaceDeclaration.interfaceDeclaration.getName();
+    const references = interfaceDeclaration.interfaceDeclaration
+      .findReferencesAsNodes()
+      .filter((node) => {
+        const kind = node.getParent()?.getKind();
+        return kind === SyntaxKind.ExportSpecifier;
+      });
+    const map = new Map<string, string>();
+    references.forEach((node) => {
+      const exportPath = node.getSourceFile().getFilePath();
+      map.set(exportPath, node.getText());
+    });
 
     // Get the index.ts file
     const indexFiles = project.getSourceFiles("**/index.ts"); // Adjust the path to your index.ts file
 
     for (const indexFile of indexFiles) {
       const filepath = indexFile.getFilePath();
-      if (
-        path
-          .dirname(interfaceDeclaration.filepath)
-          .includes(path.dirname(indexFile.getFilePath()))
-      ) {
-        console.log(filepath);
+      if (map.has(filepath)) {
         // Get all export declarations
         const exportDeclarations = indexFile.getExportDeclarations();
 
         // Iterate over each export declaration
         exportDeclarations.forEach((exportDeclaration) => {
           // Find named exports that match the unused interface
-          const sourceExportPath = path.join(
-            path.dirname(filepath),
-            exportDeclaration
-              .getModuleSpecifierValue()
-              ?.replace(".js", ".ts") ?? ""
-          );
           const matchingExports = exportDeclaration
             .getNamedExports()
             .filter(
               (ne) =>
-                ne.getName() === interfaceName &&
-                (sourceExportPath ===
-                  path.join(interfaceDeclaration.filepath) ||
-                  (path
-                    .join(interfaceDeclaration.filepath)
-                    .includes(path.dirname(sourceExportPath)) &&
-                    sourceExportPath.endsWith("index.ts")))
+                ne.getName() === map.get(filepath) ||
+                ne.getAliasNode()?.getText() === map.get(filepath)
             );
           // Remove the matching exports
           matchingExports.forEach((me) => me.remove());
