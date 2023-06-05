@@ -45,7 +45,10 @@ import { emitCodeModel } from "./modular/buildCodeModel.js";
 import { buildRootIndex } from "./modular/buildRootIndex.js";
 import { buildModels } from "./modular/emitModels.js";
 import { buildOperationFiles } from "./modular/buildOperations.js";
-import { buildApiIndexFile } from "./modular/buildApiIndex.js";
+import {
+  buildApiIndexFile,
+  buildApiTopLevelIndexFile
+} from "./modular/buildApiIndex.js";
 import { buildClassicalClient } from "./modular/buildClassicalClient.js";
 import { emitPackage, emitTsConfig } from "./modular/buildProjectFiles.js";
 // import { emitPackage, emitTsConfig } from "./modular/buildProjectFiles.js";
@@ -130,6 +133,16 @@ export async function $onEmit(context: EmitContext) {
         overwrite: true
       }
     );
+    let apiTopLevelIndexFile;
+    if (modularCodeModel.clients.length > 1) {
+      apiTopLevelIndexFile = project.createSourceFile(
+        `${srcPath}/src/api/index.ts`,
+        "",
+        {
+          overwrite: true
+        }
+      );
+    }
     for (const subClient of modularCodeModel.clients) {
       let subfolder = "";
       if (modularCodeModel.clients.length > 1) {
@@ -150,8 +163,25 @@ export async function $onEmit(context: EmitContext) {
       );
       buildApiIndexFile(project, srcPath, subfolder);
       buildClassicalClient(subClient, project, srcPath, subfolder);
-      buildRootIndex(subClient, project, rootIndexFile, srcPath, subfolder);
+      if (apiTopLevelIndexFile) {
+        buildApiTopLevelIndexFile(
+          project,
+          srcPath,
+          subfolder,
+          apiTopLevelIndexFile,
+          subClient.name
+        );
+      }
+      buildRootIndex(
+        subClient,
+        project,
+        rootIndexFile,
+        srcPath,
+        subClient ===
+          modularCodeModel.clients[modularCodeModel.clients.length - 1]
+      );
     }
+
     emitPackage(project, srcPath, modularCodeModel);
     emitTsConfig(project, srcPath, modularCodeModel);
     removeUnusedInterfaces(project);
@@ -210,17 +240,23 @@ export function removeUnusedInterfaces(project: Project) {
         // Iterate over each export declaration
         exportDeclarations.forEach((exportDeclaration) => {
           // Find named exports that match the unused interface
+          const sourceExportPath = path.join(
+            path.dirname(filepath),
+            exportDeclaration
+              .getModuleSpecifierValue()
+              ?.replace(".js", ".ts") ?? ""
+          );
           const matchingExports = exportDeclaration
             .getNamedExports()
             .filter(
               (ne) =>
                 ne.getName() === interfaceName &&
-                path.join(
-                  path.dirname(filepath),
-                  exportDeclaration
-                    .getModuleSpecifierValue()
-                    ?.replace(".js", ".ts") ?? ""
-                ) === interfaceDeclaration.filepath
+                (sourceExportPath ===
+                  path.join(interfaceDeclaration.filepath) ||
+                  (path
+                    .join(interfaceDeclaration.filepath)
+                    .includes(path.dirname(sourceExportPath)) &&
+                    sourceExportPath.endsWith("index.ts")))
             );
           // Remove the matching exports
           matchingExports.forEach((me) => me.remove());
