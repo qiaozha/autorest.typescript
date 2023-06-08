@@ -9,9 +9,9 @@ export function buildApiIndexFile(
   let apiFiles;
   let indexFile;
   if (subfolder && subfolder !== "") {
-    apiFiles = project.getSourceFiles(`**/src/api/${subfolder}/**`);
+    apiFiles = project.getSourceFiles(`**/src/${subfolder}/api/**`);
     indexFile = project.createSourceFile(
-      `${srcPath}/src/api/${subfolder}/index.ts`
+      `${srcPath}/src/${subfolder}/api/index.ts`
     );
   } else {
     apiFiles = project.getSourceFiles(`**/src/api/**`);
@@ -37,7 +37,7 @@ export function buildApiTopLevelIndexFile(
   clientName: string
 ) {
   const apiFile = project.getSourceFile(
-    join(srcPath, `src/api/${subfolder}/index.ts`)
+    join(srcPath, `src/${subfolder}/api/index.ts`)
   );
 
   const exportedModels = [

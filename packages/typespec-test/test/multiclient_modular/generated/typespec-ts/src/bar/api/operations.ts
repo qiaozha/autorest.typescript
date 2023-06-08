@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Client } from "../../rest/bar/index.js";
+import { Client } from "../../bar/rest/index.js";
 import { StreamableMethod } from "@azure-rest/core-client";
 import { Resource } from "./models.js";
 import { RequestOptions } from "../../common/interfaces.js";
@@ -10,7 +10,7 @@ import {
   GetArray200Response,
   CreateWithHeaders201Response,
   DeleteWithHeaders204Response,
-} from "../../rest/bar/responses.js";
+} from "../rest/responses.js";
 
 export interface GetBinaryOptions extends RequestOptions {}
 

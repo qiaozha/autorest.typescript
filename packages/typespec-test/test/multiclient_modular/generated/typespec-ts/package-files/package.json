@@ -13,13 +13,29 @@
       "require": "./dist/index.cjs",
       "import": "./dist-esm/src/index.js"
     },
-    "./api": {
-      "types": "./types/src/api/index.d.ts",
-      "import": "./dist-esm/src/api/index.js"
+    "./bar": {
+      "types": "./types/src/bar/index.d.ts",
+      "import": "./dist-esm/src/bar/index.js"
     },
-    "./rest": {
-      "types": "./types/src/rest/index.d.ts",
-      "import": "./dist-esm/src/rest/index.js"
+    "./foo": {
+      "types": "./types/src/foo/index.d.ts",
+      "import": "./dist-esm/src/foo/index.js"
+    },
+    "./bar/api": {
+      "types": "./types/src/bar/api/index.d.ts",
+      "import": "./dist-esm/src/bar/api/index.js"
+    },
+    "./bar/rest": {
+      "types": "./types/src/bar/rest/index.d.ts",
+      "import": "./dist-esm/src/bar/rest/index.js"
+    },
+    "./foo/api": {
+      "types": "./types/src/foo/api/index.d.ts",
+      "import": "./dist-esm/src/foo/api/index.js"
+    },
+    "./foo/rest": {
+      "types": "./types/src/foo/rest/index.d.ts",
+      "import": "./dist-esm/src/foo/rest/index.js"
     }
   },
   "//metadata": {

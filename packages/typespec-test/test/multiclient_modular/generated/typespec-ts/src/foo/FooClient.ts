@@ -15,7 +15,7 @@ import {
   GetOptions,
   DeleteOptions,
   ListOptions,
-} from "./api/foo/index.js";
+} from "./api/index.js";
 
 export class FooClient {
   private _client: Client.FooContext;

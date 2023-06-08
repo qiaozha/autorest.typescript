@@ -4,52 +4,33 @@
 
 ```ts
 
+import { Client as Client_2 } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
+import { ErrorResponse } from '@azure-rest/core-client';
+import { HttpResponse } from '@azure-rest/core-client';
+import { Paged } from '@azure/core-paging';
+import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
 
-// @public (undocumented)
-export class BarClient {
-    constructor(endpoint: string, options?: BarClientOptions);
-    // (undocumented)
-    createWithHeaders(options?: CreateWithHeadersOptions): Promise<BarClientResource>;
-    // (undocumented)
-    deleteWithHeaders(options?: DeleteWithHeadersOptions): Promise<void>;
-    // (undocumented)
-    getArray(options?: GetArrayOptions): Promise<BarClientResource[]>;
-    // (undocumented)
-    getBinary(options?: GetBinaryOptions): Promise<any>;
-}
+// Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function createFoo(endpoint: string, options?: FooClientOptions): Client.FooContext;
 
-// @public (undocumented)
-export interface BarClientOptions extends ClientOptions {
-}
-
-// @public (undocumented)
-export interface BarClientResource {
-    // (undocumented)
-    description?: string;
-    // (undocumented)
-    readonly id: string;
-    // (undocumented)
-    readonly name: string;
-    // (undocumented)
-    type: string;
-}
-
+// Warning: (ae-forgotten-export) The symbol "RequestOptions" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
 export interface CreateOrUpdateOptions extends RequestOptions {
     // (undocumented)
     description?: string;
 }
 
-// @public (undocumented)
-export interface CreateWithHeadersOptions extends RequestOptions {
-}
-
 // @public
 export interface CustomPage {
     nextLink?: string;
-    value: Resource[];
+    value: FooResource[];
 }
 
 // @public (undocumented)
@@ -57,15 +38,11 @@ export interface DeleteOptions extends RequestOptions {
 }
 
 // @public (undocumented)
-export interface DeleteWithHeadersOptions extends RequestOptions {
-}
-
-// @public (undocumented)
 export class FooClient {
     constructor(endpoint: string, options?: FooClientOptions);
-    createOrUpdate(type: string, name: string, options?: CreateOrUpdateOptions): Promise<Resource>;
+    createOrUpdate(type: string, name: string, options?: CreateOrUpdateOptions): Promise<FooResource>;
     deleteOperation(name: string, options?: DeleteOptions): Promise<void>;
-    get(name: string, options?: GetOptions): Promise<Resource>;
+    get(name: string, options?: GetOptions): Promise<FooResource>;
     list(options?: ListOptions): Promise<CustomPage>;
 }
 
@@ -74,32 +51,7 @@ export interface FooClientOptions extends ClientOptions {
 }
 
 // @public (undocumented)
-export interface GetArrayOptions extends RequestOptions {
-}
-
-// @public (undocumented)
-export interface GetBinaryOptions extends RequestOptions {
-}
-
-// @public (undocumented)
-export interface GetOptions extends RequestOptions {
-}
-
-// @public (undocumented)
-export interface ListOptions extends RequestOptions {
-}
-
-// @public
-export interface RequestOptions {
-    requestOptions?: {
-        headers?: RawHttpHeadersInput;
-        allowInsecureConnection?: boolean;
-        skipUrlEncoding?: boolean;
-    };
-}
-
-// @public (undocumented)
-export interface Resource {
+export interface FooResource {
     // (undocumented)
     description?: string;
     // (undocumented)
@@ -108,6 +60,14 @@ export interface Resource {
     readonly name: string;
     // (undocumented)
     type: string;
+}
+
+// @public (undocumented)
+export interface GetOptions extends RequestOptions {
+}
+
+// @public (undocumented)
+export interface ListOptions extends RequestOptions {
 }
 
 // (No @packageDocumentation comment for this package)

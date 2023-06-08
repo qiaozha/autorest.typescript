@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Client, UnexpectedHelper } from "../../rest/foo/index.js";
+import { Client, UnexpectedHelper } from "../../foo/rest/index.js";
 import { StreamableMethod } from "@azure-rest/core-client";
 import { Resource, CustomPage } from "./models.js";
 import { RequestOptions } from "../../common/interfaces.js";
@@ -15,7 +15,7 @@ import {
   DeleteOperationDefaultResponse,
   List200Response,
   ListDefaultResponse,
-} from "../../rest/foo/responses.js";
+} from "../rest/responses.js";
 
 export interface CreateOrUpdateOptions extends RequestOptions {
   /** */

@@ -28,9 +28,9 @@ export function buildOperationFiles(
         "operations";
 
     const operationGroupFile = project.createSourceFile(
-      `${srcPath}/src/api/${
+      `${srcPath}/src/${
         subfolder && subfolder !== "" ? subfolder + "/" : ""
-      }${fileName}.ts`
+      }api/${fileName}.ts`
     );
 
     const namedImports: string[] = [];
@@ -45,7 +45,7 @@ export function buildOperationFiles(
       needSubClient = true;
       operationGroupFile.addImportDeclarations([
         {
-          moduleSpecifier: `../../rest/${subfolder}/index.js`,
+          moduleSpecifier: `../../${subfolder}/rest/index.js`,
           namedImports
         }
       ]);

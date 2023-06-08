@@ -16,9 +16,9 @@ export function buildClientContext(
   const { description, parameters } = client;
   const name = getClientName(client);
   const clientContextFile = project.createSourceFile(
-    `${srcPath}/src/api/${
+    `${srcPath}/src/${
       subfolder && subfolder !== "" ? subfolder + "/" : ""
-    }${name}Context.ts`
+    }api/${name}Context.ts`
   );
 
   let factoryFunction;
@@ -35,12 +35,12 @@ export function buildClientContext(
 
   if (subfolder && subfolder !== "") {
     clientContextFile.addImportDeclaration({
-      moduleSpecifier: `../../rest/${subfolder}/index.js`,
+      moduleSpecifier: `../../${subfolder}/rest/index.js`,
       namedImports: [`Client`]
     });
 
     clientContextFile.addExportDeclaration({
-      moduleSpecifier: `../../rest/${subfolder}/index.js`,
+      moduleSpecifier: `../../${subfolder}/rest/index.js`,
       namedExports: [`Client`]
     });
     factoryFunction = clientContextFile.addFunction({
@@ -101,7 +101,7 @@ export function buildClientContext(
   if (subfolder && subfolder !== "") {
     clientContextFile.addImportDeclarations([
       {
-        moduleSpecifier: `../../rest/${subfolder}/index.js`,
+        moduleSpecifier: `../../${subfolder}/rest/index.js`,
         namedImports: ["createClient as getClient"]
       }
     ]);

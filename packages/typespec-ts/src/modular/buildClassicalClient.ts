@@ -74,7 +74,7 @@ function importAllModels(
   let apiModels;
   if (subfolder && subfolder !== "") {
     apiModels = project.getSourceFile(
-      `${srcPath}/src/api/${subfolder}/index.ts`
+      `${srcPath}/src/${subfolder}/api/index.ts`
     );
   } else {
     apiModels = project.getSourceFile(`${srcPath}/src/api/index.ts`);
@@ -88,7 +88,7 @@ function importAllModels(
 
   if (subfolder && subfolder !== "") {
     clientFile.addImportDeclaration({
-      moduleSpecifier: `./api/${subfolder}/index.js`,
+      moduleSpecifier: `./${subfolder}/api/index.js`,
       namedImports: exported
     });
   } else {
