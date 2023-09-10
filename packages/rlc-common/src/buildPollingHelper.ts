@@ -1,9 +1,9 @@
 import { OPERATION_LRO_HIGH_PRIORITY, RLCModel } from "./interfaces.js";
-import * as path from "path";
 // @ts-ignore: to fix the handlebars issue
 import hbs from "handlebars";
 import { hasPollingOperations } from "./helpers/operationHelpers.js";
 import { pollingContent } from "./static/pollingContent.js";
+import { joinPaths } from "./helpers/pathUtils.js";
 
 interface LroDetail {
   clientOverload?: boolean;
@@ -26,7 +26,7 @@ export function buildPollingHelper(model: RLCModel) {
   const readmeFileContents = hbs.compile(pollingContent, { noEscape: true });
   const { srcPath } = model;
   return {
-    path: path.join(srcPath, "pollingHelper.ts"),
+    path: joinPaths(srcPath, "pollingHelper.ts"),
     content: readmeFileContents(lroDetail)
   };
 }

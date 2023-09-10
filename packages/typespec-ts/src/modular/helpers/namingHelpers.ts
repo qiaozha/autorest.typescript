@@ -4,7 +4,7 @@ import {
   ReservedModelNames,
   NameType,
   normalizeName
-} from "@azure-tools/rlc-common";
+} from "@qiaozha/rlc-common";
 
 export function getClientName(client: Client) {
   return client.name.replace(/Client$/, "");

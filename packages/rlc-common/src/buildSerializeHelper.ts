@@ -1,5 +1,4 @@
 import { RLCModel } from "./interfaces.js";
-import * as path from "path";
 // @ts-ignore: to fix the handlebars issue
 import hbs from "handlebars";
 import {
@@ -16,6 +15,7 @@ import {
   buildSsvCollectionContent,
   buildTsvCollectionContent
 } from "./static/serializeHelper.js";
+import { joinPaths } from "./helpers/pathUtils.js";
 
 export function buildSerializeHelper(model: RLCModel) {
   let serializeHelperContent = "";
@@ -40,7 +40,7 @@ export function buildSerializeHelper(model: RLCModel) {
     });
     const { srcPath } = model;
     return {
-      path: path.join(srcPath, "serializeHelper.ts"),
+      path: joinPaths(srcPath, "serializeHelper.ts"),
       content: readmeFileContents({})
     };
   }

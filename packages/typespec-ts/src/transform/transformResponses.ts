@@ -14,7 +14,7 @@ import {
   Schema,
   SchemaContext,
   getLroLogicalResponseName
-} from "@azure-tools/rlc-common";
+} from "@qiaozha/rlc-common";
 import { getDoc, ignoreDiagnostics } from "@typespec/compiler";
 import {
   getHttpOperation,

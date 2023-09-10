@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { Project } from "ts-morph";
-import * as path from "path";
 import {
   buildObjectAliases,
   buildObjectInterfaces,
   buildPolymorphicAliases
 } from "./buildObjectTypes.js";
 import { RLCModel, SchemaContext } from "./interfaces.js";
+import { joinPaths } from "./helpers/pathUtils.js";
 
 /**
  * Generates types to represent schema definitions in the swagger
@@ -16,11 +16,11 @@ import { RLCModel, SchemaContext } from "./interfaces.js";
 export function buildSchemaTypes(model: RLCModel) {
   const { srcPath } = model;
   const project = new Project();
-  let filePath = path.join(srcPath, `models.ts`);
+  let filePath = joinPaths(srcPath, `models.ts`);
   const inputModelFile = generateModelFiles(model, project, filePath, [
     SchemaContext.Input
   ]);
-  filePath = path.join(srcPath, `outputModels.ts`);
+  filePath = joinPaths(srcPath, `outputModels.ts`);
   const outputModelFile = generateModelFiles(model, project, filePath, [
     SchemaContext.Output,
     SchemaContext.Exception

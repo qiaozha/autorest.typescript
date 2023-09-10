@@ -4,8 +4,7 @@
 import { NameType, normalizeName } from "./helpers/nameUtils.js";
 import { RLCModel } from "./interfaces.js";
 import { Project } from "ts-morph";
-import * as path from "path";
-import { getRelativePartFromSrcPath } from "./helpers/pathUtils.js";
+import { getRelativePartFromSrcPath, joinPaths } from "./helpers/pathUtils.js";
 import { getImportModuleName } from "./helpers/nameConstructors.js";
 
 const batchOutputFolder: [string, string, string][] = [];
@@ -53,7 +52,7 @@ export function buildTopLevelIndex(model: RLCModel) {
       namedExports: [...allModules]
     });
     const content = indexFile.getFullText();
-    const filePath = path.join(
+    const filePath = joinPaths(
       srcPath.substring(0, srcPath.lastIndexOf("src") + 4),
       model.options.isModularLibrary ? "rest" : "",
       `index.ts`

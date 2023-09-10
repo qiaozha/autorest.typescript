@@ -1,5 +1,5 @@
 import { Project, SourceFile } from "ts-morph";
-import { NameType, normalizeName } from "@azure-tools/rlc-common";
+import { NameType, normalizeName } from "@qiaozha/rlc-common";
 import { buildType } from "./helpers/typeHelpers.js";
 import {
   getOperationFunction,

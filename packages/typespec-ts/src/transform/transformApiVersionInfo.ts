@@ -11,7 +11,7 @@ import {
   extractPathApiVersion,
   extractDefinedPosition,
   SchemaContext
-} from "@azure-tools/rlc-common";
+} from "@qiaozha/rlc-common";
 import { getHttpOperation } from "@typespec/http";
 import {
   getEnrichedDefaultApiVersion,

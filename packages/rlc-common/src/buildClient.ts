@@ -11,15 +11,14 @@ import {
   VariableStatementStructure,
   WriterFunction
 } from "ts-morph";
-import * as path from "path";
 import { NameType, normalizeName } from "./helpers/nameUtils.js";
-import { isConstantSchema } from "./helpers/schemaHelpers.js";
 import { buildMethodShortcutImplementation } from "./buildMethodShortcuts.js";
-import { RLCModel, Schema, File, PathParameter } from "./interfaces.js";
+import { RLCModel, File, PathParameter } from "./interfaces.js";
 import {
   getClientName,
   getImportModuleName
 } from "./helpers/nameConstructors.js";
+import { joinPaths, normalizeSlashes } from "./helpers/pathUtils.js";
 
 function getClientOptionsInterface(
   clientName: string,
@@ -49,7 +48,7 @@ export function buildClient(model: RLCModel): File | undefined {
   const name = normalizeName(model.libraryName, NameType.File);
   const { srcPath, options } = model;
   const project = new Project();
-  const filePath = path.join(srcPath, `${name}.ts`);
+  const filePath = joinPaths(srcPath, `${name}.ts`);
   const clientFile = project.createSourceFile(filePath, undefined, {
     overwrite: true
   });
@@ -147,7 +146,7 @@ export function buildClient(model: RLCModel): File | undefined {
   }
   clientFile.addFunction(functionStatement);
 
-  const paths = srcPath.replace(/\//g, path.sep).split(path.sep);
+  const paths = normalizeSlashes(srcPath).split("/");
   while (paths.length > 0 && paths[paths.length - 1] === "") {
     paths.pop();
   }

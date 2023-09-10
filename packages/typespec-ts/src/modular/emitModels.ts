@@ -1,9 +1,9 @@
 import { SourceFile } from "ts-morph";
 import { getType } from "./helpers/typeHelpers.js";
 import { Client, ModularCodeModel, Type } from "./modularCodeModel.js";
-import * as path from "path";
 import { getDocsFromDescription } from "./helpers/docsHelpers.js";
 import { buildOperationOptions } from "./buildOperations.js";
+import { joinPaths } from "@typespec/compiler";
 
 /**
  * This function creates the file containing all the models defined in TypeSpec
@@ -25,7 +25,7 @@ export function buildModels(
   }
   const srcPath = codeModel.modularOptions.sourceRoot;
   const modelsFile = codeModel.project.createSourceFile(
-    path.join(`${srcPath}/`, subClient.subfolder ?? "", `models/models.ts`)
+    joinPaths(`${srcPath}/`, subClient.subfolder ?? "", `models/models.ts`)
   );
 
   for (const model of codeModel.types) {

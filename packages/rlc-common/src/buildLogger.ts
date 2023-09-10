@@ -3,7 +3,7 @@
 
 import { RLCModel } from "./interfaces.js";
 import { Project } from "ts-morph";
-import * as path from "path";
+import { joinPaths } from "./helpers/pathUtils.js";
 
 export function buildLogger(model: RLCModel) {
   if (!model.options) {
@@ -12,7 +12,7 @@ export function buildLogger(model: RLCModel) {
   const project = new Project();
   const { srcPath } = model;
   const { packageDetails } = model.options;
-  const filePath = path.join(
+  const filePath = joinPaths(
     srcPath.substring(0, srcPath.lastIndexOf("src") + 4),
     `logger.ts`
   );

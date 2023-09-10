@@ -1,4 +1,4 @@
-import { join } from "path";
+import { joinPaths } from "@typespec/compiler";
 import { Client, ModularCodeModel } from "./modularCodeModel.js";
 
 export function buildSubpathIndexFile(
@@ -9,7 +9,7 @@ export function buildSubpathIndexFile(
   const { subfolder } = client;
   const srcPath = codeModel.modularOptions.sourceRoot;
 
-  const apiFilePattern = join(srcPath, client.subfolder ?? "", subpath);
+  const apiFilePattern = joinPaths(srcPath, client.subfolder ?? "", subpath);
   const apiFiles = codeModel.project.getSourceFiles().filter((file) => {
     return file
       .getFilePath()

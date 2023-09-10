@@ -4,7 +4,7 @@ import {
   listOperationGroups,
   listOperationsInOperationGroup
 } from "@azure-tools/typespec-client-generator-core";
-import { HelperFunctionDetails } from "@azure-tools/rlc-common";
+import { HelperFunctionDetails } from "@qiaozha/rlc-common";
 import { ignoreDiagnostics, Model, Program, Type } from "@typespec/compiler";
 import { getHttpOperation, HttpOperation } from "@typespec/http";
 import {

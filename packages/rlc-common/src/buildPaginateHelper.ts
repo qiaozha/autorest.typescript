@@ -1,8 +1,8 @@
 import { RLCModel } from "./interfaces.js";
-import * as path from "path";
 // @ts-ignore: to fix the handlebars issue
 import hbs from "handlebars";
 import { paginateContent } from "./static/paginateContent.js";
+import { joinPaths } from "./helpers/pathUtils.js";
 
 export function buildPaginateHelper(model: RLCModel) {
   const pagingInfo = model.helperDetails;
@@ -27,7 +27,7 @@ export function buildPaginateHelper(model: RLCModel) {
     noEscape: true
   });
   return {
-    path: path.join(srcPath, "paginateHelper.ts"),
+    path: joinPaths(srcPath, "paginateHelper.ts"),
     content: paginateHelperContents(pagingInfo.pageDetails)
   };
 }

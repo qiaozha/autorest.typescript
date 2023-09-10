@@ -300,11 +300,11 @@
       "projectFolder": "packages/autorest.typescript"
     },
     {
-      "packageName": "@azure-tools/rlc-common",
+      "packageName": "@qiaozha/rlc-common",
       "projectFolder": "packages/rlc-common"
     },
     {
-      "packageName": "@azure-tools/typespec-ts",
+      "packageName": "@qiaozha/typespec-ts",
       "projectFolder": "packages/typespec-ts"
     },
     {

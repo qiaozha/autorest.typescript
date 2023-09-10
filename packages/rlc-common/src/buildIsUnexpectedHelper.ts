@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Paths, RLCModel } from "./interfaces.js";
-import * as path from "path";
+import { RLCModel } from "./interfaces.js";
 import {
   FunctionDeclarationOverloadStructure,
   OptionalKind,
@@ -11,13 +10,14 @@ import {
 } from "ts-morph";
 import { hasUnexpectedHelper } from "./helpers/operationHelpers.js";
 import { getImportModuleName } from "./helpers/nameConstructors.js";
+import { joinPaths } from "./helpers/pathUtils.js";
 export function buildIsUnexpectedHelper(model: RLCModel) {
   if (!hasUnexpectedHelper(model)) {
     return;
   }
   const project = new Project();
   const srcPath = model.srcPath;
-  const filePath = path.join(srcPath, `isUnexpected.ts`);
+  const filePath = joinPaths(srcPath, `isUnexpected.ts`);
   const isErrorHelper = project.createSourceFile(filePath, undefined, {
     overwrite: true
   });

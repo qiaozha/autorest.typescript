@@ -8,7 +8,7 @@ import {
   ImportKind,
   RLCModel,
   Schema
-} from "@azure-tools/rlc-common";
+} from "@qiaozha/rlc-common";
 import { createDpgContextTestHelper, rlcEmitterFor } from "./testUtil.js";
 import { transformToParameterTypes } from "../../src/transform/transformParameters.js";
 import { transformSchemas } from "../../src/transform/transformSchemas.js";

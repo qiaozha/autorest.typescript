@@ -8,7 +8,7 @@ import {
   Paths,
   ResponseTypes,
   OperationMethod
-} from "@azure-tools/rlc-common";
+} from "@qiaozha/rlc-common";
 import { getDoc, ignoreDiagnostics, Program } from "@typespec/compiler";
 import {
   getHttpOperation,

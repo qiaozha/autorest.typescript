@@ -19,7 +19,7 @@ import {
   getResponseBaseName,
   getResponseTypeName,
   normalizeName
-} from "@azure-tools/rlc-common";
+} from "@qiaozha/rlc-common";
 import { getOperationName } from "./namingHelpers.js";
 import {
   getFixmeForMultilineDocs,

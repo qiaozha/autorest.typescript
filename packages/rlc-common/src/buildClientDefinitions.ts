@@ -10,7 +10,6 @@ import {
   StructureKind,
   Writers
 } from "ts-morph";
-import * as path from "path";
 
 import {
   buildMethodDefinitions,
@@ -29,6 +28,7 @@ import {
   getClientName,
   getImportModuleName
 } from "./helpers/nameConstructors.js";
+import { joinPaths } from "./helpers/pathUtils.js";
 
 export function buildClientDefinitions(model: RLCModel) {
   const options = {
@@ -38,7 +38,7 @@ export function buildClientDefinitions(model: RLCModel) {
   };
   const project = new Project();
   const srcPath = model.srcPath;
-  const filePath = path.join(srcPath, `clientDefinitions.ts`);
+  const filePath = joinPaths(srcPath, `clientDefinitions.ts`);
   const clientDefinitionsFile = project.createSourceFile(filePath, undefined, {
     overwrite: true
   });

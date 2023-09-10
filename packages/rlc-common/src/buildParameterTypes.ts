@@ -8,7 +8,6 @@ import {
   SourceFile,
   StructureKind
 } from "ts-morph";
-import * as path from "path";
 import {
   ImportKind,
   ObjectSchema,
@@ -22,11 +21,12 @@ import {
   getParameterBaseName,
   getParameterTypeName
 } from "./helpers/nameConstructors.js";
+import { joinPaths } from "./helpers/pathUtils.js";
 
 export function buildParameterTypes(model: RLCModel) {
   const project = new Project();
   const srcPath = model.srcPath;
-  const filePath = path.join(srcPath, `parameters.ts`);
+  const filePath = joinPaths(srcPath, `parameters.ts`);
   const partialBodyTypeNames = new Set<string>();
   const parametersFile = project.createSourceFile(filePath, undefined, {
     overwrite: true

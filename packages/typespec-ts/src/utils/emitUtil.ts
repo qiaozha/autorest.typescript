@@ -1,8 +1,7 @@
-import { ContentBuilder } from "@azure-tools/rlc-common";
-import { buildSchemaTypes } from "@azure-tools/rlc-common";
-import { File, RLCModel } from "@azure-tools/rlc-common";
-import { CompilerHost, Program } from "@typespec/compiler";
-import { dirname, join } from "path";
+import { ContentBuilder } from "@qiaozha/rlc-common";
+import { buildSchemaTypes } from "@qiaozha/rlc-common";
+import { File, RLCModel } from "@qiaozha/rlc-common";
+import { Program, emitFile as emitFileToDisk, joinPaths } from "@typespec/compiler";
 import { format } from "prettier";
 import { prettierJSONOptions, prettierTypeScriptOptions } from "../lib.js";
 
@@ -41,8 +40,7 @@ async function emitFile(
   program: Program,
   emitterOutputDir?: string
 ) {
-  const host: CompilerHost = program.host;
-  const filePath = join(emitterOutputDir ?? "", file.path);
+  const filePath = joinPaths(emitterOutputDir ?? "", file.path);
   const isJson = /\.json$/gi.test(filePath);
   const isSourceCode = /\.(ts|js)$/gi.test(filePath);
   const licenseHeader = `// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT license.\n`;
@@ -63,6 +61,5 @@ async function emitFile(
       throw e;
     }
   }
-  await host.mkdirp(dirname(filePath));
-  await host.writeFile(filePath, prettierFileContent);
+  await emitFileToDisk(program, {path: filePath, content: prettierFileContent});
 }

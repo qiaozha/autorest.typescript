@@ -1,6 +1,6 @@
 import { Project } from "ts-morph";
 import { ModularCodeModel } from "./modularCodeModel.js";
-import { NameType, normalizeName } from "@azure-tools/rlc-common";
+import { NameType, normalizeName } from "@qiaozha/rlc-common";
 import {
   hasLROOperation,
   hasPagingOperation

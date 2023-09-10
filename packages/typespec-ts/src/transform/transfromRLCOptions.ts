@@ -4,7 +4,7 @@ import {
   PackageDetails,
   RLCOptions,
   ServiceInfo
-} from "@azure-tools/rlc-common";
+} from "@qiaozha/rlc-common";
 import {
   getDoc,
   ignoreDiagnostics,

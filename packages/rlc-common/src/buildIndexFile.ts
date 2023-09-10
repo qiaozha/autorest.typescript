@@ -16,15 +16,15 @@ import {
   hasUnexpectedHelper
 } from "./helpers/operationHelpers.js";
 import { RLCModel } from "./interfaces.js";
-import * as path from "path";
 import { getImportModuleName } from "./helpers/nameConstructors.js";
+import { joinPaths } from "./helpers/pathUtils.js";
 
 export function buildIndexFile(model: RLCModel) {
   const multiClient = Boolean(model.options?.multiClient),
     batch = model.options?.batch;
   const project = new Project();
   const { srcPath } = model;
-  const filePath = path.join(srcPath, `index.ts`);
+  const filePath = joinPaths(srcPath, `index.ts`);
   const indexFile = project.createSourceFile(filePath, undefined, {
     overwrite: true
   });

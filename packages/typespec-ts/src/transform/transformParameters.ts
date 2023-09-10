@@ -9,7 +9,7 @@ import {
   ParameterMetadata,
   Schema,
   SchemaContext
-} from "@azure-tools/rlc-common";
+} from "@qiaozha/rlc-common";
 import { ignoreDiagnostics, Program, Type } from "@typespec/compiler";
 import {
   getHttpOperation,

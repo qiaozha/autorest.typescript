@@ -1,4 +1,4 @@
-import { OperationResponse, RLCOptions } from "@azure-tools/rlc-common";
+import { OperationResponse, RLCOptions } from "@qiaozha/rlc-common";
 import { Project } from "ts-morph";
 
 export interface ModularOptions {

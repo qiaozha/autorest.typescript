@@ -51,7 +51,7 @@ import {
   ObjectSchema,
   Schema,
   SchemaContext
-} from "@azure-tools/rlc-common";
+} from "@qiaozha/rlc-common";
 import { getResourceOperation } from "@typespec/rest";
 import {
   getHeaderFieldName,

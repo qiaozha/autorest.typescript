@@ -8,7 +8,7 @@ import {
   ResponseTypes,
   getLroLogicalResponseName,
   normalizeName
-} from "@azure-tools/rlc-common";
+} from "@qiaozha/rlc-common";
 import {
   getProjectedName,
   ignoreDiagnostics,
@@ -40,7 +40,7 @@ import {
   OperationLroDetail,
   OPERATION_LRO_LOW_PRIORITY,
   OPERATION_LRO_HIGH_PRIORITY
-} from "@azure-tools/rlc-common";
+} from "@qiaozha/rlc-common";
 import { isByteOrByteUnion } from "./modelUtils.js";
 import { SdkContext } from "./interfaces.js";
 

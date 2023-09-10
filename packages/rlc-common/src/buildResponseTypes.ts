@@ -14,18 +14,18 @@ import {
   ResponseMetadata,
   RLCModel
 } from "./interfaces.js";
-import * as path from "path";
 import {
   getImportModuleName,
   getResponseBaseName,
   getResponseTypeName
 } from "./helpers/nameConstructors.js";
+import { joinPaths } from "./helpers/pathUtils.js";
 
 let hasErrorResponse = false;
 export function buildResponseTypes(model: RLCModel) {
   const project = new Project();
   const srcPath = model.srcPath;
-  const filePath = path.join(srcPath, `responses.ts`);
+  const filePath = joinPaths(srcPath, `responses.ts`);
   hasErrorResponse = false;
   const responsesFile = project.createSourceFile(filePath, undefined, {
     overwrite: true

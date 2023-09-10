@@ -6,7 +6,7 @@ import {
   createTypeSpecLibrary,
   JSONSchemaType
 } from "@typespec/compiler";
-import { RLCOptions } from "@azure-tools/rlc-common";
+import { RLCOptions } from "@qiaozha/rlc-common";
 import { Options } from "prettier";
 
 export const RLCOptionsSchema: JSONSchemaType<RLCOptions> = {

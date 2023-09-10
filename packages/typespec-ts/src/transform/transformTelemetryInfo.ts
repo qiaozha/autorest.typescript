@@ -1,4 +1,4 @@
-import { TelemetryInfo } from "@azure-tools/rlc-common";
+import { TelemetryInfo } from "@qiaozha/rlc-common";
 import {
   SdkClient,
   SdkContext,

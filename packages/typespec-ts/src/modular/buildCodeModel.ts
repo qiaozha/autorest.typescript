@@ -90,7 +90,7 @@ import {
   getClientName,
   NameType,
   normalizeName
-} from "@azure-tools/rlc-common";
+} from "@qiaozha/rlc-common";
 import {
   getOperationGroupName,
   getOperationName,

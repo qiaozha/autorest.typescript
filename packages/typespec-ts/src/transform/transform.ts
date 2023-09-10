@@ -15,10 +15,9 @@ import {
   Schema,
   SchemaContext,
   UrlInfo
-} from "@azure-tools/rlc-common";
-import { getDoc } from "@typespec/compiler";
+} from "@qiaozha/rlc-common";
+import { getDoc, joinPaths } from "@typespec/compiler";
 import { getServers } from "@typespec/http";
-import { join } from "path";
 import {
   getDefaultService,
   getFormattedPropertyDoc,
@@ -42,7 +41,7 @@ export async function transformRLCModel(
 ): Promise<RLCModel> {
   const program = dpgContext.program;
   const options: RLCOptions = dpgContext.rlcOptions!;
-  const srcPath = join(
+  const srcPath = joinPaths(
     dpgContext.generationPathDetail?.rlcSourcesDir ?? "",
     options.batch && options.batch.length > 1
       ? normalizeName(client.name.replace("Client", ""), NameType.File)
