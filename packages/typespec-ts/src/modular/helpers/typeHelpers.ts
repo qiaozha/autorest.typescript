@@ -131,3 +131,13 @@ export function buildType(
   }
   return { name: clientName ?? "", type: typeName };
 }
+
+export function isAzureCoreErrorSdkType(t: Type) {
+  return (
+    t.name &&
+    ["error", "errormodel", "innererror", "errorresponse"].includes(
+      t.name.toLowerCase()
+    ) &&
+    t.isCoreErrorType === true
+  );
+}

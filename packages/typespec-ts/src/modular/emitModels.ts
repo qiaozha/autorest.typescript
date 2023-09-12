@@ -1,6 +1,6 @@
 import { SourceFile } from "ts-morph";
-import { getType } from "./helpers/typeHelpers.js";
-import { Client, ModularCodeModel, Type } from "./modularCodeModel.js";
+import { getType, isAzureCoreErrorSdkType } from "./helpers/typeHelpers.js";
+import { Client, ModularCodeModel } from "./modularCodeModel.js";
 import * as path from "path";
 import { getDocsFromDescription } from "./helpers/docsHelpers.js";
 import { buildOperationOptions } from "./buildOperations.js";
@@ -121,16 +121,6 @@ export function buildModels(
   }
 
   return modelsFile;
-}
-
-function isAzureCoreErrorSdkType(t: Type) {
-  return (
-    t.name &&
-    ["error", "errormodel", "innererror", "errorresponse"].includes(
-      t.name.toLowerCase()
-    ) &&
-    t.isCoreErrorType === true
-  );
 }
 
 export function buildModelsOptions(

@@ -45,6 +45,7 @@ import { buildModels, buildModelsOptions } from "./modular/emitModels.js";
 import { buildOperationFiles } from "./modular/buildOperations.js";
 import { buildSubpathIndexFile } from "./modular/buildSubpathIndex.js";
 import { buildClassicalClient } from "./modular/buildClassicalClient.js";
+import { buildModelsSerializer } from "./modular/buildModelSerializer.js"
 import { emitPackage, emitTsConfig } from "./modular/buildProjectFiles.js";
 import { getRLCClients } from "./utils/clientUtils.js";
 import { join } from "path";
@@ -164,6 +165,8 @@ export async function $onEmit(context: EmitContext) {
       );
       for (const subClient of modularCodeModel.clients) {
         buildModels(modularCodeModel, subClient);
+        buildModelsSerializer(modularCodeModel, true);
+        buildModelsSerializer(modularCodeModel, false);
         buildModelsOptions(modularCodeModel, subClient);
         const hasClientUnexpectedHelper =
           needUnexpectedHelper.get(subClient.rlcClientName) ?? false;

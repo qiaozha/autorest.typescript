@@ -1,4 +1,5 @@
 import { toPascalCase } from "../utils/casingUtils.js";
+import { isAzureCoreErrorSdkType } from "./helpers/typeHelpers.js";
 import { ModularCodeModel, Type } from "./modularCodeModel.js";
 
 /**
@@ -6,24 +7,41 @@ import { ModularCodeModel, Type } from "./modularCodeModel.js";
  * If there is no operation group in the TypeSpec program, we create a single
  * file called operations.ts where all operations are generated.
  */
-export function buildOperationUtils(
+export function buildModelsSerializer(
   model: ModularCodeModel,
   serializer: boolean = true
 ) {
-  const models = model.types.filter((t) => t.type === "model");
+  const models = model.types.filter((t) => t.type === "model" && !isAzureCoreErrorSdkType(t));
   if (models.length === 0) {
     return;
   }
-  const serailierFile = model.project.createSourceFile(
+  const serializerFile = model.project.createSourceFile(
     `${model.modularOptions.sourceRoot}/api/${
-      serializer ? "serailiers" : "deserializers"
+      serializer ? "serializers" : "deserializers"
     }.ts`
   );
 
   models.forEach((model) => {
-
+    serializerFile.addFunction({
+      name: getSerializeFunctionName(model, serializer),
+      parameters: [
+        {
+          name: "input",
+          type: model.name,
+        },
+      ],
+      statements: [],
+      returnType: model.name,
+      isExported: true,
+    });
   });
-  return serailierFile;
+  return serializerFile;
+}
+
+export function getSerializeFunctionName(model: Type, serializer: boolean) {
+  const typeName = model.name;
+  const functionName = serializer?"serialize":"deserialize" + toPascalCase(typeName ?? "");
+  return functionName; 
 }
 
 export function getDeserializeFunctionName(

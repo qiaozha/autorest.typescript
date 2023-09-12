@@ -1375,6 +1375,7 @@ function emitServerParams(
       }
     ];
   }
+
   if (server.parameters) {
     const params: Parameter[] = [];
     for (const param of server.parameters.values()) {
