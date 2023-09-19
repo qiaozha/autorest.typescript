@@ -15,16 +15,16 @@ import {
   buildTsConfig,
   buildApiExtractorConfig,
   buildPackageFile,
-  buildPollingHelper,
-  buildPaginateHelper,
+  // buildPollingHelper,
+  // buildPaginateHelper,
   buildEsLintConfig,
-  buildKarmaConfigFile,
-  buildEnvFile,
-  buildEnvBrowserFile,
-  buildRecordedClientFile,
-  buildSampleTest,
-  buildReadmeFile,
-  buildSerializeHelper,
+  // buildKarmaConfigFile,
+  // buildEnvFile,
+  // buildEnvBrowserFile,
+  // buildRecordedClientFile,
+  // buildSampleTest,
+  // buildReadmeFile,
+  // buildSerializeHelper,
   buildLogger,
   RLCOptions,
   hasUnexpectedHelper,
@@ -132,9 +132,9 @@ export async function $onEmit(context: EmitContext) {
       await emitContentByBuilder(program, buildIndexFile, rlcModels);
       await emitContentByBuilder(program, buildLogger, rlcModels);
       await emitContentByBuilder(program, buildTopLevelIndex, rlcModels);
-      await emitContentByBuilder(program, buildPaginateHelper, rlcModels);
-      await emitContentByBuilder(program, buildPollingHelper, rlcModels);
-      await emitContentByBuilder(program, buildSerializeHelper, rlcModels);
+      // await emitContentByBuilder(program, buildPaginateHelper, rlcModels);
+      // await emitContentByBuilder(program, buildPollingHelper, rlcModels);
+      // await emitContentByBuilder(program, buildSerializeHelper, rlcModels);
     }
   }
 
@@ -209,7 +209,7 @@ export async function $onEmit(context: EmitContext) {
       buildEsLintConfig,
       buildRollupConfig,
       buildApiExtractorConfig,
-      buildReadmeFile
+      // buildReadmeFile
     ];
     if (!option.isModularLibrary) {
       commonBuilders.push(buildPackageFile);
@@ -247,24 +247,24 @@ export async function $onEmit(context: EmitContext) {
     }
 
     // Generate test relevant files
-    const hasTestFolder = false;
-    const shouldGenerateTest =
-      option.generateTest === true ||
-      (option.generateTest === undefined && !hasTestFolder);
-    if (shouldGenerateTest) {
-      await emitContentByBuilder(
-        program,
-        [
-          buildKarmaConfigFile,
-          buildEnvFile,
-          buildEnvBrowserFile,
-          buildRecordedClientFile,
-          buildSampleTest
-        ],
-        rlcClient,
-        dpgContext.generationPathDetail?.metadataDir
-      );
-    }
+    // const hasTestFolder = false;
+    // const shouldGenerateTest =
+    //   option.generateTest === true ||
+    //   (option.generateTest === undefined && !hasTestFolder);
+    // if (shouldGenerateTest) {
+    //   await emitContentByBuilder(
+    //     program,
+    //     [
+    //       buildKarmaConfigFile,
+    //       buildEnvFile,
+    //       buildEnvBrowserFile,
+    //       buildRecordedClientFile,
+    //       buildSampleTest
+    //     ],
+    //     rlcClient,
+    //     dpgContext.generationPathDetail?.metadataDir
+    //   );
+    // }
   }
 }
 
