@@ -46,7 +46,7 @@ function getClientOptionsInterface(
 
 export function buildClient(model: RLCModel): File | undefined {
   const name = normalizeName(model.libraryName, NameType.File);
-  const { srcPath, options } = model;
+  const { srcPath } = model;
   const project = new Project();
   const filePath = joinPaths(srcPath, `${name}.ts`);
   const clientFile = project.createSourceFile(filePath, undefined, {
@@ -225,7 +225,8 @@ export function getClientFactoryBody(
     return "";
   }
   const { includeShortcuts, packageDetails } = model.options;
-  let clientPackageName = packageDetails.nameWithoutScope ?? "";
+  let clientPackageName =
+    packageDetails!.nameWithoutScope ?? packageDetails?.name ?? "";
   const packageVersion = packageDetails.version;
   const { endpoint, urlParameters } = model.urlInfo;
 
@@ -349,7 +350,6 @@ export function getClientFactoryBody(
           return next(request);
         }
       });`;
-    
   }
   let returnStatement = `return client;`;
 

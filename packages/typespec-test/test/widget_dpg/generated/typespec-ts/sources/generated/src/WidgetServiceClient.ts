@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Widget, ColorType, AnalyzeResult } from "./models/models.js";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  Widget,
+  CreateWidget,
+  UpdateWidget,
+  AnalyzeResult,
+} from "./models/models.js";
 import {
   ListWidgetsOptions,
   GetWidgetOptions,
@@ -26,9 +32,12 @@ export { WidgetServiceClientOptions } from "./api/WidgetServiceContext.js";
 
 export class WidgetServiceClient {
   private _client: WidgetServiceContext;
+  /** The pipeline used by this client to make requests */
+  public readonly pipeline: Pipeline;
 
   constructor(endpoint: string, options: WidgetServiceClientOptions = {}) {
     this._client = createWidgetService(endpoint, options);
+    this.pipeline = this._client.pipeline;
   }
 
   /**
@@ -57,11 +66,10 @@ export class WidgetServiceClient {
    * result in an error.
    */
   createWidget(
-    weight: number,
-    color: ColorType,
+    body: CreateWidget,
     options: CreateWidgetOptions = { requestOptions: {} }
   ): Promise<Widget> {
-    return createWidget(this._client, weight, color, options);
+    return createWidget(this._client, body, options);
   }
 
   /**
@@ -70,9 +78,10 @@ export class WidgetServiceClient {
    */
   updateWidget(
     id: string,
+    body: UpdateWidget,
     options: UpdateWidgetOptions = { requestOptions: {} }
   ): Promise<Widget> {
-    return updateWidget(this._client, id, options);
+    return updateWidget(this._client, id, body, options);
   }
 
   /** Delete a widget by ID. */

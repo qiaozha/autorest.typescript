@@ -66,8 +66,8 @@ export function buildIsUnexpectedHelper(model: RLCModel) {
           ?.success
       ) {
         successTypes.push(
-          ...methodDetails[0].operationHelperDetail?.lroDetails
-            ?.logicalResponseTypes.success
+          ...methodDetails[0].operationHelperDetail.lroDetails
+            .logicalResponseTypes.success!
         );
       }
 

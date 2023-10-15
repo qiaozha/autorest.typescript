@@ -27,6 +27,7 @@ export interface Property {
   optional?: boolean;
   description: string;
   readonly?: boolean;
+  format?: string;
 }
 
 export interface BodyParameter {
@@ -111,6 +112,7 @@ export type ParameterLocation =
   | "header"
   | "query"
   | "path"
+  | "body"
   | "other";
 
 export interface Parameter {

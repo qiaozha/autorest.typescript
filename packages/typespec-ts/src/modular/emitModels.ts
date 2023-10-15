@@ -40,14 +40,15 @@ export function buildModels(
 
   for (const model of models) {
     const properties = model.properties ?? [];
-    const typeMetadata = getType(model);
+    const typeMetadata = getType(model, model.format);
     let typeName = typeMetadata.name;
     if (typeMetadata.modifier === "Array") {
       typeName = `${typeName}[]`;
     }
     if (model.type === "enum") {
-      if (modelsFile.getTypeAlias(model.name!)) {
+      if (!model.name || modelsFile.getTypeAlias(model.name!)) {
         // If the enum is already defined, we don't need to do anything
+        // If the enum is anonymous, we don't build any type alias for it
         continue;
       }
       modelsFile.addTypeAlias({
@@ -69,7 +70,7 @@ export function buildModels(
       });
     } else {
       if (!model.name) {
-        throw new Error("Can't generate a model that has no name");
+        continue;
       }
       const modelInterface = {
         name: model.name,
@@ -77,7 +78,7 @@ export function buildModels(
         docs: getDocsFromDescription(model.description),
         extends: [] as string[],
         properties: properties.map((p) => {
-          const propertyMetadata = getType(p.type);
+          const propertyMetadata = getType(p.type, p.format);
           let propertyTypeName = propertyMetadata.name;
           if (isAzureCoreErrorSdkType(p.type)) {
             propertyTypeName = isAzureCoreErrorSdkType(p.type)
@@ -98,7 +99,7 @@ export function buildModels(
       };
       model.type === "model"
         ? model.parents?.forEach((p) =>
-            modelInterface.extends.push(getType(p).name)
+            modelInterface.extends.push(getType(p, p.format).name)
           )
         : undefined;
       modelsFile.addInterface(modelInterface);
@@ -169,4 +170,5 @@ export function buildModelsOptions(
       id.setModuleSpecifier(id.getModuleSpecifierValue() + ".js");
       return id;
     });
+  return modelOptionsFile;
 }

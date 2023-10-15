@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Pipeline } from "@azure/core-rest-pipeline";
 import { User, UserListResults, PagedUser } from "./models/models.js";
 import {
   CreateOrUpdateOptions,
@@ -30,28 +31,31 @@ export { BasicClientOptions } from "./api/BasicContext.js";
 
 export class BasicClient {
   private _client: BasicContext;
+  /** The pipeline used by this client to make requests */
+  public readonly pipeline: Pipeline;
 
   /** Illustrates bodies templated with Azure Core */
   constructor(options: BasicClientOptions = {}) {
     this._client = createBasic(options);
+    this.pipeline = this._client.pipeline;
   }
 
   /** Creates or updates a User */
   createOrUpdate(
-    name: string,
     id: number,
+    resource: User,
     options: CreateOrUpdateOptions = { requestOptions: {} }
   ): Promise<User> {
-    return createOrUpdate(this._client, name, id, options);
+    return createOrUpdate(this._client, id, resource, options);
   }
 
   /** Creates or replaces a User */
   createOrReplace(
-    name: string,
     id: number,
+    resource: User,
     options: CreateOrReplaceOptions = { requestOptions: {} }
   ): Promise<User> {
-    return createOrReplace(this._client, name, id, options);
+    return createOrReplace(this._client, id, resource, options);
   }
 
   /** Gets a User */

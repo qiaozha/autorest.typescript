@@ -22,7 +22,7 @@ export function buildPollingHelper(model: RLCModel) {
   if (!hasPollingOperations(model)) {
     return;
   }
-  let lroDetail: LroDetail = buildLroHelperDetail(model);
+  const lroDetail: LroDetail = buildLroHelperDetail(model);
   const readmeFileContents = hbs.compile(pollingContent, { noEscape: true });
   const { srcPath } = model;
   return {

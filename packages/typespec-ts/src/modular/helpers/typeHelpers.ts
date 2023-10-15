@@ -1,4 +1,4 @@
-import { Type } from "../modularCodeModel.js";
+import { EnumValue, Type } from "../modularCodeModel.js";
 
 export interface TypeMetadata {
   name: string;
@@ -15,7 +15,13 @@ function getNullableType(name: string, type: Type): string {
   return name;
 }
 
-export function getType(type: Type): TypeMetadata {
+function getAnonymousEnumName(values: EnumValue[]): string {
+  return values
+    .map((v) => (typeof v.value === "string" ? `"${v.value}"` : `${v.value}`))
+    .join(" | ");
+}
+
+export function getType(type: Type, format?: string): TypeMetadata {
   switch (type.type) {
     case "Key":
       return {
@@ -41,11 +47,18 @@ export function getType(type: Type): TypeMetadata {
     case "datetime":
       return { name: getNullableType("Date", type) };
     case "enum":
-      if (!type.name) {
+      if (
+        !type.name &&
+        (!type?.valueType?.type ||
+          !["string", "number"].includes(type?.valueType?.type))
+      ) {
         throw new Error("Unable to process enum without name");
       }
       return {
-        name: getNullableType(type.name, type),
+        name: getNullableType(
+          type.name ?? getAnonymousEnumName(type.values ?? []),
+          type
+        ),
         originModule: "models.js"
       };
     case "float":
@@ -58,29 +71,35 @@ export function getType(type: Type): TypeMetadata {
         throw new Error("Unable to process Array with no elementType");
       }
       return {
-        name: getNullableType(getType(type.elementType).name, type),
+        name: getNullableType(
+          getType(type.elementType, type.elementType.format).name,
+          type
+        ),
         modifier: "Array",
         originModule:
           type.elementType?.type === "model" ? "models.js" : undefined
       };
     case "model":
-      if (!type.name) {
-        throw new Error("Unable to process model without name");
-      }
       return {
-        name: getNullableType(type.name, type),
+        name: getNullableType(type.name!, type),
         originModule: "models.js"
       };
     case "string":
     case "duration":
-      return { name: getNullableType("string", type) };
+      switch (format) {
+        case "seconds":
+          return { name: getNullableType("number", type) };
+        case "ISO8601":
+        default:
+          return { name: getNullableType("string", type) };
+      }
     case "combined": {
       if (!type.types) {
         throw new Error("Unable to process combined without combinedTypes");
       }
       const name = type.types
         .map((t) => {
-          const sdkType = getTypeName(getType(t));
+          const sdkType = getTypeName(getType(t, t.format));
           return `${sdkType}`;
         })
         .join(" | ");
@@ -91,7 +110,9 @@ export function getType(type: Type): TypeMetadata {
         throw new Error("Unable to process dict without elemetType info");
       }
       return {
-        name: `Record<string, ${getTypeName(getType(type.elementType))}>`
+        name: `Record<string, ${getTypeName(
+          getType(type.elementType, type.elementType.format)
+        )}>`
       };
     case "any":
       return {
@@ -118,13 +139,14 @@ function getTypeName(typeMetadata: TypeMetadata) {
  */
 export function buildType(
   clientName: string | undefined,
-  type: Type | undefined
+  type: Type | undefined,
+  format: string | undefined
 ) {
   if (!type) {
     throw new Error("Type should be defined");
   }
 
-  const typeMetadata = getType(type);
+  const typeMetadata = getType(type, format);
   let typeName = typeMetadata.name;
   if (typeMetadata.modifier === "Array") {
     typeName = `${typeName}[]`;

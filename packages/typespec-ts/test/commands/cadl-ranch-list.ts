@@ -103,7 +103,7 @@ export const rlcTsps: TypeSpecRanchConfig[] = [
   },
   {
     outputPath: "models/propertyOptional",
-    inputPath: "type/property/optional"
+    inputPath: "type/property/optionality"
   },
   {
     outputPath: "models/propertyNullable",
@@ -223,5 +223,45 @@ export const modularTsps: TypeSpecRanchConfig[] = [
   {
     outputPath: "azure/core",
     inputPath: "azure/core/basic"
+  },
+  {
+    outputPath: "encode/bytes",
+    inputPath: "encode/bytes"
+  },
+  {
+    outputPath: "encode/duration",
+    inputPath: "encode/duration"
+  },
+  {
+    outputPath: "encode/datetime",
+    inputPath: "encode/datetime"
+  },
+  {
+    outputPath: "parameters/spread",
+    inputPath: "parameters/spread"
+  },
+  {
+    outputPath: "server/path/single",
+    inputPath: "server/path/single"
+  },
+  {
+    outputPath: "authentication/api-key",
+    inputPath: "authentication/api-key"
+  },
+  {
+    outputPath: "authentication/http-custom",
+    inputPath: "authentication/http/custom"
+  },
+  {
+    outputPath: "server/path/multiple",
+    inputPath: "server/path/multiple"
+  },
+  {
+    outputPath: "authentication/oauth2",
+    inputPath: "authentication/oauth2"
+  },
+  {
+    outputPath: "authentication/union",
+    inputPath: "authentication/union"
   }
 ];
