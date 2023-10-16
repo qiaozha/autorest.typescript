@@ -26,11 +26,12 @@
     "allowUnusedLabels": false,
     "allowUnreachableCode": false,
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node"]
   },
   "ts-node": {
     "esm": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/*.ts"],
   "exclude": ["dist", "node_modules", "typespec-output"]
 }

@@ -80,7 +80,7 @@ export const RLCOptionsSchema: JSONSchemaType<RLCOptions> = {
 };
 
 const libDef = {
-  name: "@azure-tools/typespec-ts",
+  name: "@qiaozha/typespec-ts",
   diagnostics: {
     "security-service-namespace": {
       severity: "error",
