@@ -4,38 +4,30 @@
 import { OperationOptions } from "@azure-rest/core-client";
 import { FileType } from "./models.js";
 
-export interface CustomizedAdministrationOperationsCreateOrUpdateTestOptions
+export interface CreateOrUpdateTestOptions extends OperationOptions {
+  contentType?: string;
+}
+
+export interface CreateOrUpdateAppComponentsOptions extends OperationOptions {
+  contentType?: string;
+}
+
+export interface CreateOrUpdateServerMetricsConfigOptions
   extends OperationOptions {
   contentType?: string;
 }
 
-export interface CustomizedAdministrationOperationsCreateOrUpdateAppComponentsOptions
-  extends OperationOptions {
-  contentType?: string;
-}
+export interface GetAppComponentsOptions extends OperationOptions {}
 
-export interface CustomizedAdministrationOperationsCreateOrUpdateServerMetricsConfigOptions
-  extends OperationOptions {
-  contentType?: string;
-}
+export interface GetServerMetricsConfigOptions extends OperationOptions {}
 
-export interface CustomizedAdministrationOperationsGetAppComponentsOptions
-  extends OperationOptions {}
+export interface GetTestOptions extends OperationOptions {}
 
-export interface CustomizedAdministrationOperationsGetServerMetricsConfigOptions
-  extends OperationOptions {}
+export interface GetTestFileOptions extends OperationOptions {}
 
-export interface CustomizedAdministrationOperationsGetTestOptions
-  extends OperationOptions {}
+export interface ListTestFilesOptions extends OperationOptions {}
 
-export interface CustomizedAdministrationOperationsGetTestFileOptions
-  extends OperationOptions {}
-
-export interface CustomizedAdministrationOperationsListTestFilesOptions
-  extends OperationOptions {}
-
-export interface CustomizedAdministrationOperationsListTestsOptions
-  extends OperationOptions {
+export interface ListTestsOptions extends OperationOptions {
   /**
    * Sort on the supported fields in (field asc/desc) format. eg:
    * lastModifiedDateTime asc. Supported fields - lastModifiedDateTime
@@ -61,15 +53,12 @@ export interface CustomizedAdministrationOperationsListTestsOptions
   maxpagesize?: number;
 }
 
-export interface CustomizedAdministrationOperationsUploadTestFileOptions
-  extends OperationOptions {
+export interface UploadTestFileOptions extends OperationOptions {
   contentType?: string;
   /** File type */
   fileType?: FileType;
 }
 
-export interface CustomizedAdministrationOperationsDeleteTestFileOptions
-  extends OperationOptions {}
+export interface DeleteTestFileOptions extends OperationOptions {}
 
-export interface CustomizedAdministrationOperationsDeleteTestOptions
-  extends OperationOptions {}
+export interface DeleteTestOptions extends OperationOptions {}

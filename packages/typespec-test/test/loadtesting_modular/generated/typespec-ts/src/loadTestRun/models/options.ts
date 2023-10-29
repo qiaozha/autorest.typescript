@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 import { Interval } from "./models.js";
 
-export interface CustomizedTestRunOperationsTestRunOptions
-  extends OperationOptions {
+export interface TestRunOptions extends OperationOptions {
   /** This request has a JSON Merge Patch body. */
   contentType?: string;
   /**
@@ -17,33 +16,26 @@ export interface CustomizedTestRunOperationsTestRunOptions
   oldTestRunId?: string;
 }
 
-export interface CustomizedTestRunOperationsCreateOrUpdateAppComponentsOptions
+export interface CreateOrUpdateAppComponentsOptions extends OperationOptions {
+  contentType?: string;
+}
+
+export interface CreateOrUpdateServerMetricsConfigOptions
   extends OperationOptions {
   contentType?: string;
 }
 
-export interface CustomizedTestRunOperationsCreateOrUpdateServerMetricsConfigOptions
-  extends OperationOptions {
-  contentType?: string;
-}
+export interface DeleteTestRunOptions extends OperationOptions {}
 
-export interface CustomizedTestRunOperationsDeleteTestRunOptions
-  extends OperationOptions {}
+export interface GetAppComponentsOptions extends OperationOptions {}
 
-export interface CustomizedTestRunOperationsGetAppComponentsOptions
-  extends OperationOptions {}
+export interface GetServerMetricsConfigOptions extends OperationOptions {}
 
-export interface CustomizedTestRunOperationsGetServerMetricsConfigOptions
-  extends OperationOptions {}
+export interface GetTestRunOptions extends OperationOptions {}
 
-export interface CustomizedTestRunOperationsGetTestRunOptions
-  extends OperationOptions {}
+export interface GetTestRunFileOptions extends OperationOptions {}
 
-export interface CustomizedTestRunOperationsGetTestRunFileOptions
-  extends OperationOptions {}
-
-export interface CustomizedTestRunOperationsListMetricDimensionValuesOptions
-  extends OperationOptions {
+export interface ListMetricDimensionValuesOptions extends OperationOptions {
   /** The interval (i.e. timegrain) of the query. */
   interval?: Interval;
   /** Metric name */
@@ -55,17 +47,14 @@ export interface CustomizedTestRunOperationsListMetricDimensionValuesOptions
   timespan?: string;
 }
 
-export interface CustomizedTestRunOperationsListMetricDefinitionsOptions
-  extends OperationOptions {
+export interface ListMetricDefinitionsOptions extends OperationOptions {
   /** Metric namespace to query metric definitions for. */
   metricNamespace?: string;
 }
 
-export interface CustomizedTestRunOperationsListMetricNamespacesOptions
-  extends OperationOptions {}
+export interface ListMetricNamespacesOptions extends OperationOptions {}
 
-export interface CustomizedTestRunOperationsListMetricsOptions
-  extends OperationOptions {
+export interface ListMetricsOptions extends OperationOptions {
   /** The aggregation */
   aggregation?: string;
   /** The interval (i.e. timegrain) of the query. */
@@ -81,8 +70,7 @@ export interface CustomizedTestRunOperationsListMetricsOptions
   timespan?: string;
 }
 
-export interface CustomizedTestRunOperationsListTestRunsOptions
-  extends OperationOptions {
+export interface ListTestRunsOptions extends OperationOptions {
   /**
    * Sort on the supported fields in (field asc/desc) format. eg: executedDateTime
    * asc. Supported fields - executedDateTime
@@ -106,5 +94,4 @@ export interface CustomizedTestRunOperationsListTestRunsOptions
   maxpagesize?: number;
 }
 
-export interface CustomizedTestRunOperationsStopTestRunOptions
-  extends OperationOptions {}
+export interface StopTestRunOptions extends OperationOptions {}

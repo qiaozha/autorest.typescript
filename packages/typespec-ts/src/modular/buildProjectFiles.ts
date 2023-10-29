@@ -325,7 +325,7 @@ export function emitPackage(
         "/"
       );
       packageInfo.exports[
-        `./api/${subfolder ? subfolder + "/" : ""}${subApiPath}`
+        `./${subfolder ? subfolder + "/" : ""}api/${subApiPath}`
       ] = {
         types: `./types/src/${
           subfolder ? subfolder + "/" : ""
