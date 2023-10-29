@@ -12,33 +12,33 @@ import {
 import {
   isUnexpected,
   AzureLoadTestingContext as Client,
-  CreateOrUpdateAppComponents200Response,
-  CreateOrUpdateAppComponents201Response,
-  CreateOrUpdateAppComponentsDefaultResponse,
-  CreateOrUpdateServerMetricsConfig200Response,
-  CreateOrUpdateServerMetricsConfig201Response,
-  CreateOrUpdateServerMetricsConfigDefaultResponse,
-  CreateOrUpdateTest200Response,
-  CreateOrUpdateTest201Response,
-  CreateOrUpdateTestDefaultResponse,
-  DeleteTest204Response,
-  DeleteTestDefaultResponse,
-  DeleteTestFile204Response,
-  DeleteTestFileDefaultResponse,
-  GetAppComponents200Response,
-  GetAppComponentsDefaultResponse,
-  GetServerMetricsConfig200Response,
-  GetServerMetricsConfigDefaultResponse,
-  GetTest200Response,
-  GetTestDefaultResponse,
-  GetTestFile200Response,
-  GetTestFileDefaultResponse,
-  ListTestFiles200Response,
-  ListTestFilesDefaultResponse,
-  ListTests200Response,
-  ListTestsDefaultResponse,
-  UploadTestFile201Response,
-  UploadTestFileDefaultResponse,
+  LoadTestAdministrationCreateOrUpdateAppComponents200Response,
+  LoadTestAdministrationCreateOrUpdateAppComponents201Response,
+  LoadTestAdministrationCreateOrUpdateAppComponentsDefaultResponse,
+  LoadTestAdministrationCreateOrUpdateServerMetricsConfig200Response,
+  LoadTestAdministrationCreateOrUpdateServerMetricsConfig201Response,
+  LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultResponse,
+  LoadTestAdministrationCreateOrUpdateTest200Response,
+  LoadTestAdministrationCreateOrUpdateTest201Response,
+  LoadTestAdministrationCreateOrUpdateTestDefaultResponse,
+  LoadTestAdministrationDeleteTest204Response,
+  LoadTestAdministrationDeleteTestDefaultResponse,
+  LoadTestAdministrationDeleteTestFile204Response,
+  LoadTestAdministrationDeleteTestFileDefaultResponse,
+  LoadTestAdministrationGetAppComponents200Response,
+  LoadTestAdministrationGetAppComponentsDefaultResponse,
+  LoadTestAdministrationGetServerMetricsConfig200Response,
+  LoadTestAdministrationGetServerMetricsConfigDefaultResponse,
+  LoadTestAdministrationGetTest200Response,
+  LoadTestAdministrationGetTestDefaultResponse,
+  LoadTestAdministrationGetTestFile200Response,
+  LoadTestAdministrationGetTestFileDefaultResponse,
+  LoadTestAdministrationListTestFiles200Response,
+  LoadTestAdministrationListTestFilesDefaultResponse,
+  LoadTestAdministrationListTests200Response,
+  LoadTestAdministrationListTestsDefaultResponse,
+  LoadTestAdministrationUploadTestFile201Response,
+  LoadTestAdministrationUploadTestFileDefaultResponse,
 } from "../../rest/index.js";
 import {
   StreamableMethod,
@@ -66,9 +66,9 @@ export function _createOrUpdateTestSend(
   body: Test,
   options: CreateOrUpdateTestOptions = { requestOptions: {} }
 ): StreamableMethod<
-  | CreateOrUpdateTest200Response
-  | CreateOrUpdateTest201Response
-  | CreateOrUpdateTestDefaultResponse
+  | LoadTestAdministrationCreateOrUpdateTest200Response
+  | LoadTestAdministrationCreateOrUpdateTest201Response
+  | LoadTestAdministrationCreateOrUpdateTestDefaultResponse
 > {
   return context
     .path("/tests/{testId}", testId)
@@ -128,9 +128,9 @@ export function _createOrUpdateTestSend(
 
 export async function _createOrUpdateTestDeserialize(
   result:
-    | CreateOrUpdateTest200Response
-    | CreateOrUpdateTest201Response
-    | CreateOrUpdateTestDefaultResponse
+    | LoadTestAdministrationCreateOrUpdateTest200Response
+    | LoadTestAdministrationCreateOrUpdateTest201Response
+    | LoadTestAdministrationCreateOrUpdateTestDefaultResponse
 ): Promise<Test> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -313,9 +313,9 @@ export function _createOrUpdateAppComponentsSend(
   body: TestAppComponents,
   options: CreateOrUpdateAppComponentsOptions = { requestOptions: {} }
 ): StreamableMethod<
-  | CreateOrUpdateAppComponents200Response
-  | CreateOrUpdateAppComponents201Response
-  | CreateOrUpdateAppComponentsDefaultResponse
+  | LoadTestAdministrationCreateOrUpdateAppComponents200Response
+  | LoadTestAdministrationCreateOrUpdateAppComponents201Response
+  | LoadTestAdministrationCreateOrUpdateAppComponentsDefaultResponse
 > {
   return context
     .path("/tests/{testId}/app-components", testId)
@@ -329,9 +329,9 @@ export function _createOrUpdateAppComponentsSend(
 
 export async function _createOrUpdateAppComponentsDeserialize(
   result:
-    | CreateOrUpdateAppComponents200Response
-    | CreateOrUpdateAppComponents201Response
-    | CreateOrUpdateAppComponentsDefaultResponse
+    | LoadTestAdministrationCreateOrUpdateAppComponents200Response
+    | LoadTestAdministrationCreateOrUpdateAppComponents201Response
+    | LoadTestAdministrationCreateOrUpdateAppComponentsDefaultResponse
 ): Promise<TestAppComponents> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -369,9 +369,9 @@ export function _createOrUpdateServerMetricsConfigSend(
   body: TestServerMetricConfig,
   options: CreateOrUpdateServerMetricsConfigOptions = { requestOptions: {} }
 ): StreamableMethod<
-  | CreateOrUpdateServerMetricsConfig200Response
-  | CreateOrUpdateServerMetricsConfig201Response
-  | CreateOrUpdateServerMetricsConfigDefaultResponse
+  | LoadTestAdministrationCreateOrUpdateServerMetricsConfig200Response
+  | LoadTestAdministrationCreateOrUpdateServerMetricsConfig201Response
+  | LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultResponse
 > {
   return context
     .path("/tests/{testId}/server-metrics-config", testId)
@@ -385,9 +385,9 @@ export function _createOrUpdateServerMetricsConfigSend(
 
 export async function _createOrUpdateServerMetricsConfigDeserialize(
   result:
-    | CreateOrUpdateServerMetricsConfig200Response
-    | CreateOrUpdateServerMetricsConfig201Response
-    | CreateOrUpdateServerMetricsConfigDefaultResponse
+    | LoadTestAdministrationCreateOrUpdateServerMetricsConfig200Response
+    | LoadTestAdministrationCreateOrUpdateServerMetricsConfig201Response
+    | LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultResponse
 ): Promise<TestServerMetricConfig> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -424,7 +424,8 @@ export function _getAppComponentsSend(
   testId: string,
   options: GetAppComponentsOptions = { requestOptions: {} }
 ): StreamableMethod<
-  GetAppComponents200Response | GetAppComponentsDefaultResponse
+  | LoadTestAdministrationGetAppComponents200Response
+  | LoadTestAdministrationGetAppComponentsDefaultResponse
 > {
   return context
     .path("/tests/{testId}/app-components", testId)
@@ -432,7 +433,9 @@ export function _getAppComponentsSend(
 }
 
 export async function _getAppComponentsDeserialize(
-  result: GetAppComponents200Response | GetAppComponentsDefaultResponse
+  result:
+    | LoadTestAdministrationGetAppComponents200Response
+    | LoadTestAdministrationGetAppComponentsDefaultResponse
 ): Promise<TestAppComponents> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -463,7 +466,8 @@ export function _getServerMetricsConfigSend(
   testId: string,
   options: GetServerMetricsConfigOptions = { requestOptions: {} }
 ): StreamableMethod<
-  GetServerMetricsConfig200Response | GetServerMetricsConfigDefaultResponse
+  | LoadTestAdministrationGetServerMetricsConfig200Response
+  | LoadTestAdministrationGetServerMetricsConfigDefaultResponse
 > {
   return context
     .path("/tests/{testId}/server-metrics-config", testId)
@@ -472,8 +476,8 @@ export function _getServerMetricsConfigSend(
 
 export async function _getServerMetricsConfigDeserialize(
   result:
-    | GetServerMetricsConfig200Response
-    | GetServerMetricsConfigDefaultResponse
+    | LoadTestAdministrationGetServerMetricsConfig200Response
+    | LoadTestAdministrationGetServerMetricsConfigDefaultResponse
 ): Promise<TestServerMetricConfig> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -503,14 +507,19 @@ export function _getTestSend(
   context: Client,
   testId: string,
   options: GetTestOptions = { requestOptions: {} }
-): StreamableMethod<GetTest200Response | GetTestDefaultResponse> {
+): StreamableMethod<
+  | LoadTestAdministrationGetTest200Response
+  | LoadTestAdministrationGetTestDefaultResponse
+> {
   return context
     .path("/tests/{testId}", testId)
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _getTestDeserialize(
-  result: GetTest200Response | GetTestDefaultResponse
+  result:
+    | LoadTestAdministrationGetTest200Response
+    | LoadTestAdministrationGetTestDefaultResponse
 ): Promise<Test> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -691,14 +700,19 @@ export function _getTestFileSend(
   testId: string,
   fileName: string,
   options: GetTestFileOptions = { requestOptions: {} }
-): StreamableMethod<GetTestFile200Response | GetTestFileDefaultResponse> {
+): StreamableMethod<
+  | LoadTestAdministrationGetTestFile200Response
+  | LoadTestAdministrationGetTestFileDefaultResponse
+> {
   return context
     .path("/tests/{testId}/files/{fileName}", testId, fileName)
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _getTestFileDeserialize(
-  result: GetTestFile200Response | GetTestFileDefaultResponse
+  result:
+    | LoadTestAdministrationGetTestFile200Response
+    | LoadTestAdministrationGetTestFileDefaultResponse
 ): Promise<FileInfo> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -729,14 +743,19 @@ export function _listTestFilesSend(
   context: Client,
   testId: string,
   options: ListTestFilesOptions = { requestOptions: {} }
-): StreamableMethod<ListTestFiles200Response | ListTestFilesDefaultResponse> {
+): StreamableMethod<
+  | LoadTestAdministrationListTestFiles200Response
+  | LoadTestAdministrationListTestFilesDefaultResponse
+> {
   return context
     .path("/tests/{testId}/files", testId)
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _listTestFilesDeserialize(
-  result: ListTestFiles200Response | ListTestFilesDefaultResponse
+  result:
+    | LoadTestAdministrationListTestFiles200Response
+    | LoadTestAdministrationListTestFilesDefaultResponse
 ): Promise<PagedFileInfo> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -768,7 +787,10 @@ export async function listTestFiles(
 export function _listTestsSend(
   context: Client,
   options: ListTestsOptions = { requestOptions: {} }
-): StreamableMethod<ListTests200Response | ListTestsDefaultResponse> {
+): StreamableMethod<
+  | LoadTestAdministrationListTests200Response
+  | LoadTestAdministrationListTestsDefaultResponse
+> {
   return context
     .path("/tests")
     .get({
@@ -784,7 +806,9 @@ export function _listTestsSend(
 }
 
 export async function _listTestsDeserialize(
-  result: ListTests200Response | ListTestsDefaultResponse
+  result:
+    | LoadTestAdministrationListTests200Response
+    | LoadTestAdministrationListTestsDefaultResponse
 ): Promise<PagedTest> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -946,7 +970,10 @@ export function _uploadTestFileSend(
   fileName: string,
   body: Uint8Array,
   options: UploadTestFileOptions = { requestOptions: {} }
-): StreamableMethod<UploadTestFile201Response | UploadTestFileDefaultResponse> {
+): StreamableMethod<
+  | LoadTestAdministrationUploadTestFile201Response
+  | LoadTestAdministrationUploadTestFileDefaultResponse
+> {
   return context
     .path("/tests/{testId}/files/{fileName}", testId, fileName)
     .put({
@@ -958,7 +985,9 @@ export function _uploadTestFileSend(
 }
 
 export async function _uploadTestFileDeserialize(
-  result: UploadTestFile201Response | UploadTestFileDefaultResponse
+  result:
+    | LoadTestAdministrationUploadTestFile201Response
+    | LoadTestAdministrationUploadTestFileDefaultResponse
 ): Promise<FileInfo> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -1001,14 +1030,19 @@ export function _deleteTestFileSend(
   testId: string,
   fileName: string,
   options: DeleteTestFileOptions = { requestOptions: {} }
-): StreamableMethod<DeleteTestFile204Response | DeleteTestFileDefaultResponse> {
+): StreamableMethod<
+  | LoadTestAdministrationDeleteTestFile204Response
+  | LoadTestAdministrationDeleteTestFileDefaultResponse
+> {
   return context
     .path("/tests/{testId}/files/{fileName}", testId, fileName)
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _deleteTestFileDeserialize(
-  result: DeleteTestFile204Response | DeleteTestFileDefaultResponse
+  result:
+    | LoadTestAdministrationDeleteTestFile204Response
+    | LoadTestAdministrationDeleteTestFileDefaultResponse
 ): Promise<void> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -1032,14 +1066,19 @@ export function _deleteTestSend(
   context: Client,
   testId: string,
   options: DeleteTestOptions = { requestOptions: {} }
-): StreamableMethod<DeleteTest204Response | DeleteTestDefaultResponse> {
+): StreamableMethod<
+  | LoadTestAdministrationDeleteTest204Response
+  | LoadTestAdministrationDeleteTestDefaultResponse
+> {
   return context
     .path("/tests/{testId}", testId)
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _deleteTestDeserialize(
-  result: DeleteTest204Response | DeleteTestDefaultResponse
+  result:
+    | LoadTestAdministrationDeleteTest204Response
+    | LoadTestAdministrationDeleteTestDefaultResponse
 ): Promise<void> {
   if (isUnexpected(result)) {
     throw result.body;

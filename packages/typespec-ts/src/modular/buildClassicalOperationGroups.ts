@@ -44,7 +44,13 @@ export function buildClassicOperationFiles(
 
       // Import models used from ./models.ts
       // We SHOULD keep this because otherwise ts-morph will "helpfully" try to import models from the rest layer when we call fixMissingImports().
-      importModels(srcPath, classicFile, codeModel.project, subfolder, operationGroup.namespaceHierarchies.length);
+      importModels(
+        srcPath,
+        classicFile,
+        codeModel.project,
+        subfolder,
+        operationGroup.namespaceHierarchies.length
+      );
       importApis(classicFile, client, codeModel, operationGroup);
       classicFile.fixMissingImports();
       classicFile.fixUnusedIdentifiers();
