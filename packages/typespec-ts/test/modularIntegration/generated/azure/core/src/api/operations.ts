@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { User, UserListResults, PagedUser } from "../models/models.js";
 import {
   isUnexpected,
   BasicContext as Client,
@@ -24,11 +23,13 @@ import {
   ListWithCustomPageModelDefaultResponse,
   ListWithPage200Response,
   ListWithPageDefaultResponse,
+  User,
 } from "../rest/index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { PagedUser, UserListResults } from "../models/models.js";
 import {
   CreateOrUpdateOptions,
   CreateOrReplaceOptions,

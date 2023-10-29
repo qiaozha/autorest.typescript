@@ -6,20 +6,18 @@ import {
   createCollectionFormat,
   CollectionFormatClientOptions,
   CollectionFormatContext,
-  headerCsv,
-  queryMulti,
-  querySsv,
-  queryTsv,
-  queryPipes,
-  queryCsv,
+  multi,
+  ssv,
+  tsv,
+  pipes,
+  csv,
 } from "./api/index.js";
 import {
-  QueryMultiOptions,
-  QuerySsvOptions,
-  QueryTsvOptions,
-  QueryPipesOptions,
-  QueryCsvOptions,
-  HeaderCsvOptions,
+  MultiOptions,
+  SsvOptions,
+  TsvOptions,
+  PipesOptions,
+  CsvOptions,
 } from "./models/options.js";
 
 export { CollectionFormatClientOptions } from "./api/CollectionFormatContext.js";
@@ -35,26 +33,45 @@ export class CollectionFormatClient {
     this.pipeline = this._client.pipeline;
   }
 
-  query = {
-    multi: (colors: string[], options?: QueryMultiOptions): Promise<void> => {
-      return queryMulti(this._client, colors, options);
-    },
-    ssv: (colors: string[], options?: QuerySsvOptions): Promise<void> => {
-      return querySsv(this._client, colors, options);
-    },
-    tsv: (colors: string[], options?: QueryTsvOptions): Promise<void> => {
-      return queryTsv(this._client, colors, options);
-    },
-    pipes: (colors: string[], options?: QueryPipesOptions): Promise<void> => {
-      return queryPipes(this._client, colors, options);
-    },
-    csv: (colors: string[], options?: QueryCsvOptions): Promise<void> => {
-      return queryCsv(this._client, colors, options);
-    },
-  };
-  header = {
-    csv: (colors: string[], options?: HeaderCsvOptions): Promise<void> => {
-      return headerCsv(this._client, colors, options);
-    },
-  };
+  multi(
+    colors: string[],
+    options: MultiOptions = { requestOptions: {} }
+  ): Promise<void> {
+    return multi(this._client, colors, options);
+  }
+
+  ssv(
+    colors: string[],
+    options: SsvOptions = { requestOptions: {} }
+  ): Promise<void> {
+    return ssv(this._client, colors, options);
+  }
+
+  tsv(
+    colors: string[],
+    options: TsvOptions = { requestOptions: {} }
+  ): Promise<void> {
+    return tsv(this._client, colors, options);
+  }
+
+  pipes(
+    colors: string[],
+    options: PipesOptions = { requestOptions: {} }
+  ): Promise<void> {
+    return pipes(this._client, colors, options);
+  }
+
+  csv(
+    colors: string[],
+    options: CsvOptions = { requestOptions: {} }
+  ): Promise<void> {
+    return csv(this._client, colors, options);
+  }
+
+  csv(
+    colors: string[],
+    options: CsvOptions = { requestOptions: {} }
+  ): Promise<void> {
+    return csv(this._client, colors, options);
+  }
 }

@@ -2,13 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  InputRecord,
-  OutputRecord,
-  InputOutputRecord,
-} from "../models/models.js";
-import {
   Input204Response,
   InputAndOutput200Response,
+  InputOutputRecord,
+  InputRecord,
   Output200Response,
   UsageContext as Client,
 } from "../rest/index.js";
@@ -16,6 +13,7 @@ import {
   StreamableMethod,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { OutputRecord } from "../models/models.js";
 import {
   InputOptions,
   OutputOptions,
