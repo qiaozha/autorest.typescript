@@ -34,189 +34,33 @@ export interface CertificateMetadata {
 export type CertificateType = string;
 
 // @public (undocumented)
-export interface CustomizedAdministrationOperationsCreateOrUpdateAppComponentsOptions extends OperationOptions {
+export interface CreateOrUpdateAppComponentsOptions extends OperationOptions {
     // (undocumented)
     contentType?: string;
 }
 
 // @public (undocumented)
-export interface CustomizedAdministrationOperationsCreateOrUpdateServerMetricsConfigOptions extends OperationOptions {
+export interface CreateOrUpdateServerMetricsConfigOptions extends OperationOptions {
     // (undocumented)
     contentType?: string;
 }
 
 // @public (undocumented)
-export interface CustomizedAdministrationOperationsCreateOrUpdateTestOptions extends OperationOptions {
+export interface CreateOrUpdateTestOptions extends OperationOptions {
     // (undocumented)
     contentType?: string;
 }
 
 // @public (undocumented)
-export interface CustomizedAdministrationOperationsDeleteTestFileOptions extends OperationOptions {
+export interface DeleteTestFileOptions extends OperationOptions {
 }
 
 // @public (undocumented)
-export interface CustomizedAdministrationOperationsDeleteTestOptions extends OperationOptions {
+export interface DeleteTestOptions extends OperationOptions {
 }
 
 // @public (undocumented)
-export interface CustomizedAdministrationOperationsGetAppComponentsOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface CustomizedAdministrationOperationsGetServerMetricsConfigOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface CustomizedAdministrationOperationsGetTestFileOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface CustomizedAdministrationOperationsGetTestOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface CustomizedAdministrationOperationsListTestFilesOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface CustomizedAdministrationOperationsListTestsOptions extends OperationOptions {
-    lastModifiedEndTime?: string;
-    lastModifiedStartTime?: string;
-    maxpagesize?: number;
-    orderby?: string;
-    search?: string;
-}
-
-// @public (undocumented)
-export interface CustomizedAdministrationOperationsOperations {
-    // (undocumented)
-    administrationOperations: {
-        createOrUpdateTest: (testId: string, body: Test, options?: CustomizedAdministrationOperationsCreateOrUpdateTestOptions) => Promise<Test>;
-        createOrUpdateAppComponents: (testId: string, body: TestAppComponents, options?: CustomizedAdministrationOperationsCreateOrUpdateAppComponentsOptions) => Promise<TestAppComponents>;
-        createOrUpdateServerMetricsConfig: (testId: string, body: TestServerMetricConfig, options?: CustomizedAdministrationOperationsCreateOrUpdateServerMetricsConfigOptions) => Promise<TestServerMetricConfig>;
-        getAppComponents: (testId: string, options?: CustomizedAdministrationOperationsGetAppComponentsOptions) => Promise<TestAppComponents>;
-        getServerMetricsConfig: (testId: string, options?: CustomizedAdministrationOperationsGetServerMetricsConfigOptions) => Promise<TestServerMetricConfig>;
-        getTest: (testId: string, options?: CustomizedAdministrationOperationsGetTestOptions) => Promise<Test>;
-        getTestFile: (testId: string, fileName: string, options?: CustomizedAdministrationOperationsGetTestFileOptions) => Promise<FileInfo>;
-        listTestFiles: (testId: string, options?: CustomizedAdministrationOperationsListTestFilesOptions) => Promise<PagedFileInfo>;
-        listTests: (options?: CustomizedAdministrationOperationsListTestsOptions) => Promise<PagedTest>;
-        uploadTestFile: (testId: string, fileName: string, body: Uint8Array, options?: CustomizedAdministrationOperationsUploadTestFileOptions) => Promise<FileInfo>;
-        deleteTestFile: (testId: string, fileName: string, options?: CustomizedAdministrationOperationsDeleteTestFileOptions) => Promise<void>;
-        deleteTest: (testId: string, options?: CustomizedAdministrationOperationsDeleteTestOptions) => Promise<void>;
-    };
-}
-
-// @public (undocumented)
-export interface CustomizedAdministrationOperationsUploadTestFileOptions extends OperationOptions {
-    // (undocumented)
-    contentType?: string;
-    fileType?: FileType;
-}
-
-// @public (undocumented)
-export interface CustomizedOperations {
-    // (undocumented)
-    administrationOperations: CustomizedAdministrationOperationsOperations;
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsCreateOrUpdateAppComponentsOptions extends OperationOptions {
-    // (undocumented)
-    contentType?: string;
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsCreateOrUpdateServerMetricsConfigOptions extends OperationOptions {
-    // (undocumented)
-    contentType?: string;
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsDeleteTestRunOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsGetAppComponentsOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsGetServerMetricsConfigOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsGetTestRunFileOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsGetTestRunOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsListMetricDefinitionsOptions extends OperationOptions {
-    metricNamespace?: string;
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsListMetricDimensionValuesOptions extends OperationOptions {
-    interval?: LoadTestRunClientInterval;
-    metricName?: string;
-    timespan?: string;
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsListMetricNamespacesOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsListMetricsOptions extends OperationOptions {
-    aggregation?: string;
-    interval?: LoadTestRunClientInterval;
-    metricName?: string;
-    metricNamespace?: string;
-    timespan?: string;
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsListTestRunsOptions extends OperationOptions {
-    executionFrom?: string;
-    executionTo?: string;
-    maxpagesize?: number;
-    orderby?: string;
-    search?: string;
-    status?: string;
-    testId?: string;
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsOperations {
-    // (undocumented)
-    testRunOperations: {
-        testRun: (testRunId: string, resource: LoadTestRunClientTestRun, options?: CustomizedTestRunOperationsTestRunOptions) => Promise<LoadTestRunClientTestRun>;
-        createOrUpdateAppComponents: (testRunId: string, body: TestRunAppComponents, options?: CustomizedTestRunOperationsCreateOrUpdateAppComponentsOptions) => Promise<TestRunAppComponents>;
-        createOrUpdateServerMetricsConfig: (testRunId: string, body: TestRunServerMetricConfig, options?: CustomizedTestRunOperationsCreateOrUpdateServerMetricsConfigOptions) => Promise<TestRunServerMetricConfig>;
-        deleteTestRun: (testRunId: string, options?: CustomizedTestRunOperationsDeleteTestRunOptions) => Promise<void>;
-        getAppComponents: (testRunId: string, options?: CustomizedTestRunOperationsGetAppComponentsOptions) => Promise<TestRunAppComponents>;
-        getServerMetricsConfig: (testRunId: string, options?: CustomizedTestRunOperationsGetServerMetricsConfigOptions) => Promise<TestRunServerMetricConfig>;
-        getTestRun: (testRunId: string, options?: CustomizedTestRunOperationsGetTestRunOptions) => Promise<LoadTestRunClientTestRun>;
-        getTestRunFile: (testRunId: string, fileName: string, options?: CustomizedTestRunOperationsGetTestRunFileOptions) => Promise<LoadTestRunClientFileInfo>;
-        listMetricDimensionValues: (testRunId: string, name: string, metricNamespace: string, options?: CustomizedTestRunOperationsListMetricDimensionValuesOptions) => Promise<PagedDimensionValueList>;
-        listMetricDefinitions: (testRunId: string, options?: CustomizedTestRunOperationsListMetricDefinitionsOptions) => Promise<MetricDefinitionCollection>;
-        listMetricNamespaces: (testRunId: string, options?: CustomizedTestRunOperationsListMetricNamespacesOptions) => Promise<MetricNamespaceCollection>;
-        listMetrics: (testRunId: string, body: MetricRequestPayload, options?: CustomizedTestRunOperationsListMetricsOptions) => Promise<PagedTimeSeriesElement>;
-        listTestRuns: (options?: CustomizedTestRunOperationsListTestRunsOptions) => Promise<PagedTestRun>;
-        stopTestRun: (testRunId: string, options?: CustomizedTestRunOperationsStopTestRunOptions) => Promise<LoadTestRunClientTestRun>;
-    };
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsStopTestRunOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface CustomizedTestRunOperationsTestRunOptions extends OperationOptions {
-    contentType?: string;
-    oldTestRunId?: string;
+export interface DeleteTestRunOptions extends OperationOptions {
 }
 
 // @public
@@ -258,14 +102,98 @@ export type FileStatus = string;
 // @public
 export type FileType = string;
 
+// @public (undocumented)
+export interface GetAppComponentsOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetServerMetricsConfigOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetTestFileOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetTestOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetTestRunFileOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetTestRunOptions extends OperationOptions {
+}
+
 // @public
 export type Interval = string;
 
 // @public (undocumented)
+export interface ListMetricDefinitionsOptions extends OperationOptions {
+    metricNamespace?: string;
+}
+
+// @public (undocumented)
+export interface ListMetricDimensionValuesOptions extends OperationOptions {
+    interval?: LoadTestRunClientInterval;
+    metricName?: string;
+    timespan?: string;
+}
+
+// @public (undocumented)
+export interface ListMetricNamespacesOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface ListMetricsOptions extends OperationOptions {
+    aggregation?: string;
+    interval?: LoadTestRunClientInterval;
+    metricName?: string;
+    metricNamespace?: string;
+    timespan?: string;
+}
+
+// @public (undocumented)
+export interface ListTestFilesOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface ListTestRunsOptions extends OperationOptions {
+    executionFrom?: string;
+    executionTo?: string;
+    maxpagesize?: number;
+    orderby?: string;
+    search?: string;
+    status?: string;
+    testId?: string;
+}
+
+// @public (undocumented)
+export interface ListTestsOptions extends OperationOptions {
+    lastModifiedEndTime?: string;
+    lastModifiedStartTime?: string;
+    maxpagesize?: number;
+    orderby?: string;
+    search?: string;
+}
+
+// @public (undocumented)
 export class LoadTestAdministrationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: LoadTestAdministrationClientOptions);
-    readonly customized: CustomizedOperations;
+    createOrUpdateAppComponents(testId: string, body: TestAppComponents, options?: CreateOrUpdateAppComponentsOptions): Promise<TestAppComponents>;
+    createOrUpdateServerMetricsConfig(testId: string, body: TestServerMetricConfig, options?: CreateOrUpdateServerMetricsConfigOptions): Promise<TestServerMetricConfig>;
+    createOrUpdateTest(testId: string, body: Test, options?: CreateOrUpdateTestOptions): Promise<Test>;
+    deleteTest(testId: string, options?: DeleteTestOptions): Promise<void>;
+    deleteTestFile(testId: string, fileName: string, options?: DeleteTestFileOptions): Promise<void>;
+    getAppComponents(testId: string, options?: GetAppComponentsOptions): Promise<TestAppComponents>;
+    getServerMetricsConfig(testId: string, options?: GetServerMetricsConfigOptions): Promise<TestServerMetricConfig>;
+    getTest(testId: string, options?: GetTestOptions): Promise<Test>;
+    getTestFile(testId: string, fileName: string, options?: GetTestFileOptions): Promise<FileInfo>;
+    listTestFiles(testId: string, options?: ListTestFilesOptions): Promise<PagedFileInfo>;
+    listTests(options?: ListTestsOptions): Promise<PagedTest>;
     readonly pipeline: Pipeline;
+    uploadTestFile(testId: string, fileName: string, body: Uint8Array, options?: UploadTestFileOptions): Promise<FileInfo>;
 }
 
 // @public (undocumented)
@@ -283,8 +211,29 @@ export interface LoadTestConfiguration {
 // @public (undocumented)
 export class LoadTestRunClient {
     constructor(endpoint: string, credential: TokenCredential, options?: LoadTestRunClientOptions);
-    readonly customized: LoadTestRunClientCustomizedOperations;
+    // Warning: (ae-forgotten-export) The symbol "TestRunAppComponents" needs to be exported by the entry point index.d.ts
+    createOrUpdateAppComponents(testRunId: string, body: TestRunAppComponents, options?: LoadTestRunClientCreateOrUpdateAppComponentsOptions): Promise<TestRunAppComponents>;
+    // Warning: (ae-forgotten-export) The symbol "TestRunServerMetricConfig" needs to be exported by the entry point index.d.ts
+    createOrUpdateServerMetricsConfig(testRunId: string, body: TestRunServerMetricConfig, options?: LoadTestRunClientCreateOrUpdateServerMetricsConfigOptions): Promise<TestRunServerMetricConfig>;
+    deleteTestRun(testRunId: string, options?: DeleteTestRunOptions): Promise<void>;
+    getAppComponents(testRunId: string, options?: LoadTestRunClientGetAppComponentsOptions): Promise<TestRunAppComponents>;
+    getServerMetricsConfig(testRunId: string, options?: LoadTestRunClientGetServerMetricsConfigOptions): Promise<TestRunServerMetricConfig>;
+    getTestRun(testRunId: string, options?: GetTestRunOptions): Promise<LoadTestRunClientTestRun>;
+    getTestRunFile(testRunId: string, fileName: string, options?: GetTestRunFileOptions): Promise<LoadTestRunClientFileInfo>;
+    // Warning: (ae-forgotten-export) The symbol "MetricDefinitionCollection" needs to be exported by the entry point index.d.ts
+    listMetricDefinitions(testRunId: string, options?: ListMetricDefinitionsOptions): Promise<MetricDefinitionCollection>;
+    // Warning: (ae-forgotten-export) The symbol "PagedDimensionValueList" needs to be exported by the entry point index.d.ts
+    listMetricDimensionValues(testRunId: string, name: string, metricNamespace: string, options?: ListMetricDimensionValuesOptions): Promise<PagedDimensionValueList>;
+    // Warning: (ae-forgotten-export) The symbol "MetricNamespaceCollection" needs to be exported by the entry point index.d.ts
+    listMetricNamespaces(testRunId: string, options?: ListMetricNamespacesOptions): Promise<MetricNamespaceCollection>;
+    // Warning: (ae-forgotten-export) The symbol "MetricRequestPayload" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "PagedTimeSeriesElement" needs to be exported by the entry point index.d.ts
+    listMetrics(testRunId: string, body: MetricRequestPayload, options?: ListMetricsOptions): Promise<PagedTimeSeriesElement>;
+    // Warning: (ae-forgotten-export) The symbol "PagedTestRun" needs to be exported by the entry point index.d.ts
+    listTestRuns(options?: ListTestRunsOptions): Promise<PagedTestRun>;
     readonly pipeline: Pipeline;
+    stopTestRun(testRunId: string, options?: StopTestRunOptions): Promise<LoadTestRunClientTestRun>;
+    testRun(testRunId: string, resource: LoadTestRunClientTestRun, options?: TestRunOptions): Promise<LoadTestRunClientTestRun>;
 }
 
 // @public
@@ -312,9 +261,15 @@ export interface LoadTestRunClientCertificateMetadata {
 export type LoadTestRunClientCertificateType = string;
 
 // @public (undocumented)
-export interface LoadTestRunClientCustomizedOperations {
+export interface LoadTestRunClientCreateOrUpdateAppComponentsOptions extends OperationOptions {
     // (undocumented)
-    testRunOperations: CustomizedTestRunOperationsOperations;
+    contentType?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunClientCreateOrUpdateServerMetricsConfigOptions extends OperationOptions {
+    // (undocumented)
+    contentType?: string;
 }
 
 // @public
@@ -355,6 +310,14 @@ export type LoadTestRunClientFileStatus = string;
 
 // @public
 export type LoadTestRunClientFileType = string;
+
+// @public (undocumented)
+export interface LoadTestRunClientGetAppComponentsOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface LoadTestRunClientGetServerMetricsConfigOptions extends OperationOptions {
+}
 
 // @public
 export type LoadTestRunClientInterval = string;
@@ -693,6 +656,10 @@ export type SecretType = string;
 // @public
 export type Status = string;
 
+// @public (undocumented)
+export interface StopTestRunOptions extends OperationOptions {
+}
+
 // @public
 export interface Test {
     certificate?: CertificateMetadata;
@@ -776,6 +743,12 @@ export interface TestRunInputArtifacts {
     userPropFileInfo?: FileInfo;
 }
 
+// @public (undocumented)
+export interface TestRunOptions extends OperationOptions {
+    contentType?: string;
+    oldTestRunId?: string;
+}
+
 // @public
 export interface TestRunOutputArtifacts {
     logsFileInfo?: FileInfo;
@@ -819,16 +792,12 @@ export interface TimeSeriesElement {
     dimensionValues?: DimensionValue[];
 }
 
-// Warnings were encountered during analysis:
-//
-// src/loadTestRun/classic/customized/testRunOperations/index.ts:57:5 - (ae-forgotten-export) The symbol "TestRunAppComponents" needs to be exported by the entry point index.d.ts
-// src/loadTestRun/classic/customized/testRunOperations/index.ts:62:5 - (ae-forgotten-export) The symbol "TestRunServerMetricConfig" needs to be exported by the entry point index.d.ts
-// src/loadTestRun/classic/customized/testRunOperations/index.ts:88:5 - (ae-forgotten-export) The symbol "PagedDimensionValueList" needs to be exported by the entry point index.d.ts
-// src/loadTestRun/classic/customized/testRunOperations/index.ts:94:5 - (ae-forgotten-export) The symbol "MetricDefinitionCollection" needs to be exported by the entry point index.d.ts
-// src/loadTestRun/classic/customized/testRunOperations/index.ts:98:5 - (ae-forgotten-export) The symbol "MetricNamespaceCollection" needs to be exported by the entry point index.d.ts
-// src/loadTestRun/classic/customized/testRunOperations/index.ts:102:5 - (ae-forgotten-export) The symbol "MetricRequestPayload" needs to be exported by the entry point index.d.ts
-// src/loadTestRun/classic/customized/testRunOperations/index.ts:102:5 - (ae-forgotten-export) The symbol "PagedTimeSeriesElement" needs to be exported by the entry point index.d.ts
-// src/loadTestRun/classic/customized/testRunOperations/index.ts:107:5 - (ae-forgotten-export) The symbol "PagedTestRun" needs to be exported by the entry point index.d.ts
+// @public (undocumented)
+export interface UploadTestFileOptions extends OperationOptions {
+    // (undocumented)
+    contentType?: string;
+    fileType?: FileType;
+}
 
 // (No @packageDocumentation comment for this package)
 

@@ -6,7 +6,7 @@ using Azure.ClientGenerator.Core;
 using AzureLoadTesting;
 
 @useDependency(APIVersions.v2022_11_01)
-namespace Customized;
+namespace Customizations;
 
 @client({
     name: "LoadTestAdministrationClient",
