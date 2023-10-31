@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { BodyParameter } from "../models/models.js";
 import {
-  BodyParameter,
   SpreadAsRequestBody204Response,
   SpreadAsRequestParameter204Response,
   SpreadContext as Client,
