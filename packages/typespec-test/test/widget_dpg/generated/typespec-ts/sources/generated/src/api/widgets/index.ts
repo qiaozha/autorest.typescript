@@ -6,7 +6,7 @@ import {
   CreateWidget,
   UpdateWidget,
   AnalyzeResult,
-} from "../models/models.js";
+} from "../../models/models.js";
 import {
   AnalyzeWidget200Response,
   AnalyzeWidgetDefaultResponse,
@@ -22,23 +22,23 @@ import {
   UpdateWidget200Response,
   UpdateWidgetDefaultResponse,
   WidgetServiceContext as Client,
-} from "../rest/index.js";
+} from "../../rest/index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import {
-  ListWidgetsOptions,
-  GetWidgetOptions,
-  CreateWidgetOptions,
-  UpdateWidgetOptions,
-  DeleteWidgetOptions,
-  AnalyzeWidgetOptions,
-} from "../models/options.js";
+  WidgetsListWidgetsOptions,
+  WidgetsGetWidgetOptions,
+  WidgetsCreateWidgetOptions,
+  WidgetsUpdateWidgetOptions,
+  WidgetsDeleteWidgetOptions,
+  WidgetsAnalyzeWidgetOptions,
+} from "../../models/options.js";
 
 export function _listWidgetsSend(
   context: Client,
-  options: ListWidgetsOptions = { requestOptions: {} }
+  options: WidgetsListWidgetsOptions = { requestOptions: {} }
 ): StreamableMethod<ListWidgets200Response | ListWidgetsDefaultResponse> {
   return context
     .path("/widgets")
@@ -66,7 +66,7 @@ export async function _listWidgetsDeserialize(
  */
 export async function listWidgets(
   context: Client,
-  options: ListWidgetsOptions = { requestOptions: {} }
+  options: WidgetsListWidgetsOptions = { requestOptions: {} }
 ): Promise<Widget[]> {
   const result = await _listWidgetsSend(context, options);
   return _listWidgetsDeserialize(result);
@@ -75,7 +75,7 @@ export async function listWidgets(
 export function _getWidgetSend(
   context: Client,
   id: string,
-  options: GetWidgetOptions = { requestOptions: {} }
+  options: WidgetsGetWidgetOptions = { requestOptions: {} }
 ): StreamableMethod<GetWidget200Response | GetWidgetDefaultResponse> {
   return context
     .path("/widgets/{id}", id)
@@ -100,7 +100,7 @@ export async function _getWidgetDeserialize(
 export async function getWidget(
   context: Client,
   id: string,
-  options: GetWidgetOptions = { requestOptions: {} }
+  options: WidgetsGetWidgetOptions = { requestOptions: {} }
 ): Promise<Widget> {
   const result = await _getWidgetSend(context, id, options);
   return _getWidgetDeserialize(result);
@@ -109,7 +109,7 @@ export async function getWidget(
 export function _createWidgetSend(
   context: Client,
   body: CreateWidget,
-  options: CreateWidgetOptions = { requestOptions: {} }
+  options: WidgetsCreateWidgetOptions = { requestOptions: {} }
 ): StreamableMethod<CreateWidget201Response | CreateWidgetDefaultResponse> {
   return context
     .path("/widgets")
@@ -142,7 +142,7 @@ export async function _createWidgetDeserialize(
 export async function createWidget(
   context: Client,
   body: CreateWidget,
-  options: CreateWidgetOptions = { requestOptions: {} }
+  options: WidgetsCreateWidgetOptions = { requestOptions: {} }
 ): Promise<Widget> {
   const result = await _createWidgetSend(context, body, options);
   return _createWidgetDeserialize(result);
@@ -152,7 +152,7 @@ export function _updateWidgetSend(
   context: Client,
   id: string,
   body: UpdateWidget,
-  options: UpdateWidgetOptions = { requestOptions: {} }
+  options: WidgetsUpdateWidgetOptions = { requestOptions: {} }
 ): StreamableMethod<UpdateWidget200Response | UpdateWidgetDefaultResponse> {
   return context
     .path("/widgets/{id}", id)
@@ -184,7 +184,7 @@ export async function updateWidget(
   context: Client,
   id: string,
   body: UpdateWidget,
-  options: UpdateWidgetOptions = { requestOptions: {} }
+  options: WidgetsUpdateWidgetOptions = { requestOptions: {} }
 ): Promise<Widget> {
   const result = await _updateWidgetSend(context, id, body, options);
   return _updateWidgetDeserialize(result);
@@ -193,7 +193,7 @@ export async function updateWidget(
 export function _deleteWidgetSend(
   context: Client,
   id: string,
-  options: DeleteWidgetOptions = { requestOptions: {} }
+  options: WidgetsDeleteWidgetOptions = { requestOptions: {} }
 ): StreamableMethod<DeleteWidget204Response | DeleteWidgetDefaultResponse> {
   return context
     .path("/widgets/{id}", id)
@@ -214,7 +214,7 @@ export async function _deleteWidgetDeserialize(
 export async function deleteWidget(
   context: Client,
   id: string,
-  options: DeleteWidgetOptions = { requestOptions: {} }
+  options: WidgetsDeleteWidgetOptions = { requestOptions: {} }
 ): Promise<void> {
   const result = await _deleteWidgetSend(context, id, options);
   return _deleteWidgetDeserialize(result);
@@ -223,7 +223,7 @@ export async function deleteWidget(
 export function _analyzeWidgetSend(
   context: Client,
   id: string,
-  options: AnalyzeWidgetOptions = { requestOptions: {} }
+  options: WidgetsAnalyzeWidgetOptions = { requestOptions: {} }
 ): StreamableMethod<AnalyzeWidget200Response | AnalyzeWidgetDefaultResponse> {
   return context
     .path("/widgets/{id}/analyze", id)
@@ -246,7 +246,7 @@ export async function _analyzeWidgetDeserialize(
 export async function analyzeWidget(
   context: Client,
   id: string,
-  options: AnalyzeWidgetOptions = { requestOptions: {} }
+  options: WidgetsAnalyzeWidgetOptions = { requestOptions: {} }
 ): Promise<AnalyzeResult> {
   const result = await _analyzeWidgetSend(context, id, options);
   return _analyzeWidgetDeserialize(result);

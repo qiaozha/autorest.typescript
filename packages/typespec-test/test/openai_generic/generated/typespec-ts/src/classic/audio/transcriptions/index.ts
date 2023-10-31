@@ -10,10 +10,10 @@ import { create } from "../../../api/audio/transcriptions/index.js";
 import { AudioTranscriptionsCreateOptions } from "../../../models/options.js";
 
 export interface AudioTranscriptionsOperations {
-    create (
-      audio: CreateTranscriptionRequest,
-      options?: AudioTranscriptionsCreateOptions
-    ): Promise<CreateTranscriptionResponse>;
+  create: (
+    audio: CreateTranscriptionRequest,
+    options?: AudioTranscriptionsCreateOptions
+  ) => Promise<CreateTranscriptionResponse>;
 }
 
 export function getAudioTranscriptions(context: OpenAIContext) {

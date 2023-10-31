@@ -142,16 +142,26 @@ export function getClassicalOperation(
   if (existFunction) {
     const returnStatement = existFunction.getBodyText();
     if (returnStatement) {
-      const newReturnStatement = returnStatement.replace(
-        /}$/,
-        `,
-          ...get${getClassicalLayerPrefix(
-            operationGroup,
-            NameType.Interface,
-            "",
-            layer + 1
-          )}Operations(context)}`
-      );
+      let statement = `,
+      ...get${getClassicalLayerPrefix(
+        operationGroup,
+        NameType.Interface,
+        "",
+        layer + 1
+      )}Operations(context)}`;
+      if (layer !== operationGroup.namespaceHierarchies.length - 1) {
+        statement = `,
+        ${normalizeName(
+          operationGroup.namespaceHierarchies[layer + 1] ?? "FIXME",
+          NameType.Property
+        )}: get${getClassicalLayerPrefix(
+          operationGroup,
+          NameType.Interface,
+          "",
+          layer + 1
+        )}Operations(context)}`;
+      }
+      const newReturnStatement = returnStatement.replace(/}$/, statement);
       existFunction.setBodyText(newReturnStatement);
     }
   } else {
@@ -173,12 +183,15 @@ export function getClassicalOperation(
       statements:
         layer !== operationGroup.namespaceHierarchies.length - 1
           ? `return {
-          ...get${getClassicalLayerPrefix(
-            operationGroup,
-            NameType.Interface,
-            "",
-            layer + 1
-          )}Operations(context)   
+            ${normalizeName(
+              operationGroup.namespaceHierarchies[layer + 1] ?? "FIXME",
+              NameType.Property
+            )}: get${getClassicalLayerPrefix(
+              operationGroup,
+              NameType.Interface,
+              "",
+              layer + 1
+            )}Operations(context)   
       }`
           : `return {
         ...get${getClassicalLayerPrefix(

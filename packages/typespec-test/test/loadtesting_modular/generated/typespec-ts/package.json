@@ -39,6 +39,14 @@
     "./loadTestRun/models": {
       "types": "./types/src/loadTestRun/models/index.d.ts",
       "import": "./dist-esm/src/loadTestRun/models/index.js"
+    },
+    "./loadTestAdministration/api/administrationOperations": {
+      "types": "./types/src/loadTestAdministration/api/administrationOperations/index.d.ts",
+      "import": "./dist-esm/src/loadTestAdministration/api/administrationOperations/index.js"
+    },
+    "./loadTestRun/api/testRunOperations": {
+      "types": "./types/src/loadTestRun/api/testRunOperations/index.d.ts",
+      "import": "./dist-esm/src/loadTestRun/api/testRunOperations/index.js"
     }
   },
   "repository": "github:Azure/azure-sdk-for-js",
