@@ -6,4 +6,3 @@ export {
   CollectionFormatClientOptions,
   CollectionFormatContext,
 } from "./CollectionFormatContext.js";
-export { multi, ssv, tsv, pipes, csv } from "./operations.js";

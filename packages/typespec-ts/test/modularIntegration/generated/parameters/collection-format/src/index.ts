@@ -6,9 +6,11 @@ export {
   CollectionFormatClientOptions,
 } from "./CollectionFormatClient.js";
 export {
-  MultiOptions,
-  SsvOptions,
-  TsvOptions,
-  PipesOptions,
-  CsvOptions,
+  QueryQueryMultiOptions,
+  QueryQuerySsvOptions,
+  QueryQueryTsvOptions,
+  QueryQueryPipesOptions,
+  QueryQueryCsvOptions,
+  HeaderHeaderCsvOptions,
 } from "./models/index.js";
+export { HeaderOperations, QueryOperations } from "./classic/index.js";

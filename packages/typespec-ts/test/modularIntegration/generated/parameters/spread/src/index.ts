@@ -4,7 +4,9 @@
 export { SpreadClient, SpreadClientOptions } from "./SpreadClient.js";
 export {
   BodyParameter,
-  SpreadAsRequestBodyOptions,
-  SpreadAsRequestParameterOptions,
-  SpreadWithMultipleParametersOptions,
+  ModelModelSpreadAsRequestBodyOptions,
+  AliasAliasSpreadAsRequestBodyOptions,
+  AliasAliasSpreadAsRequestParameterOptions,
+  AliasAliasSpreadWithMultipleParametersOptions,
 } from "./models/index.js";
+export { AliasOperations, ModelOperations } from "./classic/index.js";
