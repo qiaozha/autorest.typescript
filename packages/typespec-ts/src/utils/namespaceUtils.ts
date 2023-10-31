@@ -28,7 +28,11 @@ export function getOperationNamespaceInterfaceName(
 ): string[] {
   const result: string[] = [];
   if (dpgContext.rlcOptions?.hierarchyClient === false) {
-    const operationGroupName = getOperationGroupName(dpgContext, operation, true);
+    const operationGroupName = getOperationGroupName(
+      dpgContext,
+      operation,
+      true
+    );
     if (operationGroupName !== "") {
       result.push(operationGroupName);
     }
