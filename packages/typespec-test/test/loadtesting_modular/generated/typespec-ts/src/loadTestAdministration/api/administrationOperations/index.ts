@@ -8,7 +8,7 @@ import {
   TestServerMetricConfig,
   PagedFileInfo,
   PagedTest,
-} from "../models/models.js";
+} from "../../models/models.js";
 import {
   isUnexpected,
   AzureLoadTestingContext as Client,
@@ -39,32 +39,34 @@ import {
   LoadTestAdministrationListTestsDefaultResponse,
   LoadTestAdministrationUploadTestFile201Response,
   LoadTestAdministrationUploadTestFileDefaultResponse,
-} from "../../rest/index.js";
+} from "../../../rest/index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import { uint8ArrayToString } from "@azure/core-util";
 import {
-  CreateOrUpdateTestOptions,
-  CreateOrUpdateAppComponentsOptions,
-  CreateOrUpdateServerMetricsConfigOptions,
-  GetAppComponentsOptions,
-  GetServerMetricsConfigOptions,
-  GetTestOptions,
-  GetTestFileOptions,
-  ListTestFilesOptions,
-  ListTestsOptions,
-  UploadTestFileOptions,
-  DeleteTestFileOptions,
-  DeleteTestOptions,
-} from "../models/options.js";
+  AdministrationOperationsCreateOrUpdateTestOptions,
+  AdministrationOperationsCreateOrUpdateAppComponentsOptions,
+  AdministrationOperationsCreateOrUpdateServerMetricsConfigOptions,
+  AdministrationOperationsGetAppComponentsOptions,
+  AdministrationOperationsGetServerMetricsConfigOptions,
+  AdministrationOperationsGetTestOptions,
+  AdministrationOperationsGetTestFileOptions,
+  AdministrationOperationsListTestFilesOptions,
+  AdministrationOperationsListTestsOptions,
+  AdministrationOperationsUploadTestFileOptions,
+  AdministrationOperationsDeleteTestFileOptions,
+  AdministrationOperationsDeleteTestOptions,
+} from "../../models/options.js";
 
 export function _createOrUpdateTestSend(
   context: Client,
   testId: string,
   body: Test,
-  options: CreateOrUpdateTestOptions = { requestOptions: {} }
+  options: AdministrationOperationsCreateOrUpdateTestOptions = {
+    requestOptions: {},
+  }
 ): StreamableMethod<
   | LoadTestAdministrationCreateOrUpdateTest200Response
   | LoadTestAdministrationCreateOrUpdateTest201Response
@@ -301,7 +303,9 @@ export async function createOrUpdateTest(
   context: Client,
   testId: string,
   body: Test,
-  options: CreateOrUpdateTestOptions = { requestOptions: {} }
+  options: AdministrationOperationsCreateOrUpdateTestOptions = {
+    requestOptions: {},
+  }
 ): Promise<Test> {
   const result = await _createOrUpdateTestSend(context, testId, body, options);
   return _createOrUpdateTestDeserialize(result);
@@ -311,7 +315,9 @@ export function _createOrUpdateAppComponentsSend(
   context: Client,
   testId: string,
   body: TestAppComponents,
-  options: CreateOrUpdateAppComponentsOptions = { requestOptions: {} }
+  options: AdministrationOperationsCreateOrUpdateAppComponentsOptions = {
+    requestOptions: {},
+  }
 ): StreamableMethod<
   | LoadTestAdministrationCreateOrUpdateAppComponents200Response
   | LoadTestAdministrationCreateOrUpdateAppComponents201Response
@@ -352,7 +358,9 @@ export async function createOrUpdateAppComponents(
   context: Client,
   testId: string,
   body: TestAppComponents,
-  options: CreateOrUpdateAppComponentsOptions = { requestOptions: {} }
+  options: AdministrationOperationsCreateOrUpdateAppComponentsOptions = {
+    requestOptions: {},
+  }
 ): Promise<TestAppComponents> {
   const result = await _createOrUpdateAppComponentsSend(
     context,
@@ -367,7 +375,9 @@ export function _createOrUpdateServerMetricsConfigSend(
   context: Client,
   testId: string,
   body: TestServerMetricConfig,
-  options: CreateOrUpdateServerMetricsConfigOptions = { requestOptions: {} }
+  options: AdministrationOperationsCreateOrUpdateServerMetricsConfigOptions = {
+    requestOptions: {},
+  }
 ): StreamableMethod<
   | LoadTestAdministrationCreateOrUpdateServerMetricsConfig200Response
   | LoadTestAdministrationCreateOrUpdateServerMetricsConfig201Response
@@ -408,7 +418,9 @@ export async function createOrUpdateServerMetricsConfig(
   context: Client,
   testId: string,
   body: TestServerMetricConfig,
-  options: CreateOrUpdateServerMetricsConfigOptions = { requestOptions: {} }
+  options: AdministrationOperationsCreateOrUpdateServerMetricsConfigOptions = {
+    requestOptions: {},
+  }
 ): Promise<TestServerMetricConfig> {
   const result = await _createOrUpdateServerMetricsConfigSend(
     context,
@@ -422,7 +434,9 @@ export async function createOrUpdateServerMetricsConfig(
 export function _getAppComponentsSend(
   context: Client,
   testId: string,
-  options: GetAppComponentsOptions = { requestOptions: {} }
+  options: AdministrationOperationsGetAppComponentsOptions = {
+    requestOptions: {},
+  }
 ): StreamableMethod<
   | LoadTestAdministrationGetAppComponents200Response
   | LoadTestAdministrationGetAppComponentsDefaultResponse
@@ -455,7 +469,9 @@ export async function _getAppComponentsDeserialize(
 export async function getAppComponents(
   context: Client,
   testId: string,
-  options: GetAppComponentsOptions = { requestOptions: {} }
+  options: AdministrationOperationsGetAppComponentsOptions = {
+    requestOptions: {},
+  }
 ): Promise<TestAppComponents> {
   const result = await _getAppComponentsSend(context, testId, options);
   return _getAppComponentsDeserialize(result);
@@ -464,7 +480,9 @@ export async function getAppComponents(
 export function _getServerMetricsConfigSend(
   context: Client,
   testId: string,
-  options: GetServerMetricsConfigOptions = { requestOptions: {} }
+  options: AdministrationOperationsGetServerMetricsConfigOptions = {
+    requestOptions: {},
+  }
 ): StreamableMethod<
   | LoadTestAdministrationGetServerMetricsConfig200Response
   | LoadTestAdministrationGetServerMetricsConfigDefaultResponse
@@ -497,7 +515,9 @@ export async function _getServerMetricsConfigDeserialize(
 export async function getServerMetricsConfig(
   context: Client,
   testId: string,
-  options: GetServerMetricsConfigOptions = { requestOptions: {} }
+  options: AdministrationOperationsGetServerMetricsConfigOptions = {
+    requestOptions: {},
+  }
 ): Promise<TestServerMetricConfig> {
   const result = await _getServerMetricsConfigSend(context, testId, options);
   return _getServerMetricsConfigDeserialize(result);
@@ -506,7 +526,7 @@ export async function getServerMetricsConfig(
 export function _getTestSend(
   context: Client,
   testId: string,
-  options: GetTestOptions = { requestOptions: {} }
+  options: AdministrationOperationsGetTestOptions = { requestOptions: {} }
 ): StreamableMethod<
   | LoadTestAdministrationGetTest200Response
   | LoadTestAdministrationGetTestDefaultResponse
@@ -689,7 +709,7 @@ export async function _getTestDeserialize(
 export async function getTest(
   context: Client,
   testId: string,
-  options: GetTestOptions = { requestOptions: {} }
+  options: AdministrationOperationsGetTestOptions = { requestOptions: {} }
 ): Promise<Test> {
   const result = await _getTestSend(context, testId, options);
   return _getTestDeserialize(result);
@@ -699,7 +719,7 @@ export function _getTestFileSend(
   context: Client,
   testId: string,
   fileName: string,
-  options: GetTestFileOptions = { requestOptions: {} }
+  options: AdministrationOperationsGetTestFileOptions = { requestOptions: {} }
 ): StreamableMethod<
   | LoadTestAdministrationGetTestFile200Response
   | LoadTestAdministrationGetTestFileDefaultResponse
@@ -733,7 +753,7 @@ export async function getTestFile(
   context: Client,
   testId: string,
   fileName: string,
-  options: GetTestFileOptions = { requestOptions: {} }
+  options: AdministrationOperationsGetTestFileOptions = { requestOptions: {} }
 ): Promise<FileInfo> {
   const result = await _getTestFileSend(context, testId, fileName, options);
   return _getTestFileDeserialize(result);
@@ -742,7 +762,7 @@ export async function getTestFile(
 export function _listTestFilesSend(
   context: Client,
   testId: string,
-  options: ListTestFilesOptions = { requestOptions: {} }
+  options: AdministrationOperationsListTestFilesOptions = { requestOptions: {} }
 ): StreamableMethod<
   | LoadTestAdministrationListTestFiles200Response
   | LoadTestAdministrationListTestFilesDefaultResponse
@@ -778,7 +798,7 @@ export async function _listTestFilesDeserialize(
 export async function listTestFiles(
   context: Client,
   testId: string,
-  options: ListTestFilesOptions = { requestOptions: {} }
+  options: AdministrationOperationsListTestFilesOptions = { requestOptions: {} }
 ): Promise<PagedFileInfo> {
   const result = await _listTestFilesSend(context, testId, options);
   return _listTestFilesDeserialize(result);
@@ -786,7 +806,7 @@ export async function listTestFiles(
 
 export function _listTestsSend(
   context: Client,
-  options: ListTestsOptions = { requestOptions: {} }
+  options: AdministrationOperationsListTestsOptions = { requestOptions: {} }
 ): StreamableMethod<
   | LoadTestAdministrationListTests200Response
   | LoadTestAdministrationListTestsDefaultResponse
@@ -958,7 +978,7 @@ export async function _listTestsDeserialize(
  */
 export async function listTests(
   context: Client,
-  options: ListTestsOptions = { requestOptions: {} }
+  options: AdministrationOperationsListTestsOptions = { requestOptions: {} }
 ): Promise<PagedTest> {
   const result = await _listTestsSend(context, options);
   return _listTestsDeserialize(result);
@@ -969,7 +989,9 @@ export function _uploadTestFileSend(
   testId: string,
   fileName: string,
   body: Uint8Array,
-  options: UploadTestFileOptions = { requestOptions: {} }
+  options: AdministrationOperationsUploadTestFileOptions = {
+    requestOptions: {},
+  }
 ): StreamableMethod<
   | LoadTestAdministrationUploadTestFile201Response
   | LoadTestAdministrationUploadTestFileDefaultResponse
@@ -1013,7 +1035,9 @@ export async function uploadTestFile(
   testId: string,
   fileName: string,
   body: Uint8Array,
-  options: UploadTestFileOptions = { requestOptions: {} }
+  options: AdministrationOperationsUploadTestFileOptions = {
+    requestOptions: {},
+  }
 ): Promise<FileInfo> {
   const result = await _uploadTestFileSend(
     context,
@@ -1029,7 +1053,9 @@ export function _deleteTestFileSend(
   context: Client,
   testId: string,
   fileName: string,
-  options: DeleteTestFileOptions = { requestOptions: {} }
+  options: AdministrationOperationsDeleteTestFileOptions = {
+    requestOptions: {},
+  }
 ): StreamableMethod<
   | LoadTestAdministrationDeleteTestFile204Response
   | LoadTestAdministrationDeleteTestFileDefaultResponse
@@ -1056,7 +1082,9 @@ export async function deleteTestFile(
   context: Client,
   testId: string,
   fileName: string,
-  options: DeleteTestFileOptions = { requestOptions: {} }
+  options: AdministrationOperationsDeleteTestFileOptions = {
+    requestOptions: {},
+  }
 ): Promise<void> {
   const result = await _deleteTestFileSend(context, testId, fileName, options);
   return _deleteTestFileDeserialize(result);
@@ -1065,7 +1093,7 @@ export async function deleteTestFile(
 export function _deleteTestSend(
   context: Client,
   testId: string,
-  options: DeleteTestOptions = { requestOptions: {} }
+  options: AdministrationOperationsDeleteTestOptions = { requestOptions: {} }
 ): StreamableMethod<
   | LoadTestAdministrationDeleteTest204Response
   | LoadTestAdministrationDeleteTestDefaultResponse
@@ -1091,7 +1119,7 @@ export async function _deleteTestDeserialize(
 export async function deleteTest(
   context: Client,
   testId: string,
-  options: DeleteTestOptions = { requestOptions: {} }
+  options: AdministrationOperationsDeleteTestOptions = { requestOptions: {} }
 ): Promise<void> {
   const result = await _deleteTestSend(context, testId, options);
   return _deleteTestDeserialize(result);

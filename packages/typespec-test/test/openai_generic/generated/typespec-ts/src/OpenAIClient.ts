@@ -88,3 +88,6 @@ export class OpenAIClient {
   /** The operation groups for Moderations */
   public readonly moderations: ModerationsOperations;
 }
+
+const client = new OpenAIClient({} as any);
+client.audio.transcriptions.create();
