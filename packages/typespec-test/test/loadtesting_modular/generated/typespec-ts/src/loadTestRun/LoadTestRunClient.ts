@@ -33,6 +33,3 @@ export class LoadTestRunClient {
   /** The operation groups for TestRunOperations */
   public readonly testRunOperations: TestRunOperationsOperations;
 }
-
-const client = new LoadTestRunClient("https://endpoint", {} as any);
-client.testRunOperations.testRunOperations.createOrUpdateAppComponents();

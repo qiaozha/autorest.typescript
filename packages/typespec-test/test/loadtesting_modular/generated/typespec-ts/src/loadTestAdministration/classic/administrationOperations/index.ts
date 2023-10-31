@@ -40,62 +40,60 @@ import {
 } from "../../models/options.js";
 
 export interface AdministrationOperationsOperations {
-  administrationOperations: {
-    createOrUpdateTest: (
-      testId: string,
-      body: Test,
-      options?: AdministrationOperationsCreateOrUpdateTestOptions
-    ) => Promise<Test>;
-    createOrUpdateAppComponents: (
-      testId: string,
-      body: TestAppComponents,
-      options?: AdministrationOperationsCreateOrUpdateAppComponentsOptions
-    ) => Promise<TestAppComponents>;
-    createOrUpdateServerMetricsConfig: (
-      testId: string,
-      body: TestServerMetricConfig,
-      options?: AdministrationOperationsCreateOrUpdateServerMetricsConfigOptions
-    ) => Promise<TestServerMetricConfig>;
-    getAppComponents: (
-      testId: string,
-      options?: AdministrationOperationsGetAppComponentsOptions
-    ) => Promise<TestAppComponents>;
-    getServerMetricsConfig: (
-      testId: string,
-      options?: AdministrationOperationsGetServerMetricsConfigOptions
-    ) => Promise<TestServerMetricConfig>;
-    getTest: (
-      testId: string,
-      options?: AdministrationOperationsGetTestOptions
-    ) => Promise<Test>;
-    getTestFile: (
-      testId: string,
-      fileName: string,
-      options?: AdministrationOperationsGetTestFileOptions
-    ) => Promise<FileInfo>;
-    listTestFiles: (
-      testId: string,
-      options?: AdministrationOperationsListTestFilesOptions
-    ) => Promise<PagedFileInfo>;
-    listTests: (
-      options?: AdministrationOperationsListTestsOptions
-    ) => Promise<PagedTest>;
-    uploadTestFile: (
-      testId: string,
-      fileName: string,
-      body: Uint8Array,
-      options?: AdministrationOperationsUploadTestFileOptions
-    ) => Promise<FileInfo>;
-    deleteTestFile: (
-      testId: string,
-      fileName: string,
-      options?: AdministrationOperationsDeleteTestFileOptions
-    ) => Promise<void>;
-    deleteTest: (
-      testId: string,
-      options?: AdministrationOperationsDeleteTestOptions
-    ) => Promise<void>;
-  };
+  createOrUpdateTest: (
+    testId: string,
+    body: Test,
+    options?: AdministrationOperationsCreateOrUpdateTestOptions
+  ) => Promise<Test>;
+  createOrUpdateAppComponents: (
+    testId: string,
+    body: TestAppComponents,
+    options?: AdministrationOperationsCreateOrUpdateAppComponentsOptions
+  ) => Promise<TestAppComponents>;
+  createOrUpdateServerMetricsConfig: (
+    testId: string,
+    body: TestServerMetricConfig,
+    options?: AdministrationOperationsCreateOrUpdateServerMetricsConfigOptions
+  ) => Promise<TestServerMetricConfig>;
+  getAppComponents: (
+    testId: string,
+    options?: AdministrationOperationsGetAppComponentsOptions
+  ) => Promise<TestAppComponents>;
+  getServerMetricsConfig: (
+    testId: string,
+    options?: AdministrationOperationsGetServerMetricsConfigOptions
+  ) => Promise<TestServerMetricConfig>;
+  getTest: (
+    testId: string,
+    options?: AdministrationOperationsGetTestOptions
+  ) => Promise<Test>;
+  getTestFile: (
+    testId: string,
+    fileName: string,
+    options?: AdministrationOperationsGetTestFileOptions
+  ) => Promise<FileInfo>;
+  listTestFiles: (
+    testId: string,
+    options?: AdministrationOperationsListTestFilesOptions
+  ) => Promise<PagedFileInfo>;
+  listTests: (
+    options?: AdministrationOperationsListTestsOptions
+  ) => Promise<PagedTest>;
+  uploadTestFile: (
+    testId: string,
+    fileName: string,
+    body: Uint8Array,
+    options?: AdministrationOperationsUploadTestFileOptions
+  ) => Promise<FileInfo>;
+  deleteTestFile: (
+    testId: string,
+    fileName: string,
+    options?: AdministrationOperationsDeleteTestFileOptions
+  ) => Promise<void>;
+  deleteTest: (
+    testId: string,
+    options?: AdministrationOperationsDeleteTestOptions
+  ) => Promise<void>;
 }
 
 export function getAdministrationOperations(context: AzureLoadTestingContext) {
@@ -160,6 +158,6 @@ export function getAdministrationOperationsOperations(
   context: AzureLoadTestingContext
 ): AdministrationOperationsOperations {
   return {
-    administrationOperations: getAdministrationOperations(context),
+    ...getAdministrationOperations(context),
   };
 }
