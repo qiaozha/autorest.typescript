@@ -47,6 +47,19 @@ export function getOperationNamespaceInterfaceName(
     }
     result.push(operation.interface.name);
   } else if (operation.namespace) {
+    if (
+      dpgContext.rlcOptions?.enableOperationGroup === true &&
+      dpgContext.rlcOptions?.hierarchyClient === false
+    ) {
+      // if (
+      //   !isGlobalNamespace(dpgContext.program, operation.namespace) &&
+      //   !isService(dpgContext.program, operation.namespace) &&
+      //   isStdNamespace(operation.namespace)
+      // ) {
+      //   result.push(operation.namespace.name);
+      // }
+      return result;
+    }
     !isGlobalNamespace(dpgContext.program, operation.namespace) &&
     !isService(dpgContext.program, operation.namespace)
       ? (result.push(
