@@ -3,62 +3,172 @@
 
 import { ErrorModel } from "@azure-rest/core-client";
 
-/**
- * The configuration information for an embeddings request.
- * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
- * recommendations, and other similar scenarios.
- */
-export interface EmbeddingsOptions {
+/** The configuration information for an audio transcription request. */
+export interface AudioTranscriptionOptions {
   /**
-   * An identifier for the caller or end user of the operation. This may be used for tracking
-   * or rate-limiting purposes.
+   * The audio data to transcribe. This must be the binary content of a file in one of the supported media formats:
+   *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
    */
-  user?: string;
+  file: Uint8Array;
+  /** The requested format of the transcription response data, which will influence the content and detail of the result. */
+  responseFormat?: AudioTranscriptionFormat;
   /**
-   * The model name to provide as part of this embeddings request.
-   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
-   * resource URI that's connected to.
+   * The primary spoken language of the audio data to be transcribed, supplied as a two-letter ISO-639-1 language code
+   * such as 'en' or 'fr'.
+   * Providing this known input language is optional but may improve the accuracy and/or latency of transcription.
    */
+  language?: string;
+  /**
+   * An optional hint to guide the model's style or continue from a prior audio segment. The written language of the
+   * prompt should match the primary spoken language of the audio data.
+   */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The model to use for this transcription request. */
   model?: string;
+}
+
+/** Defines available options for the underlying response format of output transcription information. */
+/** "json", "verbose_json", "text", "srt", "vtt" */
+export type AudioTranscriptionFormat = string;
+
+/** Result information for an operation that transcribed spoken audio into written text. */
+export interface AudioTranscription {
+  /** The transcribed text for the provided audio data. */
+  text: string;
+  /** The label that describes which operation type generated the accompanying response data. */
+  task?: AudioTaskLabel;
   /**
-   * Input texts to get embeddings for, encoded as a an array of strings.
-   * Each input must not exceed 2048 tokens in length.
-   *
-   * Unless you are embedding code, we suggest replacing newlines (\n) in your input with a single space,
-   * as we have observed inferior results when newlines are present.
+   * The spoken language that was detected in the transcribed audio data.
+   * This is expressed as a two-letter ISO-639-1 language code like 'en' or 'fr'.
    */
-  input: string[];
+  language?: string;
+  /** The total duration of the audio processed to produce accompanying transcription information. */
+  duration?: number;
+  /** A collection of information about the timing, probabilities, and other detail of each processed audio segment. */
+  segments?: AudioTranscriptionSegment[];
+}
+
+/** Defines the possible descriptors for available audio operation responses. */
+/** "transcribe", "translate" */
+export type AudioTaskLabel = string;
+
+/**
+ * Extended information about a single segment of transcribed audio data.
+ * Segments generally represent roughly 5-10 seconds of speech. Segment boundaries typically occur between words but not
+ * necessarily sentences.
+ */
+export interface AudioTranscriptionSegment {
+  /** The 0-based index of this segment within a transcription. */
+  id: number;
+  /** The time at which this segment started relative to the beginning of the transcribed audio. */
+  start: number;
+  /** The time at which this segment ended relative to the beginning of the transcribed audio. */
+  end: number;
+  /** The transcribed text that was part of this audio segment. */
+  text: string;
+  /** The temperature score associated with this audio segment. */
+  temperature: number;
+  /** The average log probability associated with this audio segment. */
+  avgLogprob: number;
+  /** The compression ratio of this audio segment. */
+  compressionRatio: number;
+  /** The probability of no speech detection within this audio segment. */
+  noSpeechProb: number;
+  /** The token IDs matching the transcribed text in this audio segment. */
+  tokens: number[];
+  /**
+   * The seek position associated with the processing of this audio segment.
+   * Seek positions are expressed as hundredths of seconds.
+   * The model may process several segments from a single seek position, so while the seek position will never represent
+   * a later time than the segment's start, the segment's start may represent a significantly later time than the
+   * segment's associated seek position.
+   */
+  seek: number;
+}
+
+/** The configuration information for an audio translation request. */
+export interface AudioTranslationOptions {
+  /**
+   * The audio data to translate. This must be the binary content of a file in one of the supported media formats:
+   *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
+   */
+  file: Uint8Array;
+  /** The requested format of the translation response data, which will influence the content and detail of the result. */
+  responseFormat?: AudioTranslationFormat;
+  /**
+   * An optional hint to guide the model's style or continue from a prior audio segment. The written language of the
+   * prompt should match the primary spoken language of the audio data.
+   */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The model to use for this translation request. */
+  model?: string;
+}
+
+/** Defines available options for the underlying response format of output translation information. */
+/** "json", "verbose_json", "text", "srt", "vtt" */
+export type AudioTranslationFormat = string;
+
+/** Result information for an operation that translated spoken audio into written text. */
+export interface AudioTranslation {
+  /** The translated text for the provided audio data. */
+  text: string;
+  /** The label that describes which operation type generated the accompanying response data. */
+  task?: AudioTaskLabel;
+  /**
+   * The spoken language that was detected in the translated audio data.
+   * This is expressed as a two-letter ISO-639-1 language code like 'en' or 'fr'.
+   */
+  language?: string;
+  /** The total duration of the audio processed to produce accompanying translation information. */
+  duration?: number;
+  /** A collection of information about the timing, probabilities, and other detail of each processed audio segment. */
+  segments?: AudioTranslationSegment[];
 }
 
 /**
- * Representation of the response data from an embeddings request.
- * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
- * recommendations, and other similar scenarios.
+ * Extended information about a single segment of translated audio data.
+ * Segments generally represent roughly 5-10 seconds of speech. Segment boundaries typically occur between words but not
+ * necessarily sentences.
  */
-export interface Embeddings {
-  /** Embedding values for the prompts submitted in the request. */
-  data: EmbeddingItem[];
-  /** Usage counts for tokens input using the embeddings API. */
-  usage: EmbeddingsUsage;
-}
-
-/** Representation of a single embeddings relatedness comparison. */
-export interface EmbeddingItem {
+export interface AudioTranslationSegment {
+  /** The 0-based index of this segment within a translation. */
+  id: number;
+  /** The time at which this segment started relative to the beginning of the translated audio. */
+  start: number;
+  /** The time at which this segment ended relative to the beginning of the translated audio. */
+  end: number;
+  /** The translated text that was part of this audio segment. */
+  text: string;
+  /** The temperature score associated with this audio segment. */
+  temperature: number;
+  /** The average log probability associated with this audio segment. */
+  avgLogprob: number;
+  /** The compression ratio of this audio segment. */
+  compressionRatio: number;
+  /** The probability of no speech detection within this audio segment. */
+  noSpeechProb: number;
+  /** The token IDs matching the translated text in this audio segment. */
+  tokens: number[];
   /**
-   * List of embeddings value for the input prompt. These represent a measurement of the
-   * vector-based relatedness of the provided input.
+   * The seek position associated with the processing of this audio segment.
+   * Seek positions are expressed as hundredths of seconds.
+   * The model may process several segments from a single seek position, so while the seek position will never represent
+   * a later time than the segment's start, the segment's start may represent a significantly later time than the
+   * segment's associated seek position.
    */
-  embedding: number[];
-  /** Index of the prompt to which the EmbeddingItem corresponds. */
-  index: number;
-}
-
-/** Measurement of the amount of tokens used in this request and response. */
-export interface EmbeddingsUsage {
-  /** Number of tokens sent in the original request. */
-  promptTokens: number;
-  /** Total number of tokens transacted in this request/response. */
-  totalTokens: number;
+  seek: number;
 }
 
 /**
@@ -216,6 +326,11 @@ export interface ContentFilterResults {
    * or damage one’s body, or kill oneself.
    */
   selfHarm?: ContentFilterResult;
+  /**
+   * Describes an error returned if the content filtering system is
+   * down or otherwise unable to complete the operation in time.
+   */
+  error?: ErrorModel;
 }
 
 /** Information about filtered content severity level and if it has been filtered or not. */
@@ -611,6 +726,64 @@ export type ImageSize = string;
 /** "url", "b64_json" */
 export type ImageGenerationResponseFormat = string;
 
+/**
+ * The configuration information for an embeddings request.
+ * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
+ * recommendations, and other similar scenarios.
+ */
+export interface EmbeddingsOptions {
+  /**
+   * An identifier for the caller or end user of the operation. This may be used for tracking
+   * or rate-limiting purposes.
+   */
+  user?: string;
+  /**
+   * The model name to provide as part of this embeddings request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
+  /**
+   * Input texts to get embeddings for, encoded as a an array of strings.
+   * Each input must not exceed 2048 tokens in length.
+   *
+   * Unless you are embedding code, we suggest replacing newlines (\n) in your input with a single space,
+   * as we have observed inferior results when newlines are present.
+   */
+  input: string[];
+}
+
+/**
+ * Representation of the response data from an embeddings request.
+ * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
+ * recommendations, and other similar scenarios.
+ */
+export interface Embeddings {
+  /** Embedding values for the prompts submitted in the request. */
+  data: EmbeddingItem[];
+  /** Usage counts for tokens input using the embeddings API. */
+  usage: EmbeddingsUsage;
+}
+
+/** Representation of a single embeddings relatedness comparison. */
+export interface EmbeddingItem {
+  /**
+   * List of embeddings value for the input prompt. These represent a measurement of the
+   * vector-based relatedness of the provided input.
+   */
+  embedding: number[];
+  /** Index of the prompt to which the EmbeddingItem corresponds. */
+  index: number;
+}
+
+/** Measurement of the amount of tokens used in this request and response. */
+export interface EmbeddingsUsage {
+  /** Number of tokens sent in the original request. */
+  promptTokens: number;
+  /** Total number of tokens transacted in this request/response. */
+  totalTokens: number;
+}
+
 /** Optional settings to control how fields are processed when using a configured Azure Cognitive Search resource. */
 export interface AzureCognitiveSearchIndexFieldMappingOptions {
   /** The name of the index field to use as a title. */
@@ -625,6 +798,38 @@ export interface AzureCognitiveSearchIndexFieldMappingOptions {
   contentFieldSeparator?: string;
   /** The names of fields that represent vector data. */
   vectorFields?: string[];
+}
+
+/**
+ * A specific representation of configurable options for Azure Cognitive Search when using it as an Azure OpenAI chat
+ * extension.
+ */
+export interface AzureCognitiveSearchChatExtensionConfiguration {
+  /**
+   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
+   * default value for Azure Cognitive Search.
+   */
+  type: "AzureCognitiveSearch";
+  /** The absolute endpoint path for the Azure Cognitive Search resource to use. */
+  endpoint: string;
+  /** The API admin key to use with the specified Azure Cognitive Search endpoint. */
+  key: string;
+  /** The name of the index to use as available in the referenced Azure Cognitive Search resource. */
+  indexName: string;
+  /** Customized field mapping behavior to use when interacting with the search index. */
+  fieldsMapping?: AzureCognitiveSearchIndexFieldMappingOptions;
+  /** The configured top number of documents to feature for the configured query. */
+  topNDocuments?: number;
+  /** The query type to use with Azure Cognitive Search. */
+  queryType?: AzureCognitiveSearchQueryType;
+  /** Whether queries should be restricted to use of indexed data. */
+  inScope?: boolean;
+  /** The additional semantic configuration for the query. */
+  semanticConfiguration?: string;
+  /** When using embeddings for search, specifies the resource URL from which embeddings should be retrieved. */
+  embeddingEndpoint?: string;
+  /** When using embeddings, specifies the API key to use with the provided embeddings endpoint. */
+  embeddingKey?: string;
 }
 
 /** The type of Azure Cognitive Search retrieval query that should be executed when using it as an Azure OpenAI chat extension. */

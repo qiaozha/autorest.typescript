@@ -1,5 +1,6 @@
 import "@typespec/versioning";
-import "./azure.chat.extensions.tsp";
+
+import "./azure_chat_extensions.tsp";
 
 namespace Azure.OpenAI;
 
@@ -70,7 +71,7 @@ model AzureCognitiveSearchChatExtensionConfiguration {
   @projectedName("csharp", "SearchEndpoint")
   endpoint: url;
 
-  @doc("The API key to use with the specified Azure Cognitive Search endpoint.")
+  @doc("The API admin key to use with the specified Azure Cognitive Search endpoint.")
   @projectedName("csharp", "SearchKey")
   key: string;
 

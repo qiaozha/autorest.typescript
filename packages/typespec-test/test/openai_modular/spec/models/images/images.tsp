@@ -1,7 +1,8 @@
 import "@azure-tools/typespec-azure-core";
 import "@typespec/http";
 import "@typespec/versioning";
-import "./operations.common.tsp";
+
+import "./common.tsp";
 
 using Azure.Core;
 using TypeSpec.Http;
@@ -58,7 +59,6 @@ model ImageGenerationOptions {
 
 @doc("An image response item that provides a URL from which an image may be accessed.")
 @added(ServiceApiVersions.v2023_06_01_Preview)
-@projectedName("csharp", "InternalImageLocation")
 model ImageLocation {
   @doc("The URL that provides temporary access to download the generated image.")
   url: url;

@@ -12,6 +12,80 @@ import { Pipeline } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type AudioTaskLabel = string;
+
+// @public
+export interface AudioTranscription {
+    duration?: number;
+    language?: string;
+    segments?: AudioTranscriptionSegment[];
+    task?: AudioTaskLabel;
+    text: string;
+}
+
+// @public
+export type AudioTranscriptionFormat = string;
+
+// @public
+export interface AudioTranscriptionOptions {
+    file: Uint8Array;
+    language?: string;
+    model?: string;
+    prompt?: string;
+    responseFormat?: AudioTranscriptionFormat;
+    temperature?: number;
+}
+
+// @public
+export interface AudioTranscriptionSegment {
+    avgLogprob: number;
+    compressionRatio: number;
+    end: number;
+    id: number;
+    noSpeechProb: number;
+    seek: number;
+    start: number;
+    temperature: number;
+    text: string;
+    tokens: number[];
+}
+
+// @public
+export interface AudioTranslation {
+    duration?: number;
+    language?: string;
+    segments?: AudioTranslationSegment[];
+    task?: AudioTaskLabel;
+    text: string;
+}
+
+// @public
+export type AudioTranslationFormat = string;
+
+// @public
+export interface AudioTranslationOptions {
+    file: Uint8Array;
+    model?: string;
+    prompt?: string;
+    responseFormat?: AudioTranslationFormat;
+    temperature?: number;
+}
+
+// @public
+export interface AudioTranslationSegment {
+    avgLogprob: number;
+    compressionRatio: number;
+    end: number;
+    id: number;
+    noSpeechProb: number;
+    seek: number;
+    start: number;
+    temperature: number;
+    text: string;
+    tokens: number[];
+}
+
+// @public
 export interface AzureChatExtensionConfiguration {
     parameters: unknown;
     type: AzureChatExtensionType;
@@ -24,6 +98,21 @@ export interface AzureChatExtensionsMessageContext {
 
 // @public
 export type AzureChatExtensionType = string;
+
+// @public
+export interface AzureCognitiveSearchChatExtensionConfiguration {
+    embeddingEndpoint?: string;
+    embeddingKey?: string;
+    endpoint: string;
+    fieldsMapping?: AzureCognitiveSearchIndexFieldMappingOptions;
+    indexName: string;
+    inScope?: boolean;
+    key: string;
+    queryType?: AzureCognitiveSearchQueryType;
+    semanticConfiguration?: string;
+    topNDocuments?: number;
+    type: "AzureCognitiveSearch";
+}
 
 // @public
 export interface AzureCognitiveSearchIndexFieldMappingOptions {
@@ -175,6 +264,7 @@ export interface ContentFilterResult {
 
 // @public
 export interface ContentFilterResults {
+    error?: ErrorModel;
     hate?: ContentFilterResult;
     selfHarm?: ContentFilterResult;
     sexual?: ContentFilterResult;
@@ -228,6 +318,24 @@ export interface FunctionDefinition {
 // @public
 export interface FunctionName {
     name: string;
+}
+
+// @public (undocumented)
+export interface GetAudioTranscriptionAsPlainTextOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetAudioTranscriptionAsResponseObjectOptions extends OperationOptions {
+    contentType?: string;
+}
+
+// @public (undocumented)
+export interface GetAudioTranslationAsPlainTextOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetAudioTranslationAsResponseObjectOptions extends OperationOptions {
+    contentType?: string;
 }
 
 // @public (undocumented)
@@ -285,6 +393,10 @@ export type ImageSize = string;
 export class OpenAIClient {
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: OpenAIClientOptions);
     beginAzureBatchImageGeneration(body: ImageGenerationOptions, options?: BeginAzureBatchImageGenerationOptions): Promise<BatchImageGenerationOperationResponse>;
+    getAudioTranscriptionAsPlainText(deploymentId: string, body: AudioTranscriptionOptions, options?: GetAudioTranscriptionAsPlainTextOptions): Promise<string>;
+    getAudioTranscriptionAsResponseObject(deploymentId: string, body: AudioTranscriptionOptions, options?: GetAudioTranscriptionAsResponseObjectOptions): Promise<AudioTranscription>;
+    getAudioTranslationAsPlainText(deploymentId: string, body: AudioTranslationOptions, options?: GetAudioTranslationAsPlainTextOptions): Promise<string>;
+    getAudioTranslationAsResponseObject(deploymentId: string, body: AudioTranslationOptions, options?: GetAudioTranslationAsResponseObjectOptions): Promise<AudioTranslation>;
     getAzureBatchImageGenerationOperationStatus(operationId: string, options?: GetAzureBatchImageGenerationOperationStatusOptions): Promise<BatchImageGenerationOperationResponse>;
     getChatCompletions(deploymentId: string, body: ChatCompletionsOptions, options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
     getChatCompletionsWithAzureExtensions(deploymentId: string, body: ChatCompletionsOptions, options?: GetChatCompletionsWithAzureExtensionsOptions): Promise<ChatCompletions>;

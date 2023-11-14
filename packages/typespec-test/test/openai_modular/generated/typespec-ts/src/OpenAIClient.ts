@@ -4,33 +4,45 @@
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import {
-  EmbeddingsOptions,
-  Embeddings,
+  AudioTranscriptionOptions,
+  AudioTranscription,
+  AudioTranslationOptions,
+  AudioTranslation,
   CompletionsOptions,
   Completions,
   ChatCompletionsOptions,
   ChatCompletions,
   BatchImageGenerationOperationResponse,
   ImageGenerationOptions,
+  EmbeddingsOptions,
+  Embeddings,
 } from "./models/models.js";
 import {
-  GetEmbeddingsOptions,
+  GetAudioTranscriptionAsPlainTextOptions,
+  GetAudioTranscriptionAsResponseObjectOptions,
+  GetAudioTranslationAsPlainTextOptions,
+  GetAudioTranslationAsResponseObjectOptions,
   GetCompletionsOptions,
   GetChatCompletionsOptions,
   GetChatCompletionsWithAzureExtensionsOptions,
   GetAzureBatchImageGenerationOperationStatusOptions,
   BeginAzureBatchImageGenerationOptions,
+  GetEmbeddingsOptions,
 } from "./models/options.js";
 import {
   createOpenAI,
   OpenAIClientOptions,
   OpenAIContext,
-  getEmbeddings,
+  getAudioTranscriptionAsPlainText,
+  getAudioTranscriptionAsResponseObject,
+  getAudioTranslationAsPlainText,
+  getAudioTranslationAsResponseObject,
   getCompletions,
   getChatCompletions,
   getChatCompletionsWithAzureExtensions,
   getAzureBatchImageGenerationOperationStatus,
   beginAzureBatchImageGeneration,
+  getEmbeddings,
 } from "./api/index.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
@@ -50,13 +62,68 @@ export class OpenAIClient {
     this.pipeline = this._client.pipeline;
   }
 
-  /** Return the embeddings for a given prompt. */
-  getEmbeddings(
+  /**
+   * Gets transcribed text and associated metadata from provided spoken audio data. Audio will be transcribed in the
+   * written language corresponding to the language it was spoken in.
+   */
+  getAudioTranscriptionAsPlainText(
     deploymentId: string,
-    body: EmbeddingsOptions,
-    options: GetEmbeddingsOptions = { requestOptions: {} }
-  ): Promise<Embeddings> {
-    return getEmbeddings(this._client, deploymentId, body, options);
+    body: AudioTranscriptionOptions,
+    options: GetAudioTranscriptionAsPlainTextOptions = { requestOptions: {} }
+  ): Promise<string> {
+    return getAudioTranscriptionAsPlainText(
+      this._client,
+      deploymentId,
+      body,
+      options
+    );
+  }
+
+  /**
+   * Gets transcribed text and associated metadata from provided spoken audio data. Audio will be transcribed in the
+   * written language corresponding to the language it was spoken in.
+   */
+  getAudioTranscriptionAsResponseObject(
+    deploymentId: string,
+    body: AudioTranscriptionOptions,
+    options: GetAudioTranscriptionAsResponseObjectOptions = {
+      requestOptions: {},
+    }
+  ): Promise<AudioTranscription> {
+    return getAudioTranscriptionAsResponseObject(
+      this._client,
+      deploymentId,
+      body,
+      options
+    );
+  }
+
+  /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
+  getAudioTranslationAsPlainText(
+    deploymentId: string,
+    body: AudioTranslationOptions,
+    options: GetAudioTranslationAsPlainTextOptions = { requestOptions: {} }
+  ): Promise<string> {
+    return getAudioTranslationAsPlainText(
+      this._client,
+      deploymentId,
+      body,
+      options
+    );
+  }
+
+  /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
+  getAudioTranslationAsResponseObject(
+    deploymentId: string,
+    body: AudioTranslationOptions,
+    options: GetAudioTranslationAsResponseObjectOptions = { requestOptions: {} }
+  ): Promise<AudioTranslation> {
+    return getAudioTranslationAsResponseObject(
+      this._client,
+      deploymentId,
+      body,
+      options
+    );
   }
 
   /**
@@ -125,5 +192,14 @@ export class OpenAIClient {
     options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
   ): Promise<BatchImageGenerationOperationResponse> {
     return beginAzureBatchImageGeneration(this._client, body, options);
+  }
+
+  /** Return the embeddings for a given prompt. */
+  getEmbeddings(
+    deploymentId: string,
+    body: EmbeddingsOptions,
+    options: GetEmbeddingsOptions = { requestOptions: {} }
+  ): Promise<Embeddings> {
+    return getEmbeddings(this._client, deploymentId, body, options);
   }
 }
