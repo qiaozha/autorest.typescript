@@ -35,7 +35,7 @@ export function transformApiVersionInfo(
   const isCrossedVersion =
     pathVersionDetail?.isCrossedVersion || queryVersionDetail?.isCrossedVersion;
   let defaultValue =
-    getEnrichedDefaultApiVersion(program, dpgContext) ??
+    getEnrichedDefaultApiVersion(program) ??
     pathVersionDetail?.defaultValue ??
     queryVersionDetail?.defaultValue;
 

@@ -540,10 +540,7 @@ function emitParameter(
       clientDefaultValue = defaultApiVersion.value;
     }
     if (!clientDefaultValue) {
-      clientDefaultValue = getEnrichedDefaultApiVersion(
-        context.program,
-        context
-      );
+      clientDefaultValue = getEnrichedDefaultApiVersion(context.program);
     }
   }
   return { clientDefaultValue, ...base, ...paramMap };
@@ -1639,7 +1636,7 @@ function emitServerParams(
       endpointPathParameters.push(emittedParameter);
       if (
         isApiVersion(context, serverParameter as any) &&
-        apiVersionParam == undefined
+        apiVersionParam === undefined
       ) {
         apiVersionParam = emittedParameter;
         continue;
@@ -1718,30 +1715,31 @@ function emitGlobalParameters(
   return clientParameters;
 }
 
-function getApiVersionParameter(context: SdkContext): Parameter | void {
-  const version = getDefaultApiVersion(
-    context,
-    getServiceNamespace(context.program)
-  );
+function getApiVersionParameter(): Parameter | void {
+  // const version = getDefaultApiVersion(
+  //   context,
+  //   getServiceNamespace(context.program)
+  // );
   if (apiVersionParam) {
     return { ...apiVersionParam, isApiVersion: true };
-  } else if (version !== undefined) {
-    return {
-      clientName: "api_version",
-      clientDefaultValue: version.value,
-      description: "Api Version",
-      implementation: "Client",
-      location: "query",
-      restApiName: "api-version",
-      skipUrlEncoding: false,
-      optional: false,
-      inDocstring: true,
-      inOverload: false,
-      inOverriden: false,
-      type: getConstantType(version.value),
-      isApiVersion: true
-    };
   }
+  // } else if (version !== undefined) {
+  //   return {
+  //     clientName: "api_version",
+  //     clientDefaultValue: version.value,
+  //     description: "Api Version",
+  //     implementation: "Client",
+  //     location: "query",
+  //     restApiName: "api-version",
+  //     skipUrlEncoding: false,
+  //     optional: false,
+  //     inDocstring: true,
+  //     inOverload: false,
+  //     inOverriden: false,
+  //     type: getConstantType(version.value),
+  //     isApiVersion: true
+  //   };
+  // }
 }
 
 function emitClients(
@@ -1772,7 +1770,7 @@ function emitClients(
       rlcClientName: rlcModels ? getClientName(rlcModels) : client.name,
       subfolder: ""
     };
-    const emittedApiVersionParam = getApiVersionParameter(context);
+    const emittedApiVersionParam = getApiVersionParameter();
     if (emittedApiVersionParam) {
       emittedClient.parameters.push(emittedApiVersionParam);
     }

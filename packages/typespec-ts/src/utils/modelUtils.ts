@@ -65,10 +65,7 @@ import {
 } from "@typespec/http";
 import { getPagedResult, isFixed } from "@azure-tools/typespec-azure-core";
 import { extractPagedMetadataNested } from "./operationUtil.js";
-import {
-  getDefaultApiVersion,
-  isApiVersion
-} from "@azure-tools/typespec-client-generator-core";
+import { isApiVersion } from "@azure-tools/typespec-client-generator-core";
 import { SdkContext } from "./interfaces.js";
 import { getModelNamespaceName } from "./namespaceUtils.js";
 
@@ -1324,7 +1321,7 @@ export function predictDefaultValue(
   if (!serviceNamespace) {
     return;
   }
-  const defaultApiVersion = getEnrichedDefaultApiVersion(program, dpgContext);
+  const defaultApiVersion = getEnrichedDefaultApiVersion(program);
   if (param && isApiVersion(dpgContext, param) && defaultApiVersion) {
     return defaultApiVersion;
   }
@@ -1374,21 +1371,20 @@ export function getDefaultService(program: Program): Service | undefined {
  * @returns default api-version value
  */
 export function getEnrichedDefaultApiVersion(
-  program: Program,
-  dpgContext: SdkContext
+  program: Program
 ): string | undefined {
   const serviceNamespace = getDefaultService(program);
   if (!serviceNamespace) {
     return;
   }
 
-  const defaultVersion = getDefaultApiVersion(
-    dpgContext,
-    serviceNamespace!.type
-  );
-  if (defaultVersion) {
-    return defaultVersion.value;
-  }
+  // const defaultVersion = getDefaultApiVersion(
+  //   dpgContext,
+  //   serviceNamespace!.type
+  // );
+  // if (defaultVersion) {
+  //   return defaultVersion.value;
+  // }
   return serviceNamespace.version;
 }
 
