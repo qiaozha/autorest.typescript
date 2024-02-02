@@ -8,7 +8,7 @@ import { SchemaRegistryContext } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of `SchemaRegistryContext`
- * @param fullyQualifiedNamespace - The Schema Registry service endpoint, for example 'my-namespace.servicebus.windows.net'.
+ * @param fullyQualifiedNamespace - The Schema Registry service endpoint, for example 'https://my-namespace.servicebus.windows.net'.
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */

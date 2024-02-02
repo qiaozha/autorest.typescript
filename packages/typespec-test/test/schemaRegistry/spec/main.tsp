@@ -7,7 +7,6 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
-using Azure.ClientGenerator.Core;
 
 @useAuth(
   OAuth2Auth<[
@@ -60,10 +59,6 @@ enum ServiceApiVersions {
 
 // ROUTES
 alias resourceOperations = Azure.Core.StandardResourceOperations;
-@client({
-  name: "SchemaRegistryClient",
-  service: SchemaRegistry,
-})
 interface SchemaOperations {
   //  GET https://{namespaceName}.servicebus.windows.net/$schemaGroups?api-version={apiVersion}
   #suppress "@azure-tools/typespec-azure-core/use-standard-operations" "Standard read operation w/ SchemaId resource doesn't allow returning binary schema and headers."

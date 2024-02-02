@@ -4,15 +4,15 @@
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
-  PagedSchemaGroupOutput,
+  StringsListOutput,
   SchemaContentTypeValuesOutput,
-  PagedVersionOutput,
+  Int32sListOutput,
 } from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface ListSchemaGroups200Response extends HttpResponse {
   status: "200";
-  body: PagedSchemaGroupOutput;
+  body: StringsListOutput;
 }
 
 export interface ListSchemaGroupsDefaultHeaders {
@@ -65,7 +65,7 @@ export interface GetSchemaByIdDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface ListSchemaVersions200Response extends HttpResponse {
   status: "200";
-  body: PagedVersionOutput;
+  body: Int32sListOutput;
 }
 
 export interface ListSchemaVersionsDefaultHeaders {

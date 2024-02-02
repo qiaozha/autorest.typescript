@@ -6,6 +6,11 @@ using TypeSpec.Versioning;
 using Azure.ClientGenerator.Core;
 using SchemaRegistry;
 
+
+@@client(SchemaOperations, {
+  name: "SchemaRegistryClient",
+});
+
 @@access(SchemaVersion, Access.internal);
 @@access(SchemaGroup, Access.internal);
 

@@ -17,14 +17,12 @@ import {
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
-  "GET /$schemaGroups": ["200"],
-  "GET /$schemaGroups/$schemas/{id}": ["200"],
-  "GET /$schemaGroups/{groupName}/schemas/{name}/versions": ["200"],
-  "GET /$schemaGroups/{groupName}/schemas/{name}/versions/{schemaVersion}": [
-    "200",
-  ],
+  "GET /schemaGroups": ["200"],
+  "GET /schemaGroups/schemas/{id}": ["200"],
+  "GET /schemaGroups/{groupName}/schemas/{name}/versions": ["200"],
+  "GET /schemaGroups/{groupName}/schemas/{name}/versions/{version}": ["200"],
   "POST /$schemaGroups/{groupName}/schemas/{name}:get-id": ["204"],
-  "PUT /$schemaGroups/{groupName}/schemas/{name}": ["204"],
+  "PUT /schemaGroups/{groupName}/schemas/{name}": ["204"],
 };
 
 export function isUnexpected(

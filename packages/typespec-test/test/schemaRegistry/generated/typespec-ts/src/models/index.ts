@@ -1,16 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export {
-  SchemaProperties,
-  SchemaFormat,
-  ContentTypeEnum,
-  PagedSchemaGroup,
-  SchemaGroup,
-  PagedVersion,
-  SchemaVersion,
-  SchemaContentTypeValues,
-} from "./models.js";
+export { StringsList, Int32sList, SchemaContentTypeValues } from "./models.js";
 export {
   SchemaOperationsListSchemaGroupsOptions,
   SchemaOperationsGetSchemaByIdOptions,

@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import { SchemaRegistryContext } from "../../api/SchemaRegistryContext.js";
-import {
-  SchemaGroup,
-  SchemaVersion,
-  SchemaContentTypeValues,
-} from "../../models/models.js";
+import { SchemaContentTypeValues } from "../../models/models.js";
 import {
   listSchemaGroups,
   getSchemaById,
@@ -28,7 +24,7 @@ import {
 export interface SchemaOperationsOperations {
   listSchemaGroups: (
     options?: SchemaOperationsListSchemaGroupsOptions,
-  ) => PagedAsyncIterableIterator<SchemaGroup>;
+  ) => PagedAsyncIterableIterator<string>;
   getSchemaById: (
     id: string,
     options?: SchemaOperationsGetSchemaByIdOptions,
@@ -37,11 +33,11 @@ export interface SchemaOperationsOperations {
     groupName: string,
     name: string,
     options?: SchemaOperationsListSchemaVersionsOptions,
-  ) => PagedAsyncIterableIterator<SchemaVersion>;
+  ) => PagedAsyncIterableIterator<number>;
   getSchemaByVersion: (
     groupName: string,
     name: string,
-    schemaVersion: number,
+    version: number,
     options?: SchemaOperationsGetSchemaByVersionOptions,
   ) => Promise<Uint8Array>;
   getSchemaIdByContent: (
@@ -76,9 +72,9 @@ export function getSchemaOperations(context: SchemaRegistryContext) {
     getSchemaByVersion: (
       groupName: string,
       name: string,
-      schemaVersion: number,
+      version: number,
       options?: SchemaOperationsGetSchemaByVersionOptions,
-    ) => getSchemaByVersion(context, groupName, name, schemaVersion, options),
+    ) => getSchemaByVersion(context, groupName, name, version, options),
     getSchemaIdByContent: (
       groupName: string,
       name: string,

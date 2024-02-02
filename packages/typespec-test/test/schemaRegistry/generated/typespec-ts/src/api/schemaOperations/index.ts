@@ -2,10 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  PagedSchemaGroup,
-  SchemaGroup,
-  PagedVersion,
-  SchemaVersion,
+  StringsList,
+  Int32sList,
   SchemaContentTypeValues,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
@@ -47,23 +45,19 @@ export function _listSchemaGroupsSend(
   ListSchemaGroups200Response | ListSchemaGroupsDefaultResponse
 > {
   return context
-    .path("/$schemaGroups")
-    .get({
-      ...operationOptionsToRequestParameters(options),
-    }) as StreamableMethod<
-    ListSchemaGroups200Response | ListSchemaGroupsDefaultResponse
-  >;
+    .path("/schemaGroups")
+    .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _listSchemaGroupsDeserialize(
   result: ListSchemaGroups200Response | ListSchemaGroupsDefaultResponse,
-): Promise<PagedSchemaGroup> {
+): Promise<StringsList> {
   if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p) => ({ groupName: p["groupName"] })),
+    value: result.body["value"],
     nextLink: result.body["nextLink"],
   };
 }
@@ -72,7 +66,7 @@ export async function _listSchemaGroupsDeserialize(
 export function listSchemaGroups(
   context: Client,
   options: SchemaOperationsListSchemaGroupsOptions = { requestOptions: {} },
-): PagedAsyncIterableIterator<SchemaGroup> {
+): PagedAsyncIterableIterator<string> {
   return buildPagedAsyncIterator(
     context,
     () => _listSchemaGroupsSend(context, options),
@@ -87,7 +81,7 @@ export function _getSchemaByIdSend(
   options: SchemaOperationsGetSchemaByIdOptions = { requestOptions: {} },
 ): StreamableMethod<GetSchemaById200Response | GetSchemaByIdDefaultResponse> {
   return context
-    .path("/$schemaGroups/$schemas/{id}", id)
+    .path("/schemaGroups/schemas/{id}", id)
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
@@ -120,21 +114,19 @@ export function _listSchemaVersionsSend(
   ListSchemaVersions200Response | ListSchemaVersionsDefaultResponse
 > {
   return context
-    .path("/$schemaGroups/{groupName}/schemas/{name}/versions", groupName, name)
+    .path("/schemaGroups/{groupName}/schemas/{name}/versions", groupName, name)
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _listSchemaVersionsDeserialize(
   result: ListSchemaVersions200Response | ListSchemaVersionsDefaultResponse,
-): Promise<PagedVersion> {
+): Promise<Int32sList> {
   if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p) => ({
-      schemaVersion: p["schemaVersion"],
-    })),
+    value: result.body["value"],
     nextLink: result.body["nextLink"],
   };
 }
@@ -145,7 +137,7 @@ export function listSchemaVersions(
   groupName: string,
   name: string,
   options: SchemaOperationsListSchemaVersionsOptions = { requestOptions: {} },
-): PagedAsyncIterableIterator<SchemaVersion> {
+): PagedAsyncIterableIterator<number> {
   return buildPagedAsyncIterator(
     context,
     () => _listSchemaVersionsSend(context, groupName, name, options),
@@ -158,17 +150,17 @@ export function _getSchemaByVersionSend(
   context: Client,
   groupName: string,
   name: string,
-  schemaVersion: number,
+  version: number,
   options: SchemaOperationsGetSchemaByVersionOptions = { requestOptions: {} },
 ): StreamableMethod<
   GetSchemaByVersion200Response | GetSchemaByVersionDefaultResponse
 > {
   return context
     .path(
-      "/$schemaGroups/{groupName}/schemas/{name}/versions/{schemaVersion}",
+      "/schemaGroups/{groupName}/schemas/{name}/versions/{version}",
       groupName,
       name,
-      schemaVersion,
+      version,
     )
     .get({ ...operationOptionsToRequestParameters(options) });
 }
@@ -188,14 +180,14 @@ export async function getSchemaByVersion(
   context: Client,
   groupName: string,
   name: string,
-  schemaVersion: number,
+  version: number,
   options: SchemaOperationsGetSchemaByVersionOptions = { requestOptions: {} },
 ): Promise<Uint8Array> {
   const result = await _getSchemaByVersionSend(
     context,
     groupName,
     name,
-    schemaVersion,
+    version,
     options,
   );
   return _getSchemaByVersionDeserialize(result);
@@ -259,7 +251,7 @@ export function _registerSchemaSend(
   options: SchemaOperationsRegisterSchemaOptions = { requestOptions: {} },
 ): StreamableMethod<RegisterSchema204Response | RegisterSchemaDefaultResponse> {
   return context
-    .path("/$schemaGroups/{groupName}/schemas/{name}", groupName, name)
+    .path("/schemaGroups/{groupName}/schemas/{name}", groupName, name)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: contentType,

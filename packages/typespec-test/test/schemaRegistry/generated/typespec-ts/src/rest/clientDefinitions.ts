@@ -78,22 +78,22 @@ export interface RegisterSchema {
 }
 
 export interface Routes {
-  /** Resource for '/$schemaGroups' has methods for the following verbs: get */
-  (path: "/$schemaGroups"): ListSchemaGroups;
-  /** Resource for '/$schemaGroups/$schemas/\{id\}' has methods for the following verbs: get */
-  (path: "/$schemaGroups/$schemas/{id}", id: string): GetSchemaById;
-  /** Resource for '/$schemaGroups/\{groupName\}/schemas/\{name\}/versions' has methods for the following verbs: get */
+  /** Resource for '/schemaGroups' has methods for the following verbs: get */
+  (path: "/schemaGroups"): ListSchemaGroups;
+  /** Resource for '/schemaGroups/schemas/\{id\}' has methods for the following verbs: get */
+  (path: "/schemaGroups/schemas/{id}", id: string): GetSchemaById;
+  /** Resource for '/schemaGroups/\{groupName\}/schemas/\{name\}/versions' has methods for the following verbs: get */
   (
-    path: "/$schemaGroups/{groupName}/schemas/{name}/versions",
+    path: "/schemaGroups/{groupName}/schemas/{name}/versions",
     groupName: string,
     name: string,
   ): ListSchemaVersions;
-  /** Resource for '/$schemaGroups/\{groupName\}/schemas/\{name\}/versions/\{schemaVersion\}' has methods for the following verbs: get */
+  /** Resource for '/schemaGroups/\{groupName\}/schemas/\{name\}/versions/\{version\}' has methods for the following verbs: get */
   (
-    path: "/$schemaGroups/{groupName}/schemas/{name}/versions/{schemaVersion}",
+    path: "/schemaGroups/{groupName}/schemas/{name}/versions/{version}",
     groupName: string,
     name: string,
-    schemaVersion: number,
+    version: number,
   ): GetSchemaByVersion;
   /** Resource for '/$schemaGroups/\{groupName\}/schemas/\{name\}:get-id' has methods for the following verbs: post */
   (
@@ -101,9 +101,9 @@ export interface Routes {
     groupName: string,
     name: string,
   ): GetSchemaIdByContent;
-  /** Resource for '/$schemaGroups/\{groupName\}/schemas/\{name\}' has methods for the following verbs: put */
+  /** Resource for '/schemaGroups/\{groupName\}/schemas/\{name\}' has methods for the following verbs: put */
   (
-    path: "/$schemaGroups/{groupName}/schemas/{name}",
+    path: "/schemaGroups/{groupName}/schemas/{name}",
     groupName: string,
     name: string,
   ): RegisterSchema;

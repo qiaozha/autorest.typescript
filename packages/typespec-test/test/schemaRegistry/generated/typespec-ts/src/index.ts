@@ -6,13 +6,8 @@ export {
   SchemaRegistryClientOptions,
 } from "./SchemaRegistryClient.js";
 export {
-  SchemaProperties,
-  SchemaFormat,
-  ContentTypeEnum,
-  PagedSchemaGroup,
-  SchemaGroup,
-  PagedVersion,
-  SchemaVersion,
+  StringsList,
+  Int32sList,
   SchemaContentTypeValues,
   SchemaOperationsListSchemaGroupsOptions,
   SchemaOperationsGetSchemaByIdOptions,
