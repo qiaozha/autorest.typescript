@@ -5,11 +5,338 @@ info:
   description: SchemaRegistryClient is a client for registering and retrieving schemas from the Azure Schema Registry service.
 tags: []
 paths:
+  /$schemaGroups:
+    get:
+      operationId: listSchemaGroups
+      summary: Get list of schema groups.
+      description: Gets the list of schema groups user is authorized to access.
+      parameters:
+        - $ref: '#/components/parameters/Azure.Core.Foundations.ApiVersionParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringsList'
+        default:
+          description: An unexpected error response.
+          headers:
+            x-ms-error-code:
+              required: false
+              description: String error code indicating what went wrong.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Azure.Core.Foundations.ErrorResponse'
+  /$schemaGroups/$schemas/{id}:
+    get:
+      operationId: getSchemaById
+      summary: Get a registered schema by its unique ID reference.
+      description: Gets a registered schema by its unique ID.  Azure Schema Registry guarantees that ID is unique within a namespace. Operation response type is based on serialization of schema requested.
+      parameters:
+        - $ref: '#/components/parameters/Azure.Core.Foundations.ApiVersionParameter'
+        - name: id
+          in: path
+          required: true
+          description: Schema ID that uniquely identifies a schema in the registry namespace.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The schema, including its metadata and content.
+          headers:
+            Location:
+              required: true
+              description: URL location of schema, identified by schema group, schema name, and version.
+              schema:
+                type: string
+            Schema-Id:
+              required: true
+              description: References specific schema in registry namespace.
+              schema:
+                type: string
+            Schema-Id-Location:
+              required: true
+              description: URL location of schema, identified by schema ID.
+              schema:
+                type: string
+            Schema-Group-Name:
+              required: true
+              description: References schema group.
+              schema:
+                type: string
+            Schema-Name:
+              required: true
+              description: References schema name.
+              schema:
+                type: string
+            Schema-Version:
+              required: true
+              description: Version of the returned schema.
+              schema:
+                type: integer
+                format: int32
+            Content-Type:
+              required: true
+              description: The content type for given schema.
+              schema:
+                $ref: '#/components/schemas/SchemaContentTypeValues'
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            text/plain; charset=utf-8:
+              schema:
+                type: string
+                format: binary
+            application/json; serialization=Avro:
+              schema:
+                type: string
+                format: binary
+            application/json; serialization=Json:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: An unexpected error response.
+          headers:
+            x-ms-error-code:
+              required: false
+              description: String error code indicating what went wrong.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Azure.Core.Foundations.ErrorResponse'
+  /$schemaGroups/{groupName}/schemas/{name}:
+    put:
+      operationId: registerSchema
+      summary: Register new schema
+      description: Register new schema. If schema of specified name does not exist in specified group, schema is created at version 1. If schema of specified name exists already in specified group, schema is created at latest version + 1.
+      parameters:
+        - $ref: '#/components/parameters/Azure.Core.Foundations.ApiVersionParameter'
+        - name: groupName
+          in: path
+          required: true
+          description: Name of schema group.
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          description: Name of schema.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: 'There is no content to send for this request, but the headers may be useful. '
+          headers:
+            Location:
+              required: true
+              description: URL location of schema, identified by schema group, schema name, and version.
+              schema:
+                type: string
+            Schema-Id:
+              required: true
+              description: References specific schema in registry namespace.
+              schema:
+                type: string
+            Schema-Id-Location:
+              required: true
+              description: URL location of schema, identified by schema ID.
+              schema:
+                type: string
+            Schema-Group-Name:
+              required: true
+              description: References schema group.
+              schema:
+                type: string
+            Schema-Name:
+              required: true
+              description: References schema name.
+              schema:
+                type: string
+            Schema-Version:
+              required: true
+              description: Version of the returned schema.
+              schema:
+                type: integer
+                format: int32
+        default:
+          description: An unexpected error response.
+          headers:
+            x-ms-error-code:
+              required: false
+              description: String error code indicating what went wrong.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Azure.Core.Foundations.ErrorResponse'
+      requestBody:
+        description: String representation (UTF-8) of the schema.
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+          text/plain; charset=utf-8:
+            schema:
+              type: string
+              format: binary
+          application/json; serialization=Avro:
+            schema:
+              type: string
+              format: binary
+          application/json; serialization=Json:
+            schema:
+              type: string
+              format: binary
+  /$schemaGroups/{groupName}/schemas/{name}/versions:
+    get:
+      operationId: listSchemaVersions
+      summary: List schema versions.
+      description: Gets the list of all versions of one schema.
+      parameters:
+        - $ref: '#/components/parameters/Azure.Core.Foundations.ApiVersionParameter'
+        - name: groupName
+          in: path
+          required: true
+          description: Name of schema group.
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          description: Name of schema.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Int32sList'
+        default:
+          description: An unexpected error response.
+          headers:
+            x-ms-error-code:
+              required: false
+              description: String error code indicating what went wrong.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Azure.Core.Foundations.ErrorResponse'
+  /$schemaGroups/{groupName}/schemas/{name}/versions/{version}:
+    get:
+      operationId: getSchemaByVersion
+      summary: Get specific schema versions.
+      description: Gets one specific version of one schema.
+      parameters:
+        - $ref: '#/components/parameters/Azure.Core.Foundations.ApiVersionParameter'
+        - name: groupName
+          in: path
+          required: true
+          description: Name of schema group.
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          description: Name of schema.
+          schema:
+            type: string
+        - name: version
+          in: path
+          required: true
+          description: Version number of specific schema.
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: The schema, including its metadata and content.
+          headers:
+            Location:
+              required: true
+              description: URL location of schema, identified by schema group, schema name, and version.
+              schema:
+                type: string
+            Schema-Id:
+              required: true
+              description: References specific schema in registry namespace.
+              schema:
+                type: string
+            Schema-Id-Location:
+              required: true
+              description: URL location of schema, identified by schema ID.
+              schema:
+                type: string
+            Schema-Group-Name:
+              required: true
+              description: References schema group.
+              schema:
+                type: string
+            Schema-Name:
+              required: true
+              description: References schema name.
+              schema:
+                type: string
+            Schema-Version:
+              required: true
+              description: Version of the returned schema.
+              schema:
+                type: integer
+                format: int32
+            Content-Type:
+              required: true
+              description: The content type for given schema.
+              schema:
+                $ref: '#/components/schemas/SchemaContentTypeValues'
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            text/plain; charset=utf-8:
+              schema:
+                type: string
+                format: binary
+            application/json; serialization=Avro:
+              schema:
+                type: string
+                format: binary
+            application/json; serialization=Json:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: An unexpected error response.
+          headers:
+            x-ms-error-code:
+              required: false
+              description: String error code indicating what went wrong.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Azure.Core.Foundations.ErrorResponse'
   /$schemaGroups/{groupName}/schemas/{name}:get-id:
     post:
-      operationId: SchemaOperations_getSchemaIdByContent
-      summary: Get ID for existing schema.
-      description: Gets the ID referencing an existing schema within the specified schema group, as matched by schema content comparison.
+      operationId: getSchemaPropertiesByContent
+      summary: Get properties for existing schema.
+      description: Gets the properties referencing an existing schema within the specified schema group, as matched by schema content comparison.
       parameters:
         - $ref: '#/components/parameters/Azure.Core.Foundations.ApiVersionParameter'
         - name: groupName
@@ -93,339 +420,6 @@ paths:
             schema:
               type: string
               format: binary
-  /schemaGroups:
-    get:
-      operationId: SchemaOperations_listSchemaGroups
-      summary: Get list of schema groups.
-      description: Gets the list of schema groups user is authorized to access.
-      parameters:
-        - $ref: '#/components/parameters/Azure.Core.Foundations.ApiVersionParameter'
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StringsList'
-        default:
-          description: An unexpected error response.
-          headers:
-            x-ms-error-code:
-              required: false
-              description: String error code indicating what went wrong.
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Azure.Core.Foundations.ErrorResponse'
-  /schemaGroups/schemas/{id}:
-    get:
-      operationId: SchemaOperations_getSchemaById
-      summary: Get a registered schema by its unique ID reference.
-      description: Gets a registered schema by its unique ID.  Azure Schema Registry guarantees that ID is unique within a namespace. Operation response type is based on serialization of schema requested.
-      parameters:
-        - $ref: '#/components/parameters/Azure.Core.Foundations.ApiVersionParameter'
-        - name: id
-          in: path
-          required: true
-          description: Schema ID that uniquely identifies a schema in the registry namespace.
-          schema:
-            type: string
-      responses:
-        '200':
-          description: The request has succeeded.
-          headers:
-            Location:
-              required: true
-              description: URL location of schema, identified by schema group, schema name, and version.
-              schema:
-                type: string
-            Schema-Id:
-              required: true
-              description: References specific schema in registry namespace.
-              schema:
-                type: string
-            Schema-Id-Location:
-              required: true
-              description: URL location of schema, identified by schema ID.
-              schema:
-                type: string
-            Schema-Group-Name:
-              required: true
-              description: References schema group.
-              schema:
-                type: string
-            Schema-Name:
-              required: true
-              description: References schema name.
-              schema:
-                type: string
-            Schema-Version:
-              required: true
-              description: Version of the returned schema.
-              schema:
-                type: integer
-                format: int32
-            Content-Type:
-              required: true
-              description: The content type for given schema.
-              schema:
-                $ref: '#/components/schemas/SchemaContentTypeValues'
-          content:
-            application/octet-stream:
-              schema:
-                type: string
-                format: binary
-            text/plain; charset=utf-8:
-              schema:
-                type: string
-                format: binary
-            application/json; serialization=Avro:
-              schema:
-                type: string
-                format: binary
-            application/json; serialization=Json:
-              schema:
-                type: string
-                format: binary
-        default:
-          description: An unexpected error response.
-          headers:
-            x-ms-error-code:
-              required: false
-              description: String error code indicating what went wrong.
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Azure.Core.Foundations.ErrorResponse'
-  /schemaGroups/{groupName}/schemas/{name}:
-    put:
-      operationId: SchemaOperations_registerSchema
-      summary: Register new schema
-      description: Register new schema. If schema of specified name does not exist in specified group, schema is created at version 1. If schema of specified name exists already in specified group, schema is created at latest version + 1.
-      parameters:
-        - $ref: '#/components/parameters/Azure.Core.Foundations.ApiVersionParameter'
-        - name: groupName
-          in: path
-          required: true
-          description: Name of schema group.
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          description: Name of schema.
-          schema:
-            type: string
-            pattern: ^[A-Za-z0-9][^\\/$:]*$
-            maxLength: 50
-      responses:
-        '204':
-          description: 'There is no content to send for this request, but the headers may be useful. '
-          headers:
-            Location:
-              required: true
-              description: URL location of schema, identified by schema group, schema name, and version.
-              schema:
-                type: string
-            Schema-Id:
-              required: true
-              description: References specific schema in registry namespace.
-              schema:
-                type: string
-            Schema-Id-Location:
-              required: true
-              description: URL location of schema, identified by schema ID.
-              schema:
-                type: string
-            Schema-Group-Name:
-              required: true
-              description: References schema group.
-              schema:
-                type: string
-            Schema-Name:
-              required: true
-              description: References schema name.
-              schema:
-                type: string
-            Schema-Version:
-              required: true
-              description: Version of the returned schema.
-              schema:
-                type: integer
-                format: int32
-        default:
-          description: An unexpected error response.
-          headers:
-            x-ms-error-code:
-              required: false
-              description: String error code indicating what went wrong.
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Azure.Core.Foundations.ErrorResponse'
-      requestBody:
-        description: String representation (UTF-8) of the schema.
-        required: true
-        content:
-          application/octet-stream:
-            schema:
-              type: string
-              format: binary
-          text/plain; charset=utf-8:
-            schema:
-              type: string
-              format: binary
-          application/json; serialization=Avro:
-            schema:
-              type: string
-              format: binary
-          application/json; serialization=Json:
-            schema:
-              type: string
-              format: binary
-  /schemaGroups/{groupName}/schemas/{name}/versions:
-    get:
-      operationId: SchemaOperations_listSchemaVersions
-      summary: List schema versions.
-      description: Gets the list of all versions of one schema.
-      parameters:
-        - $ref: '#/components/parameters/Azure.Core.Foundations.ApiVersionParameter'
-        - name: groupName
-          in: path
-          required: true
-          description: Name of schema group.
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          description: Name of schema.
-          schema:
-            type: string
-            pattern: ^[A-Za-z0-9][^\\/$:]*$
-            maxLength: 50
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Int32sList'
-        default:
-          description: An unexpected error response.
-          headers:
-            x-ms-error-code:
-              required: false
-              description: String error code indicating what went wrong.
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Azure.Core.Foundations.ErrorResponse'
-  /schemaGroups/{groupName}/schemas/{name}/versions/{version}:
-    get:
-      operationId: SchemaOperations_getSchemaByVersion
-      summary: Get specific schema versions.
-      description: Gets one specific version of one schema.
-      parameters:
-        - $ref: '#/components/parameters/Azure.Core.Foundations.ApiVersionParameter'
-        - name: groupName
-          in: path
-          required: true
-          description: Name of schema group.
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          description: Name of schema.
-          schema:
-            type: string
-            pattern: ^[A-Za-z0-9][^\\/$:]*$
-            maxLength: 50
-        - name: version
-          in: path
-          required: true
-          description: Version number of specific schema.
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: The request has succeeded.
-          headers:
-            Location:
-              required: true
-              description: URL location of schema, identified by schema group, schema name, and version.
-              schema:
-                type: string
-            Schema-Id:
-              required: true
-              description: References specific schema in registry namespace.
-              schema:
-                type: string
-            Schema-Id-Location:
-              required: true
-              description: URL location of schema, identified by schema ID.
-              schema:
-                type: string
-            Schema-Group-Name:
-              required: true
-              description: References schema group.
-              schema:
-                type: string
-            Schema-Name:
-              required: true
-              description: References schema name.
-              schema:
-                type: string
-            Schema-Version:
-              required: true
-              description: Version of the returned schema.
-              schema:
-                type: integer
-                format: int32
-            Content-Type:
-              required: true
-              description: The content type for given schema.
-              schema:
-                $ref: '#/components/schemas/SchemaContentTypeValues'
-          content:
-            application/octet-stream:
-              schema:
-                type: string
-                format: binary
-            text/plain; charset=utf-8:
-              schema:
-                type: string
-                format: binary
-            application/json; serialization=Avro:
-              schema:
-                type: string
-                format: binary
-            application/json; serialization=Json:
-              schema:
-                type: string
-                format: binary
-        default:
-          description: An unexpected error response.
-          headers:
-            x-ms-error-code:
-              required: false
-              description: String error code indicating what went wrong.
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Azure.Core.Foundations.ErrorResponse'
 security:
   - OAuth2Auth:
       - https://eventhubs.azure.net/.default
@@ -501,9 +495,6 @@ components:
           type: string
           description: The link to the next page of items
       description: The list of int32s with server paging support.
-    SchemaContentType:
-      type: object
-      description: The content type for given schema. Each schema type has an associated content-type.
     SchemaContentTypeValues:
       type: string
       enum:
@@ -521,19 +512,6 @@ components:
           description: Name of schema group.
           readOnly: true
       description: Schema Group resource.
-    SchemaHeaders:
-      type: object
-      description: Headers for metadata of a schema.
-    SchemaId:
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          type: string
-          description: Schema ID that uniquely identifies a schema in the registry namespace.
-          readOnly: true
-      description: Object received from the registry containing schema identifiers.
     SchemaName:
       type: object
       required:
@@ -546,17 +524,9 @@ components:
           description: Name of schema.
           readOnly: true
       description: Schemas resource.
-    SchemaVersion:
+    SchemaProperties:
       type: object
-      required:
-        - version
-      properties:
-        version:
-          type: integer
-          format: int32
-          description: Version number of specific schema.
-          readOnly: true
-      description: Schema versions resource.
+      description: Metadata of a schema.
     ServiceApiVersions:
       type: string
       enum:

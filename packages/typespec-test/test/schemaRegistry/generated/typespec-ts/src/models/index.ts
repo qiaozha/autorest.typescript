@@ -3,12 +3,12 @@
 
 export { StringsList, Int32sList, SchemaContentTypeValues } from "./models.js";
 export {
-  SchemaOperationsListSchemaGroupsOptions,
-  SchemaOperationsGetSchemaByIdOptions,
-  SchemaOperationsListSchemaVersionsOptions,
-  SchemaOperationsGetSchemaByVersionOptions,
-  SchemaOperationsGetSchemaIdByContentOptions,
-  SchemaOperationsRegisterSchemaOptions,
+  ListSchemaGroupsOptions,
+  ListSchemaVersionsOptions,
+  GetSchemaByIdOptions,
+  GetSchemaByVersionOptions,
+  GetSchemaPropertiesByContentOptions,
+  RegisterSchemaOptions,
 } from "./options.js";
 export {
   PageSettings,

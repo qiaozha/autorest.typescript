@@ -5,16 +5,16 @@ import {
   StringsList,
   Int32sList,
   SchemaContentTypeValues,
-} from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
-import { buildPagedAsyncIterator } from "../pagingHelpers.js";
+} from "../models/models.js";
+import { PagedAsyncIterableIterator } from "../models/pagingTypes.js";
+import { buildPagedAsyncIterator } from "./pagingHelpers.js";
 import {
   GetSchemaById200Response,
   GetSchemaByIdDefaultResponse,
   GetSchemaByVersion200Response,
   GetSchemaByVersionDefaultResponse,
-  GetSchemaIdByContent204Response,
-  GetSchemaIdByContentDefaultResponse,
+  GetSchemaPropertiesByContent204Response,
+  GetSchemaPropertiesByContentDefaultResponse,
   isUnexpected,
   ListSchemaGroups200Response,
   ListSchemaGroupsDefaultResponse,
@@ -23,29 +23,29 @@ import {
   RegisterSchema204Response,
   RegisterSchemaDefaultResponse,
   SchemaRegistryContext as Client,
-} from "../../rest/index.js";
+} from "../rest/index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
   createRestError,
 } from "@azure-rest/core-client";
 import {
-  SchemaOperationsListSchemaGroupsOptions,
-  SchemaOperationsGetSchemaByIdOptions,
-  SchemaOperationsListSchemaVersionsOptions,
-  SchemaOperationsGetSchemaByVersionOptions,
-  SchemaOperationsGetSchemaIdByContentOptions,
-  SchemaOperationsRegisterSchemaOptions,
-} from "../../models/options.js";
+  ListSchemaGroupsOptions,
+  ListSchemaVersionsOptions,
+  GetSchemaByIdOptions,
+  GetSchemaByVersionOptions,
+  GetSchemaPropertiesByContentOptions,
+  RegisterSchemaOptions,
+} from "../models/options.js";
 
 export function _listSchemaGroupsSend(
   context: Client,
-  options: SchemaOperationsListSchemaGroupsOptions = { requestOptions: {} },
+  options: ListSchemaGroupsOptions = { requestOptions: {} },
 ): StreamableMethod<
   ListSchemaGroups200Response | ListSchemaGroupsDefaultResponse
 > {
   return context
-    .path("/schemaGroups")
+    .path("/$schemaGroups")
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
@@ -65,7 +65,7 @@ export async function _listSchemaGroupsDeserialize(
 /** Gets the list of schema groups user is authorized to access. */
 export function listSchemaGroups(
   context: Client,
-  options: SchemaOperationsListSchemaGroupsOptions = { requestOptions: {} },
+  options: ListSchemaGroupsOptions = { requestOptions: {} },
 ): PagedAsyncIterableIterator<string> {
   return buildPagedAsyncIterator(
     context,
@@ -75,46 +75,16 @@ export function listSchemaGroups(
   );
 }
 
-export function _getSchemaByIdSend(
-  context: Client,
-  id: string,
-  options: SchemaOperationsGetSchemaByIdOptions = { requestOptions: {} },
-): StreamableMethod<GetSchemaById200Response | GetSchemaByIdDefaultResponse> {
-  return context
-    .path("/schemaGroups/schemas/{id}", id)
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _getSchemaByIdDeserialize(
-  result: GetSchemaById200Response | GetSchemaByIdDefaultResponse,
-): Promise<Uint8Array> {
-  if (isUnexpected(result)) {
-    throw createRestError(result);
-  }
-
-  return result.body;
-}
-
-/** Gets a registered schema by its unique ID.  Azure Schema Registry guarantees that ID is unique within a namespace. Operation response type is based on serialization of schema requested. */
-export async function getSchemaById(
-  context: Client,
-  id: string,
-  options: SchemaOperationsGetSchemaByIdOptions = { requestOptions: {} },
-): Promise<Uint8Array> {
-  const result = await _getSchemaByIdSend(context, id, options);
-  return _getSchemaByIdDeserialize(result);
-}
-
 export function _listSchemaVersionsSend(
   context: Client,
   groupName: string,
   name: string,
-  options: SchemaOperationsListSchemaVersionsOptions = { requestOptions: {} },
+  options: ListSchemaVersionsOptions = { requestOptions: {} },
 ): StreamableMethod<
   ListSchemaVersions200Response | ListSchemaVersionsDefaultResponse
 > {
   return context
-    .path("/schemaGroups/{groupName}/schemas/{name}/versions", groupName, name)
+    .path("/$schemaGroups/{groupName}/schemas/{name}/versions", groupName, name)
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
@@ -136,7 +106,7 @@ export function listSchemaVersions(
   context: Client,
   groupName: string,
   name: string,
-  options: SchemaOperationsListSchemaVersionsOptions = { requestOptions: {} },
+  options: ListSchemaVersionsOptions = { requestOptions: {} },
 ): PagedAsyncIterableIterator<number> {
   return buildPagedAsyncIterator(
     context,
@@ -146,18 +116,48 @@ export function listSchemaVersions(
   );
 }
 
+export function _getSchemaByIdSend(
+  context: Client,
+  id: string,
+  options: GetSchemaByIdOptions = { requestOptions: {} },
+): StreamableMethod<GetSchemaById200Response | GetSchemaByIdDefaultResponse> {
+  return context
+    .path("/$schemaGroups/$schemas/{id}", id)
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _getSchemaByIdDeserialize(
+  result: GetSchemaById200Response | GetSchemaByIdDefaultResponse,
+): Promise<Uint8Array> {
+  if (isUnexpected(result)) {
+    throw createRestError(result);
+  }
+
+  return result.body;
+}
+
+/** Gets a registered schema by its unique ID.  Azure Schema Registry guarantees that ID is unique within a namespace. Operation response type is based on serialization of schema requested. */
+export async function getSchemaById(
+  context: Client,
+  id: string,
+  options: GetSchemaByIdOptions = { requestOptions: {} },
+): Promise<Uint8Array> {
+  const result = await _getSchemaByIdSend(context, id, options);
+  return _getSchemaByIdDeserialize(result);
+}
+
 export function _getSchemaByVersionSend(
   context: Client,
   groupName: string,
   name: string,
   version: number,
-  options: SchemaOperationsGetSchemaByVersionOptions = { requestOptions: {} },
+  options: GetSchemaByVersionOptions = { requestOptions: {} },
 ): StreamableMethod<
   GetSchemaByVersion200Response | GetSchemaByVersionDefaultResponse
 > {
   return context
     .path(
-      "/schemaGroups/{groupName}/schemas/{name}/versions/{version}",
+      "/$schemaGroups/{groupName}/schemas/{name}/versions/{version}",
       groupName,
       name,
       version,
@@ -181,7 +181,7 @@ export async function getSchemaByVersion(
   groupName: string,
   name: string,
   version: number,
-  options: SchemaOperationsGetSchemaByVersionOptions = { requestOptions: {} },
+  options: GetSchemaByVersionOptions = { requestOptions: {} },
 ): Promise<Uint8Array> {
   const result = await _getSchemaByVersionSend(
     context,
@@ -193,15 +193,16 @@ export async function getSchemaByVersion(
   return _getSchemaByVersionDeserialize(result);
 }
 
-export function _getSchemaIdByContentSend(
+export function _getSchemaPropertiesByContentSend(
   context: Client,
   groupName: string,
   name: string,
   contentType: SchemaContentTypeValues,
   schemaContent: Uint8Array,
-  options: SchemaOperationsGetSchemaIdByContentOptions = { requestOptions: {} },
+  options: GetSchemaPropertiesByContentOptions = { requestOptions: {} },
 ): StreamableMethod<
-  GetSchemaIdByContent204Response | GetSchemaIdByContentDefaultResponse
+  | GetSchemaPropertiesByContent204Response
+  | GetSchemaPropertiesByContentDefaultResponse
 > {
   return context
     .path("/$schemaGroups/{groupName}/schemas/{name}:get-id", groupName, name)
@@ -212,8 +213,10 @@ export function _getSchemaIdByContentSend(
     });
 }
 
-export async function _getSchemaIdByContentDeserialize(
-  result: GetSchemaIdByContent204Response | GetSchemaIdByContentDefaultResponse,
+export async function _getSchemaPropertiesByContentDeserialize(
+  result:
+    | GetSchemaPropertiesByContent204Response
+    | GetSchemaPropertiesByContentDefaultResponse,
 ): Promise<void> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -222,16 +225,16 @@ export async function _getSchemaIdByContentDeserialize(
   return;
 }
 
-/** Gets the ID referencing an existing schema within the specified schema group, as matched by schema content comparison. */
-export async function getSchemaIdByContent(
+/** Gets the properties referencing an existing schema within the specified schema group, as matched by schema content comparison. */
+export async function getSchemaPropertiesByContent(
   context: Client,
   groupName: string,
   name: string,
   contentType: SchemaContentTypeValues,
   schemaContent: Uint8Array,
-  options: SchemaOperationsGetSchemaIdByContentOptions = { requestOptions: {} },
+  options: GetSchemaPropertiesByContentOptions = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _getSchemaIdByContentSend(
+  const result = await _getSchemaPropertiesByContentSend(
     context,
     groupName,
     name,
@@ -239,7 +242,7 @@ export async function getSchemaIdByContent(
     schemaContent,
     options,
   );
-  return _getSchemaIdByContentDeserialize(result);
+  return _getSchemaPropertiesByContentDeserialize(result);
 }
 
 export function _registerSchemaSend(
@@ -248,10 +251,10 @@ export function _registerSchemaSend(
   name: string,
   contentType: SchemaContentTypeValues,
   content: Uint8Array,
-  options: SchemaOperationsRegisterSchemaOptions = { requestOptions: {} },
+  options: RegisterSchemaOptions = { requestOptions: {} },
 ): StreamableMethod<RegisterSchema204Response | RegisterSchemaDefaultResponse> {
   return context
-    .path("/schemaGroups/{groupName}/schemas/{name}", groupName, name)
+    .path("/$schemaGroups/{groupName}/schemas/{name}", groupName, name)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: contentType,
@@ -276,7 +279,7 @@ export async function registerSchema(
   name: string,
   contentType: SchemaContentTypeValues,
   content: Uint8Array,
-  options: SchemaOperationsRegisterSchemaOptions = { requestOptions: {} },
+  options: RegisterSchemaOptions = { requestOptions: {} },
 ): Promise<void> {
   const result = await _registerSchemaSend(
     context,

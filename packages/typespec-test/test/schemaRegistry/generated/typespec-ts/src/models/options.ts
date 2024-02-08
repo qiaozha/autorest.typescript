@@ -3,20 +3,14 @@
 
 import { OperationOptions } from "@azure-rest/core-client";
 
-export interface SchemaOperationsListSchemaGroupsOptions
-  extends OperationOptions {}
+export interface ListSchemaGroupsOptions extends OperationOptions {}
 
-export interface SchemaOperationsGetSchemaByIdOptions
-  extends OperationOptions {}
+export interface ListSchemaVersionsOptions extends OperationOptions {}
 
-export interface SchemaOperationsListSchemaVersionsOptions
-  extends OperationOptions {}
+export interface GetSchemaByIdOptions extends OperationOptions {}
 
-export interface SchemaOperationsGetSchemaByVersionOptions
-  extends OperationOptions {}
+export interface GetSchemaByVersionOptions extends OperationOptions {}
 
-export interface SchemaOperationsGetSchemaIdByContentOptions
-  extends OperationOptions {}
+export interface GetSchemaPropertiesByContentOptions extends OperationOptions {}
 
-export interface SchemaOperationsRegisterSchemaOptions
-  extends OperationOptions {}
+export interface RegisterSchemaOptions extends OperationOptions {}

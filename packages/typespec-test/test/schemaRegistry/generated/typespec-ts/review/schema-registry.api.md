@@ -10,12 +10,35 @@ import { Pipeline } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type ContentTypeEnum = string;
-
-// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
+
+// @public (undocumented)
+export interface GetSchemaByIdOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetSchemaByVersionOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetSchemaPropertiesByContentOptions extends OperationOptions {
+}
+
+// @public
+export interface Int32sList {
+    nextLink?: string;
+    value: number[];
+}
+
+// @public (undocumented)
+export interface ListSchemaGroupsOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface ListSchemaVersionsOptions extends OperationOptions {
+}
 
 // @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
@@ -25,87 +48,27 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 }
 
 // @public
-export interface PagedSchemaGroup {
-    nextLink?: string;
-    value: SchemaGroup[];
-}
-
-// @public
-export interface PagedVersion {
-    nextLink?: string;
-    value: SchemaVersion[];
-}
-
-// @public
 export interface PageSettings {
     continuationToken?: string;
 }
 
-// @public
-export type SchemaContentTypeValues = "application/json; serialization=Avro" | "application/json; serialization=json" | "text/plain; charset=utf-8" | "text/vnd.ms.protobuf";
-
-// @public
-export type SchemaFormat = string;
-
-// @public
-export interface SchemaGroup {
-    readonly groupName: string;
-}
-
 // @public (undocumented)
-export interface SchemaOperationsGetSchemaByIdOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface SchemaOperationsGetSchemaByVersionOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface SchemaOperationsGetSchemaIdByContentOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface SchemaOperationsListSchemaGroupsOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface SchemaOperationsListSchemaVersionsOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface SchemaOperationsOperations {
-    // (undocumented)
-    getSchemaById: (id: string, options?: SchemaOperationsGetSchemaByIdOptions) => Promise<Uint8Array>;
-    // (undocumented)
-    getSchemaByVersion: (groupName: string, name: string, schemaVersion: number, options?: SchemaOperationsGetSchemaByVersionOptions) => Promise<Uint8Array>;
-    // (undocumented)
-    getSchemaIdByContent: (groupName: string, name: string, contentType: SchemaContentTypeValues, schemaContent: Uint8Array, options?: SchemaOperationsGetSchemaIdByContentOptions) => Promise<void>;
-    // (undocumented)
-    listSchemaGroups: (options?: SchemaOperationsListSchemaGroupsOptions) => PagedAsyncIterableIterator<SchemaGroup>;
-    // (undocumented)
-    listSchemaVersions: (groupName: string, name: string, options?: SchemaOperationsListSchemaVersionsOptions) => PagedAsyncIterableIterator<SchemaVersion>;
-    // (undocumented)
-    registerSchema: (groupName: string, name: string, contentType: SchemaContentTypeValues, content: Uint8Array, options?: SchemaOperationsRegisterSchemaOptions) => Promise<void>;
-}
-
-// @public (undocumented)
-export interface SchemaOperationsRegisterSchemaOptions extends OperationOptions {
+export interface RegisterSchemaOptions extends OperationOptions {
 }
 
 // @public
-export interface SchemaProperties {
-    format: SchemaFormat;
-    groupName: string;
-    id: string;
-    name: string;
-    version: number;
-}
+export type SchemaContentTypeValues = "application/octet-stream" | "text/plain; charset=utf-8" | "application/json; serialization=Avro" | "application/json; serialization=Json" | "text/vnd.ms.protobuf";
 
 // @public (undocumented)
 export class SchemaRegistryClient {
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
+    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Uint8Array>;
+    getSchemaByVersion(groupName: string, name: string, version: number, options?: GetSchemaByVersionOptions): Promise<Uint8Array>;
+    getSchemaPropertiesByContent(groupName: string, name: string, contentType: SchemaContentTypeValues, schemaContent: Uint8Array, options?: GetSchemaPropertiesByContentOptions): Promise<void>;
+    listSchemaGroups(options?: ListSchemaGroupsOptions): PagedAsyncIterableIterator<string>;
+    listSchemaVersions(groupName: string, name: string, options?: ListSchemaVersionsOptions): PagedAsyncIterableIterator<number>;
     readonly pipeline: Pipeline;
-    readonly schemaOperations: SchemaOperationsOperations;
+    registerSchema(groupName: string, name: string, contentType: SchemaContentTypeValues, content: Uint8Array, options?: RegisterSchemaOptions): Promise<void>;
 }
 
 // @public (undocumented)
@@ -113,8 +76,9 @@ export interface SchemaRegistryClientOptions extends ClientOptions {
 }
 
 // @public
-export interface SchemaVersion {
-    readonly schemaVersion: number;
+export interface StringsList {
+    nextLink?: string;
+    value: string[];
 }
 
 // (No @packageDocumentation comment for this package)

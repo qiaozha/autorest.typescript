@@ -53,11 +53,46 @@
   },
   "tags": [],
   "paths": {
+    "/$schemaGroups": {
+      "get": {
+        "operationId": "ListSchemaGroups",
+        "summary": "Get list of schema groups.",
+        "description": "Gets the list of schema groups user is authorized to access.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/StringsList"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "type": "string",
+                "description": "String error code indicating what went wrong."
+              }
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/$schemaGroups/{groupName}/schemas/{name}:get-id": {
       "post": {
-        "operationId": "SchemaOperations_GetSchemaIdByContent",
-        "summary": "Get ID for existing schema.",
-        "description": "Gets the ID referencing an existing schema within the specified schema group, as matched by schema content comparison.",
+        "operationId": "GetSchemaPropertiesByContent",
+        "summary": "Get properties for existing schema.",
+        "description": "Gets the properties referencing an existing schema within the specified schema group, as matched by schema content comparison.",
         "consumes": [
           "application/octet-stream",
           "text/plain; charset=utf-8",
@@ -142,44 +177,9 @@
         }
       }
     },
-    "/schemaGroups": {
-      "get": {
-        "operationId": "SchemaOperations_ListSchemaGroups",
-        "summary": "Get list of schema groups.",
-        "description": "Gets the list of schema groups user is authorized to access.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "schema": {
-              "$ref": "#/definitions/StringsList"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
-            },
-            "headers": {
-              "x-ms-error-code": {
-                "type": "string",
-                "description": "String error code indicating what went wrong."
-              }
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/schemaGroups/{groupName}/schemas/{name}": {
+    "/$schemaGroups/{groupName}/schemas/{name}": {
       "put": {
-        "operationId": "SchemaOperations_RegisterSchema",
+        "operationId": "RegisterSchema",
         "summary": "Register new schema",
         "description": "Register new schema. If schema of specified name does not exist in specified group, schema is created at version 1. If schema of specified name exists already in specified group, schema is created at latest version + 1.",
         "consumes": [
@@ -205,12 +205,17 @@
             "in": "path",
             "description": "Name of schema.",
             "required": true,
-            "type": "string",
-            "maxLength": 50,
-            "pattern": "^[A-Za-z0-9][^\\\\/$:]*$"
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/SchemaContent"
+            "name": "content",
+            "in": "body",
+            "description": "String representation (UTF-8) of the schema.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
           }
         ],
         "responses": {
@@ -259,9 +264,9 @@
         }
       }
     },
-    "/schemaGroups/{groupName}/schemas/{name}/versions": {
+    "/$schemaGroups/{groupName}/schemas/{name}/versions": {
       "get": {
-        "operationId": "SchemaOperations_ListSchemaVersions",
+        "operationId": "ListSchemaVersions",
         "summary": "List schema versions.",
         "description": "Gets the list of all versions of one schema.",
         "parameters": [
@@ -280,9 +285,7 @@
             "in": "path",
             "description": "Name of schema.",
             "required": true,
-            "type": "string",
-            "maxLength": 50,
-            "pattern": "^[A-Za-z0-9][^\\\\/$:]*$"
+            "type": "string"
           }
         ],
         "responses": {
@@ -310,9 +313,9 @@
         }
       }
     },
-    "/schemaGroups/{groupName}/schemas/{name}/versions/{version}": {
+    "/$schemaGroups/{groupName}/schemas/{name}/versions/{version}": {
       "get": {
-        "operationId": "SchemaOperations_GetSchemaByVersion",
+        "operationId": "GetSchemaByVersion",
         "summary": "Get specific schema versions.",
         "description": "Gets one specific version of one schema.",
         "produces": [
@@ -339,9 +342,7 @@
             "in": "path",
             "description": "Name of schema.",
             "required": true,
-            "type": "string",
-            "maxLength": 50,
-            "pattern": "^[A-Za-z0-9][^\\\\/$:]*$"
+            "type": "string"
           },
           {
             "name": "version",
@@ -354,7 +355,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The request has succeeded.",
+            "description": "The schema, including its metadata and content.",
             "schema": {
               "type": "file"
             },
@@ -438,9 +439,9 @@
         }
       }
     },
-    "/schemaGroups/schemas/{id}": {
+    "/$schemaGroups/$schemas/{id}": {
       "get": {
-        "operationId": "SchemaOperations_GetSchemaById",
+        "operationId": "GetSchemaById",
         "summary": "Get a registered schema by its unique ID reference.",
         "description": "Gets a registered schema by its unique ID.  Azure Schema Registry guarantees that ID is unique within a namespace. Operation response type is based on serialization of schema requested.",
         "produces": [
@@ -465,7 +466,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The request has succeeded.",
+            "description": "The schema, including its metadata and content.",
             "schema": {
               "type": "file"
             },
@@ -633,9 +634,19 @@
         "value"
       ]
     },
-    "SchemaContentType": {
+    "Schema": {
       "type": "object",
-      "description": "The content type for given schema. Each schema type has an associated content-type."
+      "description": "The schema, including its metadata and content.",
+      "properties": {
+        "content": {
+          "type": "string",
+          "format": "byte",
+          "description": "String representation (UTF-8) of the schema."
+        }
+      },
+      "required": [
+        "content"
+      ]
     },
     "SchemaContentTypeValues": {
       "type": "string",
@@ -687,24 +698,6 @@
         "groupName"
       ]
     },
-    "SchemaHeaders": {
-      "type": "object",
-      "description": "Headers for metadata of a schema."
-    },
-    "SchemaId": {
-      "type": "object",
-      "description": "Object received from the registry containing schema identifiers.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Schema ID that uniquely identifies a schema in the registry namespace.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "id"
-      ]
-    },
     "SchemaName": {
       "type": "object",
       "description": "Schemas resource.",
@@ -721,20 +714,9 @@
         "name"
       ]
     },
-    "SchemaVersion": {
+    "SchemaProperties": {
       "type": "object",
-      "description": "Schema versions resource.",
-      "properties": {
-        "version": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Version number of specific schema.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "version"
-      ]
+      "description": "Metadata of a schema."
     },
     "ServiceApiVersions": {
       "type": "string",
@@ -797,17 +779,6 @@
       "minLength": 1,
       "x-ms-parameter-location": "method",
       "x-ms-client-name": "apiVersion"
-    },
-    "SchemaContent": {
-      "name": "content",
-      "in": "body",
-      "description": "String representation (UTF-8) of the schema.",
-      "required": true,
-      "schema": {
-        "type": "string",
-        "format": "binary"
-      },
-      "x-ms-parameter-location": "method"
     }
   }
 }
