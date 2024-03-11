@@ -3,18 +3,17 @@
 
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
-import { ContentSafetyContext } from "../rest/index.js";
-import getClient from "../rest/index.js";
+import { ContentSafetyContext } from "../../rest/index.js";
+import getClient from "../../rest/index.js";
 
-export interface ContentSafetyClientOptions extends ClientOptions {}
+export interface BlocklistClientOptions extends ClientOptions {}
 
-export { ContentSafetyContext } from "../rest/index.js";
+export { ContentSafetyContext } from "../../rest/index.js";
 
-/** Analyze harmful content */
-export function createContentSafety(
+export function createBlocklist(
   endpoint: string,
   credential: KeyCredential | TokenCredential,
-  options: ContentSafetyClientOptions = {},
+  options: BlocklistClientOptions = {},
 ): ContentSafetyContext {
   const clientContext = getClient(endpoint, credential, options);
   return clientContext;

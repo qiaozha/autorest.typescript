@@ -14,7 +14,7 @@ import {
   PagedAsyncIterableIterator,
   PagedResult,
 } from "../models/pagingTypes.js";
-import { isUnexpected } from "../rest/index.js";
+import { isUnexpected } from "../../rest/index.js";
 
 /**
  * Helper to paginate results in a generic way and return a PagedAsyncIterableIterator

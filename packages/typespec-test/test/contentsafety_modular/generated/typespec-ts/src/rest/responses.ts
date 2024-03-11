@@ -5,12 +5,16 @@ import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
   AnalyzeTextResultOutput,
+  AnalyzeTextJailbreakResultOutput,
+  AnalyzeTextProtectedMaterialResultOutput,
+  AnalyzeTextPromptInjectionResultOutput,
   AnalyzeImageResultOutput,
   TextBlocklistOutput,
   PagedTextBlocklistOutput,
-  AddOrUpdateBlockItemsResultOutput,
-  TextBlockItemOutput,
-  PagedTextBlockItemOutput,
+  AddOrUpdateTextBlocklistItemsResultOutput,
+  TextBlocklistItemOutput,
+  PagedTextBlocklistItemOutput,
+  DetectGroundednessResultOutput,
 } from "./outputModels.js";
 
 /** The request has succeeded. */
@@ -28,6 +32,60 @@ export interface AnalyzeTextDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & AnalyzeTextDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DetectTextJailbreak200Response extends HttpResponse {
+  status: "200";
+  body: AnalyzeTextJailbreakResultOutput;
+}
+
+export interface DetectTextJailbreakDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DetectTextJailbreakDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DetectTextJailbreakDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DetectTextProtectedMaterial200Response extends HttpResponse {
+  status: "200";
+  body: AnalyzeTextProtectedMaterialResultOutput;
+}
+
+export interface DetectTextProtectedMaterialDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DetectTextProtectedMaterialDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DetectTextProtectedMaterialDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DetectTextPromptInjectionOptions200Response
+  extends HttpResponse {
+  status: "200";
+  body: AnalyzeTextPromptInjectionResultOutput;
+}
+
+export interface DetectTextPromptInjectionOptionsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DetectTextPromptInjectionOptionsDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DetectTextPromptInjectionOptionsDefaultHeaders;
 }
 
 /** The request has succeeded. */
@@ -122,42 +180,42 @@ export interface ListTextBlocklistsDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface AddOrUpdateBlockItems200Response extends HttpResponse {
+export interface AddOrUpdateBlocklistItems200Response extends HttpResponse {
   status: "200";
-  body: AddOrUpdateBlockItemsResultOutput;
+  body: AddOrUpdateTextBlocklistItemsResultOutput;
 }
 
-export interface AddOrUpdateBlockItemsDefaultHeaders {
+export interface AddOrUpdateBlocklistItemsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AddOrUpdateBlockItemsDefaultResponse extends HttpResponse {
+export interface AddOrUpdateBlocklistItemsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AddOrUpdateBlockItemsDefaultHeaders;
+  headers: RawHttpHeaders & AddOrUpdateBlocklistItemsDefaultHeaders;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface RemoveBlockItems204Response extends HttpResponse {
+export interface RemoveBlocklistItems204Response extends HttpResponse {
   status: "204";
 }
 
-export interface RemoveBlockItemsDefaultHeaders {
+export interface RemoveBlocklistItemsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface RemoveBlockItemsDefaultResponse extends HttpResponse {
+export interface RemoveBlocklistItemsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & RemoveBlockItemsDefaultHeaders;
+  headers: RawHttpHeaders & RemoveBlocklistItemsDefaultHeaders;
 }
 
 /** The request has succeeded. */
 export interface GetTextBlocklistItem200Response extends HttpResponse {
   status: "200";
-  body: TextBlockItemOutput;
+  body: TextBlocklistItemOutput;
 }
 
 export interface GetTextBlocklistItemDefaultHeaders {
@@ -174,7 +232,7 @@ export interface GetTextBlocklistItemDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface ListTextBlocklistItems200Response extends HttpResponse {
   status: "200";
-  body: PagedTextBlockItemOutput;
+  body: PagedTextBlocklistItemOutput;
 }
 
 export interface ListTextBlocklistItemsDefaultHeaders {
@@ -186,4 +244,21 @@ export interface ListTextBlocklistItemsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ListTextBlocklistItemsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DetectGroundedness200Response extends HttpResponse {
+  status: "200";
+  body: DetectGroundednessResultOutput;
+}
+
+export interface DetectGroundednessDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DetectGroundednessDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DetectGroundednessDefaultHeaders;
 }

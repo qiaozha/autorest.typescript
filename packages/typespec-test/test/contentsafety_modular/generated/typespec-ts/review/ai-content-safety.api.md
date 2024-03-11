@@ -10,18 +10,8 @@ import { OperationOptions } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public
-export interface AddOrUpdateBlockItemsOptions {
-    blockItems: TextBlockItemInfo[];
-}
-
 // @public (undocumented)
-export interface AddOrUpdateBlockItemsRequestOptions extends OperationOptions {
-}
-
-// @public
-export interface AddOrUpdateBlockItemsResult {
-    value?: TextBlockItem[];
+export interface AddOrUpdateBlocklistItemsOptions extends OperationOptions {
 }
 
 // @public
@@ -40,14 +30,24 @@ export interface AnalyzeImageRequestOptions extends OperationOptions {
 
 // @public
 export interface AnalyzeImageResult {
-    analyzeResults: ImageAnalyzeSeverityResult[];
+    categoriesAnalysis: ImageCategoriesAnalysis[];
+}
+
+// @public
+export interface AnalyzeTextJailbreakOptions {
+    text: string;
+}
+
+// @public
+export interface AnalyzeTextJailbreakResult {
+    jailbreakAnalysis: JailbreakAnalysisResult;
 }
 
 // @public
 export interface AnalyzeTextOptions {
     blocklistNames?: string[];
-    breakByBlocklists?: boolean;
     categories?: TextCategory[];
+    haltOnBlocklistHit?: boolean;
     outputType?: AnalyzeTextOutputType;
     text: string;
 }
@@ -55,30 +55,115 @@ export interface AnalyzeTextOptions {
 // @public
 export type AnalyzeTextOutputType = string;
 
+// @public
+export interface AnalyzeTextProtectedMaterialOptions {
+    text: string;
+}
+
+// @public
+export interface AnalyzeTextProtectedMaterialResult {
+    protectedMaterialAnalysis: ProtectedMaterialAnalysisResult;
+}
+
 // @public (undocumented)
 export interface AnalyzeTextRequestOptions extends OperationOptions {
 }
 
 // @public
 export interface AnalyzeTextResult {
-    analyzeResults: TextAnalyzeSeverityResult[];
-    blocklistsMatchResults?: TextBlocklistMatchResult[];
+    blocklistsMatch?: TextBlocklistMatch[];
+    categoriesAnalysis: TextCategoriesAnalysis[];
 }
+
+// @public (undocumented)
+export class BlocklistClient {
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: BlocklistClientOptions);
+    // Warning: (ae-forgotten-export) The symbol "AddOrUpdateTextBlocklistItemsOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "AddOrUpdateTextBlocklistItemsResult" needs to be exported by the entry point index.d.ts
+    addOrUpdateBlocklistItems(blocklistName: string, body: AddOrUpdateTextBlocklistItemsOptions, options?: AddOrUpdateBlocklistItemsOptions): Promise<AddOrUpdateTextBlocklistItemsResult>;
+    createOrUpdateTextBlocklist(blocklistName: string, options: BlocklistClientTextBlocklist, requestOptions?: CreateOrUpdateTextBlocklistOptions): Promise<BlocklistClientTextBlocklist>;
+    deleteTextBlocklist(blocklistName: string, options?: DeleteTextBlocklistOptions): Promise<void>;
+    getTextBlocklist(blocklistName: string, options?: GetTextBlocklistOptions): Promise<BlocklistClientTextBlocklist>;
+    getTextBlocklistItem(blocklistName: string, blocklistItemId: string, options?: GetTextBlocklistItemOptions): Promise<BlocklistClientTextBlocklistItem>;
+    listTextBlocklistItems(blocklistName: string, options?: ListTextBlocklistItemsOptions): PagedAsyncIterableIterator<BlocklistClientTextBlocklistItem>;
+    listTextBlocklists(options?: ListTextBlocklistsOptions): PagedAsyncIterableIterator<BlocklistClientTextBlocklist>;
+    readonly pipeline: Pipeline;
+    // Warning: (ae-forgotten-export) The symbol "RemoveTextBlocklistItemsOptions" needs to be exported by the entry point index.d.ts
+    removeBlocklistItems(blocklistName: string, body: RemoveTextBlocklistItemsOptions, options?: RemoveBlocklistItemsOptions): Promise<void>;
+}
+
+// @public
+export type BlocklistClientAnalyzeImageOutputType = string;
+
+// @public
+export type BlocklistClientAnalyzeTextOutputType = string;
+
+// @public
+export interface BlocklistClientImageCategoriesAnalysis {
+    category: BlocklistClientImageCategory;
+    severity?: number;
+}
+
+// @public
+export type BlocklistClientImageCategory = string;
+
+// @public
+export interface BlocklistClientImageData {
+    blobUrl?: string;
+    content?: Uint8Array;
+}
+
+// @public
+export interface BlocklistClientJailbreakAnalysisResult {
+    detected: boolean;
+}
+
+// @public (undocumented)
+export interface BlocklistClientOptions extends ClientOptions {
+}
+
+// @public
+export interface BlocklistClientProtectedMaterialAnalysisResult {
+    detected: boolean;
+}
+
+// @public
+export interface BlocklistClientTextBlocklist {
+    blocklistName: string;
+    description?: string;
+}
+
+// @public
+export interface BlocklistClientTextBlocklistItem {
+    readonly blocklistItemId: string;
+    description?: string;
+    text: string;
+}
+
+// @public
+export interface BlocklistClientTextBlocklistMatch {
+    blocklistItemId: string;
+    blocklistItemText: string;
+    blocklistName: string;
+}
+
+// @public
+export interface BlocklistClientTextCategoriesAnalysis {
+    category: BlocklistClientTextCategory;
+    severity?: number;
+}
+
+// @public
+export type BlocklistClientTextCategory = string;
 
 // @public (undocumented)
 export class ContentSafetyClient {
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: ContentSafetyClientOptions);
-    addOrUpdateBlockItems(blocklistName: string, body: AddOrUpdateBlockItemsOptions, options?: AddOrUpdateBlockItemsRequestOptions): Promise<AddOrUpdateBlockItemsResult>;
     analyzeImage(body: AnalyzeImageOptions, options?: AnalyzeImageRequestOptions): Promise<AnalyzeImageResult>;
     analyzeText(body: AnalyzeTextOptions, options?: AnalyzeTextRequestOptions): Promise<AnalyzeTextResult>;
-    createOrUpdateTextBlocklist(blocklistName: string, resource: TextBlocklist, options?: CreateOrUpdateTextBlocklistOptions): Promise<TextBlocklist>;
-    deleteTextBlocklist(blocklistName: string, options?: DeleteTextBlocklistOptions): Promise<void>;
-    getTextBlocklist(blocklistName: string, options?: GetTextBlocklistOptions): Promise<TextBlocklist>;
-    getTextBlocklistItem(blocklistName: string, blockItemId: string, options?: GetTextBlocklistItemOptions): Promise<TextBlockItem>;
-    listTextBlocklistItems(blocklistName: string, options?: ListTextBlocklistItemsOptions): PagedAsyncIterableIterator<TextBlockItem>;
-    listTextBlocklists(options?: ListTextBlocklistsOptions): PagedAsyncIterableIterator<TextBlocklist>;
+    detectTextJailbreak(body: AnalyzeTextJailbreakOptions, options?: DetectTextJailbreakOptions): Promise<AnalyzeTextJailbreakResult>;
+    detectTextProtectedMaterial(body: AnalyzeTextProtectedMaterialOptions, options?: DetectTextProtectedMaterialOptions): Promise<AnalyzeTextProtectedMaterialResult>;
     readonly pipeline: Pipeline;
-    removeBlockItems(blocklistName: string, body: RemoveBlockItemsOptions, options?: RemoveBlockItemsRequestOptions): Promise<void>;
 }
 
 // @public (undocumented)
@@ -100,6 +185,14 @@ export interface DeleteTextBlocklistOptions extends OperationOptions {
 }
 
 // @public (undocumented)
+export interface DetectTextJailbreakOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterialOptions extends OperationOptions {
+}
+
+// @public (undocumented)
 export interface GetTextBlocklistItemOptions extends OperationOptions {
 }
 
@@ -108,7 +201,7 @@ export interface GetTextBlocklistOptions extends OperationOptions {
 }
 
 // @public
-export interface ImageAnalyzeSeverityResult {
+export interface ImageCategoriesAnalysis {
     category: ImageCategory;
     severity?: number;
 }
@@ -122,6 +215,11 @@ interface ImageData_2 {
     content?: Uint8Array;
 }
 export { ImageData_2 as ImageData }
+
+// @public
+export interface JailbreakAnalysisResult {
+    detected: boolean;
+}
 
 // @public (undocumented)
 export interface ListTextBlocklistItemsOptions extends OperationOptions {
@@ -142,48 +240,17 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 }
 
 // @public
-export interface PagedTextBlockItem {
-    readonly nextLink?: string;
-    value: TextBlockItem[];
-}
-
-// @public
-export interface PagedTextBlocklist {
-    readonly nextLink?: string;
-    value: TextBlocklist[];
-}
-
-// @public
 export interface PageSettings {
     continuationToken?: string;
 }
 
 // @public
-export interface RemoveBlockItemsOptions {
-    blockItemIds: string[];
+export interface ProtectedMaterialAnalysisResult {
+    detected: boolean;
 }
 
 // @public (undocumented)
-export interface RemoveBlockItemsRequestOptions extends OperationOptions {
-}
-
-// @public
-export interface TextAnalyzeSeverityResult {
-    category: TextCategory;
-    severity?: number;
-}
-
-// @public
-export interface TextBlockItem {
-    blockItemId: string;
-    description?: string;
-    text: string;
-}
-
-// @public
-export interface TextBlockItemInfo {
-    description?: string;
-    text: string;
+export interface RemoveBlocklistItemsOptions extends OperationOptions {
 }
 
 // @public
@@ -193,10 +260,23 @@ export interface TextBlocklist {
 }
 
 // @public
-export interface TextBlocklistMatchResult {
-    blockItemId: string;
-    blockItemText: string;
+export interface TextBlocklistItem {
+    readonly blocklistItemId: string;
+    description?: string;
+    text: string;
+}
+
+// @public
+export interface TextBlocklistMatch {
+    blocklistItemId: string;
+    blocklistItemText: string;
     blocklistName: string;
+}
+
+// @public
+export interface TextCategoriesAnalysis {
+    category: TextCategory;
+    severity?: number;
 }
 
 // @public

@@ -4,21 +4,49 @@
 import { RequestParameters } from "@azure-rest/core-client";
 import {
   AnalyzeTextOptions,
+  AnalyzeTextJailbreakOptions,
+  AnalyzeTextProtectedMaterialOptions,
+  AnalyzeTextPromptInjectionOptions,
   AnalyzeImageOptions,
   TextBlocklist,
-  AddOrUpdateBlockItemsOptions,
-  RemoveBlockItemsOptions,
+  AddOrUpdateTextBlocklistItemsOptions,
+  RemoveTextBlocklistItemsOptions,
+  DetectGroundednessOptions,
 } from "./models.js";
 
 export interface AnalyzeTextBodyParam {
-  /** The request of text analysis. */
+  /** The text analysis request. */
   body: AnalyzeTextOptions;
 }
 
 export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
 
+export interface DetectTextJailbreakBodyParam {
+  /** The text jailbreak analysis request. */
+  body: AnalyzeTextJailbreakOptions;
+}
+
+export type DetectTextJailbreakParameters = DetectTextJailbreakBodyParam &
+  RequestParameters;
+
+export interface DetectTextProtectedMaterialBodyParam {
+  /** The text protected material analysis request. */
+  body: AnalyzeTextProtectedMaterialOptions;
+}
+
+export type DetectTextProtectedMaterialParameters =
+  DetectTextProtectedMaterialBodyParam & RequestParameters;
+
+export interface DetectTextPromptInjectionOptionsBodyParam {
+  /** The text prompt injection attacks analysis request. */
+  body: AnalyzeTextPromptInjectionOptions;
+}
+
+export type DetectTextPromptInjectionOptionsParameters =
+  DetectTextPromptInjectionOptionsBodyParam & RequestParameters;
+
 export interface AnalyzeImageBodyParam {
-  /** The analysis request of the image. */
+  /** The image analysis request. */
   body: AnalyzeImageOptions;
 }
 
@@ -44,18 +72,20 @@ export type CreateOrUpdateTextBlocklistParameters =
 export type DeleteTextBlocklistParameters = RequestParameters;
 export type ListTextBlocklistsParameters = RequestParameters;
 
-export interface AddOrUpdateBlockItemsBodyParam {
-  body?: AddOrUpdateBlockItemsOptions;
+export interface AddOrUpdateBlocklistItemsBodyParam {
+  /** Options for adding or updating blocklist items. */
+  body: AddOrUpdateTextBlocklistItemsOptions;
 }
 
-export type AddOrUpdateBlockItemsParameters = AddOrUpdateBlockItemsBodyParam &
-  RequestParameters;
+export type AddOrUpdateBlocklistItemsParameters =
+  AddOrUpdateBlocklistItemsBodyParam & RequestParameters;
 
-export interface RemoveBlockItemsBodyParam {
-  body?: RemoveBlockItemsOptions;
+export interface RemoveBlocklistItemsBodyParam {
+  /** Options for removing blocklist items. */
+  body: RemoveTextBlocklistItemsOptions;
 }
 
-export type RemoveBlockItemsParameters = RemoveBlockItemsBodyParam &
+export type RemoveBlocklistItemsParameters = RemoveBlocklistItemsBodyParam &
   RequestParameters;
 export type GetTextBlocklistItemParameters = RequestParameters;
 
@@ -74,3 +104,10 @@ export interface ListTextBlocklistItemsQueryParam {
 
 export type ListTextBlocklistItemsParameters =
   ListTextBlocklistItemsQueryParam & RequestParameters;
+
+export interface DetectGroundednessBodyParam {
+  body?: DetectGroundednessOptions;
+}
+
+export type DetectGroundednessParameters = DetectGroundednessBodyParam &
+  RequestParameters;

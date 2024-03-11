@@ -16,13 +16,29 @@
       "require": "./dist/index.cjs",
       "import": "./dist-esm/src/index.js"
     },
-    "./api": {
-      "types": "./types/src/api/index.d.ts",
-      "import": "./dist-esm/src/api/index.js"
+    "./contentSafety": {
+      "types": "./types/src/contentSafety/index.d.ts",
+      "import": "./dist-esm/src/contentSafety/index.js"
     },
-    "./models": {
-      "types": "./types/src/models/index.d.ts",
-      "import": "./dist-esm/src/models/index.js"
+    "./contentSafety/api": {
+      "types": "./types/src/contentSafety/api/index.d.ts",
+      "import": "./dist-esm/src/contentSafety/api/index.js"
+    },
+    "./contentSafety/models": {
+      "types": "./types/src/contentSafety/models/index.d.ts",
+      "import": "./dist-esm/src/contentSafety/models/index.js"
+    },
+    "./blocklist": {
+      "types": "./types/src/blocklist/index.d.ts",
+      "import": "./dist-esm/src/blocklist/index.js"
+    },
+    "./blocklist/api": {
+      "types": "./types/src/blocklist/api/index.d.ts",
+      "import": "./dist-esm/src/blocklist/api/index.js"
+    },
+    "./blocklist/models": {
+      "types": "./types/src/blocklist/models/index.d.ts",
+      "import": "./dist-esm/src/blocklist/models/index.js"
     }
   },
   "repository": "github:Azure/azure-sdk-for-js",

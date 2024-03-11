@@ -2,19 +2,17 @@
 // Licensed under the MIT license.
 
 export {
-  createContentSafety,
-  ContentSafetyClientOptions,
+  createBlocklist,
+  BlocklistClientOptions,
   ContentSafetyContext,
-} from "./ContentSafetyContext.js";
+} from "./BlocklistContext.js";
 export {
-  analyzeText,
-  analyzeImage,
-  getTextBlocklist,
+  addOrUpdateBlocklistItems,
   createOrUpdateTextBlocklist,
   deleteTextBlocklist,
-  listTextBlocklists,
-  addOrUpdateBlockItems,
-  removeBlockItems,
+  getTextBlocklist,
   getTextBlocklistItem,
   listTextBlocklistItems,
+  listTextBlocklists,
+  removeBlocklistItems,
 } from "./operations.js";

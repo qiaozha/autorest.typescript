@@ -4,6 +4,12 @@
 import {
   AnalyzeText200Response,
   AnalyzeTextDefaultResponse,
+  DetectTextJailbreak200Response,
+  DetectTextJailbreakDefaultResponse,
+  DetectTextProtectedMaterial200Response,
+  DetectTextProtectedMaterialDefaultResponse,
+  DetectTextPromptInjectionOptions200Response,
+  DetectTextPromptInjectionOptionsDefaultResponse,
   AnalyzeImage200Response,
   AnalyzeImageDefaultResponse,
   GetTextBlocklist200Response,
@@ -15,32 +21,53 @@ import {
   DeleteTextBlocklistDefaultResponse,
   ListTextBlocklists200Response,
   ListTextBlocklistsDefaultResponse,
-  AddOrUpdateBlockItems200Response,
-  AddOrUpdateBlockItemsDefaultResponse,
-  RemoveBlockItems204Response,
-  RemoveBlockItemsDefaultResponse,
+  AddOrUpdateBlocklistItems200Response,
+  AddOrUpdateBlocklistItemsDefaultResponse,
+  RemoveBlocklistItems204Response,
+  RemoveBlocklistItemsDefaultResponse,
   GetTextBlocklistItem200Response,
   GetTextBlocklistItemDefaultResponse,
   ListTextBlocklistItems200Response,
   ListTextBlocklistItemsDefaultResponse,
+  DetectGroundedness200Response,
+  DetectGroundednessDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /text:analyze": ["200"],
+  "POST /text:detectJailbreak": ["200"],
+  "POST /text:detectProtectedMaterial": ["200"],
+  "POST /text:shieldPrompt": ["200"],
   "POST /image:analyze": ["200"],
   "GET /text/blocklists/{blocklistName}": ["200"],
   "PATCH /text/blocklists/{blocklistName}": ["200", "201"],
   "DELETE /text/blocklists/{blocklistName}": ["204"],
   "GET /text/blocklists": ["200"],
-  "POST /text/blocklists/{blocklistName}:addOrUpdateBlockItems": ["200"],
-  "POST /text/blocklists/{blocklistName}:removeBlockItems": ["204"],
-  "GET /text/blocklists/{blocklistName}/blockItems/{blockItemId}": ["200"],
-  "GET /text/blocklists/{blocklistName}/blockItems": ["200"],
+  "POST /text/blocklists/{blocklistName}:addOrUpdateBlocklistItems": ["200"],
+  "POST /text/blocklists/{blocklistName}:removeBlocklistItems": ["204"],
+  "GET /text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}": [
+    "200",
+  ],
+  "GET /text/blocklists/{blocklistName}/blocklistItems": ["200"],
+  "POST /text:detectGroundedness": ["200"],
 };
 
 export function isUnexpected(
   response: AnalyzeText200Response | AnalyzeTextDefaultResponse,
 ): response is AnalyzeTextDefaultResponse;
+export function isUnexpected(
+  response: DetectTextJailbreak200Response | DetectTextJailbreakDefaultResponse,
+): response is DetectTextJailbreakDefaultResponse;
+export function isUnexpected(
+  response:
+    | DetectTextProtectedMaterial200Response
+    | DetectTextProtectedMaterialDefaultResponse,
+): response is DetectTextProtectedMaterialDefaultResponse;
+export function isUnexpected(
+  response:
+    | DetectTextPromptInjectionOptions200Response
+    | DetectTextPromptInjectionOptionsDefaultResponse,
+): response is DetectTextPromptInjectionOptionsDefaultResponse;
 export function isUnexpected(
   response: AnalyzeImage200Response | AnalyzeImageDefaultResponse,
 ): response is AnalyzeImageDefaultResponse;
@@ -61,12 +88,14 @@ export function isUnexpected(
 ): response is ListTextBlocklistsDefaultResponse;
 export function isUnexpected(
   response:
-    | AddOrUpdateBlockItems200Response
-    | AddOrUpdateBlockItemsDefaultResponse,
-): response is AddOrUpdateBlockItemsDefaultResponse;
+    | AddOrUpdateBlocklistItems200Response
+    | AddOrUpdateBlocklistItemsDefaultResponse,
+): response is AddOrUpdateBlocklistItemsDefaultResponse;
 export function isUnexpected(
-  response: RemoveBlockItems204Response | RemoveBlockItemsDefaultResponse,
-): response is RemoveBlockItemsDefaultResponse;
+  response:
+    | RemoveBlocklistItems204Response
+    | RemoveBlocklistItemsDefaultResponse,
+): response is RemoveBlocklistItemsDefaultResponse;
 export function isUnexpected(
   response:
     | GetTextBlocklistItem200Response
@@ -78,9 +107,18 @@ export function isUnexpected(
     | ListTextBlocklistItemsDefaultResponse,
 ): response is ListTextBlocklistItemsDefaultResponse;
 export function isUnexpected(
+  response: DetectGroundedness200Response | DetectGroundednessDefaultResponse,
+): response is DetectGroundednessDefaultResponse;
+export function isUnexpected(
   response:
     | AnalyzeText200Response
     | AnalyzeTextDefaultResponse
+    | DetectTextJailbreak200Response
+    | DetectTextJailbreakDefaultResponse
+    | DetectTextProtectedMaterial200Response
+    | DetectTextProtectedMaterialDefaultResponse
+    | DetectTextPromptInjectionOptions200Response
+    | DetectTextPromptInjectionOptionsDefaultResponse
     | AnalyzeImage200Response
     | AnalyzeImageDefaultResponse
     | GetTextBlocklist200Response
@@ -92,25 +130,31 @@ export function isUnexpected(
     | DeleteTextBlocklistDefaultResponse
     | ListTextBlocklists200Response
     | ListTextBlocklistsDefaultResponse
-    | AddOrUpdateBlockItems200Response
-    | AddOrUpdateBlockItemsDefaultResponse
-    | RemoveBlockItems204Response
-    | RemoveBlockItemsDefaultResponse
+    | AddOrUpdateBlocklistItems200Response
+    | AddOrUpdateBlocklistItemsDefaultResponse
+    | RemoveBlocklistItems204Response
+    | RemoveBlocklistItemsDefaultResponse
     | GetTextBlocklistItem200Response
     | GetTextBlocklistItemDefaultResponse
     | ListTextBlocklistItems200Response
-    | ListTextBlocklistItemsDefaultResponse,
+    | ListTextBlocklistItemsDefaultResponse
+    | DetectGroundedness200Response
+    | DetectGroundednessDefaultResponse,
 ): response is
   | AnalyzeTextDefaultResponse
+  | DetectTextJailbreakDefaultResponse
+  | DetectTextProtectedMaterialDefaultResponse
+  | DetectTextPromptInjectionOptionsDefaultResponse
   | AnalyzeImageDefaultResponse
   | GetTextBlocklistDefaultResponse
   | CreateOrUpdateTextBlocklistDefaultResponse
   | DeleteTextBlocklistDefaultResponse
   | ListTextBlocklistsDefaultResponse
-  | AddOrUpdateBlockItemsDefaultResponse
-  | RemoveBlockItemsDefaultResponse
+  | AddOrUpdateBlocklistItemsDefaultResponse
+  | RemoveBlocklistItemsDefaultResponse
   | GetTextBlocklistItemDefaultResponse
-  | ListTextBlocklistItemsDefaultResponse {
+  | ListTextBlocklistItemsDefaultResponse
+  | DetectGroundednessDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

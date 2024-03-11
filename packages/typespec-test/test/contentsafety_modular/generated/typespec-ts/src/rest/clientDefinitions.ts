@@ -3,19 +3,29 @@
 
 import {
   AnalyzeTextParameters,
+  DetectTextJailbreakParameters,
+  DetectTextProtectedMaterialParameters,
+  DetectTextPromptInjectionOptionsParameters,
   AnalyzeImageParameters,
   GetTextBlocklistParameters,
   CreateOrUpdateTextBlocklistParameters,
   DeleteTextBlocklistParameters,
   ListTextBlocklistsParameters,
-  AddOrUpdateBlockItemsParameters,
-  RemoveBlockItemsParameters,
+  AddOrUpdateBlocklistItemsParameters,
+  RemoveBlocklistItemsParameters,
   GetTextBlocklistItemParameters,
   ListTextBlocklistItemsParameters,
+  DetectGroundednessParameters,
 } from "./parameters.js";
 import {
   AnalyzeText200Response,
   AnalyzeTextDefaultResponse,
+  DetectTextJailbreak200Response,
+  DetectTextJailbreakDefaultResponse,
+  DetectTextProtectedMaterial200Response,
+  DetectTextProtectedMaterialDefaultResponse,
+  DetectTextPromptInjectionOptions200Response,
+  DetectTextPromptInjectionOptionsDefaultResponse,
   AnalyzeImage200Response,
   AnalyzeImageDefaultResponse,
   GetTextBlocklist200Response,
@@ -27,26 +37,57 @@ import {
   DeleteTextBlocklistDefaultResponse,
   ListTextBlocklists200Response,
   ListTextBlocklistsDefaultResponse,
-  AddOrUpdateBlockItems200Response,
-  AddOrUpdateBlockItemsDefaultResponse,
-  RemoveBlockItems204Response,
-  RemoveBlockItemsDefaultResponse,
+  AddOrUpdateBlocklistItems200Response,
+  AddOrUpdateBlocklistItemsDefaultResponse,
+  RemoveBlocklistItems204Response,
+  RemoveBlocklistItemsDefaultResponse,
   GetTextBlocklistItem200Response,
   GetTextBlocklistItemDefaultResponse,
   ListTextBlocklistItems200Response,
   ListTextBlocklistItemsDefaultResponse,
+  DetectGroundedness200Response,
+  DetectGroundednessDefaultResponse,
 } from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface AnalyzeText {
-  /** A sync API for harmful content analysis for text. Currently, we support four categories: Hate, SelfHarm, Sexual, Violence. */
+  /** A synchronous API for the analysis of potentially harmful text content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */
   post(
     options: AnalyzeTextParameters,
   ): StreamableMethod<AnalyzeText200Response | AnalyzeTextDefaultResponse>;
 }
 
+export interface DetectTextJailbreak {
+  /** A synchronous API for the analysis of text jailbreak. */
+  post(
+    options: DetectTextJailbreakParameters,
+  ): StreamableMethod<
+    DetectTextJailbreak200Response | DetectTextJailbreakDefaultResponse
+  >;
+}
+
+export interface DetectTextProtectedMaterial {
+  /** A synchronous API for the analysis of protected material. */
+  post(
+    options: DetectTextProtectedMaterialParameters,
+  ): StreamableMethod<
+    | DetectTextProtectedMaterial200Response
+    | DetectTextProtectedMaterialDefaultResponse
+  >;
+}
+
+export interface DetectTextPromptInjectionOptions {
+  /** A synchronous API for the analysis of text prompt injection attacks. */
+  post(
+    options: DetectTextPromptInjectionOptionsParameters,
+  ): StreamableMethod<
+    | DetectTextPromptInjectionOptions200Response
+    | DetectTextPromptInjectionOptionsDefaultResponse
+  >;
+}
+
 export interface AnalyzeImage {
-  /** A sync API for harmful content analysis for image. Currently, we support four categories: Hate, SelfHarm, Sexual, Violence. */
+  /** A synchronous API for the analysis of potentially harmful image content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */
   post(
     options: AnalyzeImageParameters,
   ): StreamableMethod<AnalyzeImage200Response | AnalyzeImageDefaultResponse>;
@@ -59,7 +100,7 @@ export interface GetTextBlocklist {
   ): StreamableMethod<
     GetTextBlocklist200Response | GetTextBlocklistDefaultResponse
   >;
-  /** Updates a text blocklist, if blocklistName does not exist, create a new blocklist. */
+  /** Updates a text blocklist. If the blocklistName does not exist, a new blocklist will be created. */
   patch(
     options: CreateOrUpdateTextBlocklistParameters,
   ): StreamableMethod<
@@ -84,26 +125,27 @@ export interface ListTextBlocklists {
   >;
 }
 
-export interface AddOrUpdateBlockItems {
-  /** Add or update blockItems to a text blocklist. You can add or update at most 100 BlockItems in one request. */
+export interface AddOrUpdateBlocklistItems {
+  /** Add or update blocklistItems to a text blocklist. You can add or update at most 100 blocklistItems in one request. */
   post(
-    options?: AddOrUpdateBlockItemsParameters,
+    options: AddOrUpdateBlocklistItemsParameters,
   ): StreamableMethod<
-    AddOrUpdateBlockItems200Response | AddOrUpdateBlockItemsDefaultResponse
+    | AddOrUpdateBlocklistItems200Response
+    | AddOrUpdateBlocklistItemsDefaultResponse
   >;
 }
 
-export interface RemoveBlockItems {
-  /** Remove blockItems from a text blocklist. You can remove at most 100 BlockItems in one request. */
+export interface RemoveBlocklistItems {
+  /** Remove blocklistItems from a text blocklist. You can remove at most 100 BlocklistItems in one request. */
   post(
-    options?: RemoveBlockItemsParameters,
+    options: RemoveBlocklistItemsParameters,
   ): StreamableMethod<
-    RemoveBlockItems204Response | RemoveBlockItemsDefaultResponse
+    RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse
   >;
 }
 
 export interface GetTextBlocklistItem {
-  /** Get blockItem By blockItemId from a text blocklist. */
+  /** Get blocklistItem by blocklistName and blocklistItemId from a text blocklist. */
   get(
     options?: GetTextBlocklistItemParameters,
   ): StreamableMethod<
@@ -112,7 +154,7 @@ export interface GetTextBlocklistItem {
 }
 
 export interface ListTextBlocklistItems {
-  /** Get all blockItems in a text blocklist */
+  /** Get all blocklistItems in a text blocklist. */
   get(
     options?: ListTextBlocklistItemsParameters,
   ): StreamableMethod<
@@ -120,9 +162,24 @@ export interface ListTextBlocklistItems {
   >;
 }
 
+export interface DetectGroundedness {
+  /** A synchronous API for the analysis of language model outputs to determine alignment with user-provided information or identify fictional content. */
+  post(
+    options?: DetectGroundednessParameters,
+  ): StreamableMethod<
+    DetectGroundedness200Response | DetectGroundednessDefaultResponse
+  >;
+}
+
 export interface Routes {
   /** Resource for '/text:analyze' has methods for the following verbs: post */
   (path: "/text:analyze"): AnalyzeText;
+  /** Resource for '/text:detectJailbreak' has methods for the following verbs: post */
+  (path: "/text:detectJailbreak"): DetectTextJailbreak;
+  /** Resource for '/text:detectProtectedMaterial' has methods for the following verbs: post */
+  (path: "/text:detectProtectedMaterial"): DetectTextProtectedMaterial;
+  /** Resource for '/text:shieldPrompt' has methods for the following verbs: post */
+  (path: "/text:shieldPrompt"): DetectTextPromptInjectionOptions;
   /** Resource for '/image:analyze' has methods for the following verbs: post */
   (path: "/image:analyze"): AnalyzeImage;
   /** Resource for '/text/blocklists/\{blocklistName\}' has methods for the following verbs: get, patch, delete */
@@ -132,27 +189,29 @@ export interface Routes {
   ): GetTextBlocklist;
   /** Resource for '/text/blocklists' has methods for the following verbs: get */
   (path: "/text/blocklists"): ListTextBlocklists;
-  /** Resource for '/text/blocklists/\{blocklistName\}:addOrUpdateBlockItems' has methods for the following verbs: post */
+  /** Resource for '/text/blocklists/\{blocklistName\}:addOrUpdateBlocklistItems' has methods for the following verbs: post */
   (
-    path: "/text/blocklists/{blocklistName}:addOrUpdateBlockItems",
+    path: "/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems",
     blocklistName: string,
-  ): AddOrUpdateBlockItems;
-  /** Resource for '/text/blocklists/\{blocklistName\}:removeBlockItems' has methods for the following verbs: post */
+  ): AddOrUpdateBlocklistItems;
+  /** Resource for '/text/blocklists/\{blocklistName\}:removeBlocklistItems' has methods for the following verbs: post */
   (
-    path: "/text/blocklists/{blocklistName}:removeBlockItems",
+    path: "/text/blocklists/{blocklistName}:removeBlocklistItems",
     blocklistName: string,
-  ): RemoveBlockItems;
-  /** Resource for '/text/blocklists/\{blocklistName\}/blockItems/\{blockItemId\}' has methods for the following verbs: get */
+  ): RemoveBlocklistItems;
+  /** Resource for '/text/blocklists/\{blocklistName\}/blocklistItems/\{blocklistItemId\}' has methods for the following verbs: get */
   (
-    path: "/text/blocklists/{blocklistName}/blockItems/{blockItemId}",
+    path: "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}",
     blocklistName: string,
-    blockItemId: string,
+    blocklistItemId: string,
   ): GetTextBlocklistItem;
-  /** Resource for '/text/blocklists/\{blocklistName\}/blockItems' has methods for the following verbs: get */
+  /** Resource for '/text/blocklists/\{blocklistName\}/blocklistItems' has methods for the following verbs: get */
   (
-    path: "/text/blocklists/{blocklistName}/blockItems",
+    path: "/text/blocklists/{blocklistName}/blocklistItems",
     blocklistName: string,
   ): ListTextBlocklistItems;
+  /** Resource for '/text:detectGroundedness' has methods for the following verbs: post */
+  (path: "/text:detectGroundedness"): DetectGroundedness;
 }
 
 export type ContentSafetyContext = Client & {
