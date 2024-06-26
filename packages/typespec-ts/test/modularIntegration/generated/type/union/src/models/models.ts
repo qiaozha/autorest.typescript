@@ -43,7 +43,13 @@ export interface EnumsOnlyCases {
   ud: Ud | Ud;
 }
 
+<<<<<<< HEAD
 export type Lr = "left" | "right";
+=======
+/** Type of Lr */
+export type Lr = "left" | "right";
+/** Type of Ud */
+>>>>>>> main
 export type Ud = "up" | "down";
 
 export interface Dog {

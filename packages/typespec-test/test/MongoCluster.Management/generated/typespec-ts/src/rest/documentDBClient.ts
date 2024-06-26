@@ -7,18 +7,22 @@ import { TokenCredential } from "@azure/core-auth";
 import { DocumentDBContext } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
-export interface DocumentDBContextOptions extends ClientOptions {}
+export interface DocumentDBContextOptions extends ClientOptions {
+  /** The api version option of the client */
+  apiVersion?: string;
+}
 
 /**
  * Initialize a new instance of `DocumentDBContext`
- * @param apiVersion - The parameter apiVersion
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
-  apiVersion: string,
   credentials: TokenCredential,
-  options: DocumentDBContextOptions = {},
+  {
+    apiVersion = "2024-03-01-preview",
+    ...options
+  }: DocumentDBContextOptions = {},
 ): DocumentDBContext {
   const endpointUrl =
     options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
@@ -46,11 +50,6 @@ export default function createClient(
   ) as DocumentDBContext;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  if (options.apiVersion) {
-    logger.warning(
-      "This client does not support to set api-version in options, please change it at positional argument",
-    );
-  }
   client.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

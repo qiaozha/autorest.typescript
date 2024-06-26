@@ -93,9 +93,6 @@ export interface SystemData {
   lastModifiedAt?: Date | string;
 }
 
-/** The resource model definition for an Azure Resource Manager resource with an etag. */
-export interface AzureEntityResource extends Resource {}
-
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -198,6 +195,9 @@ export interface PrivateLinkResourceProperties {
 
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
+
+/** The resource model definition for an Azure Resource Manager resource with an etag. */
+export interface AzureEntityResource extends Resource {}
 
 /** A private link resource. */
 export interface PrivateLinkResource extends Resource {

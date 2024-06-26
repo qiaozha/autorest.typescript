@@ -22,11 +22,10 @@ export {
   KnownPrivateEndpointServiceConnectionStatus,
   PrivateEndpointConnectionProvisioningState,
   KnownPrivateEndpointConnectionProvisioningState,
-  ArmOperationStatus,
-  ResourceProvisioningState,
-  KnownResourceProvisioningState,
   FirewallRule,
   FirewallRuleProperties,
+  ResourceProvisioningState,
+  KnownResourceProvisioningState,
   FirewallRuleListResult,
   TrackedResource,
   MongoCluster,
@@ -58,6 +57,7 @@ export {
   KnownOrigin,
   ActionType,
   KnownActionType,
+  Versions,
   ProvisioningState,
 } from "./models.js";
 export {

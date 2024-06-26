@@ -77,12 +77,20 @@ export interface PassFailMetric {
   readonly result?: PFResult;
 }
 
+<<<<<<< HEAD
+=======
+/** Type of PFMetrics */
+>>>>>>> main
 export type PFMetrics =
   | "response_time_ms"
   | "latency"
   | "error"
   | "requests"
   | "requests_per_sec";
+<<<<<<< HEAD
+=======
+/** Type of PFAgFunc */
+>>>>>>> main
 export type PFAgFunc =
   | "count"
   | "percentage"
@@ -93,7 +101,13 @@ export type PFAgFunc =
   | "p99"
   | "min"
   | "max";
+<<<<<<< HEAD
 export type PFAction = "continue" | "stop";
+=======
+/** Type of PFAction */
+export type PFAction = "continue" | "stop";
+/** Type of PFResult */
+>>>>>>> main
 export type PFResult = "passed" | "undetermined" | "failed";
 
 /** Secret */
@@ -104,6 +118,10 @@ export interface Secret {
   type?: SecretType;
 }
 
+<<<<<<< HEAD
+=======
+/** Type of SecretType */
+>>>>>>> main
 export type SecretType = "AKV_SECRET_URI" | "SECRET_VALUE";
 
 /** Certificates metadata */
@@ -116,6 +134,10 @@ export interface CertificateMetadata {
   name?: string;
 }
 
+<<<<<<< HEAD
+=======
+/** Type of CertificateType */
+>>>>>>> main
 export type CertificateType = "AKV_CERT_URI";
 
 /** The load test configuration. */
@@ -186,7 +208,13 @@ export interface FileInfo {
   validationFailureDetails?: string;
 }
 
+<<<<<<< HEAD
 export type FileType = "JMX_FILE" | "USER_PROPERTIES" | "ADDITIONAL_ARTIFACTS";
+=======
+/** Type of FileType */
+export type FileType = "JMX_FILE" | "USER_PROPERTIES" | "ADDITIONAL_ARTIFACTS";
+/** Type of FileStatus */
+>>>>>>> main
 export type FileStatus =
   | "NOT_VALIDATED"
   | "VALIDATION_SUCCESS"
@@ -298,6 +326,10 @@ export interface PagedTest {
   nextLink?: string;
 }
 
+<<<<<<< HEAD
+=======
+/** Type of APIVersions */
+>>>>>>> main
 export type APIVersions = "2022-11-01";
 
 /** Load test run model */
@@ -428,7 +460,13 @@ export interface TestRunOutputArtifacts {
   logsFileInfo?: FileInfo;
 }
 
+<<<<<<< HEAD
 export type PFTestResult = "PASSED" | "NOT_APPLICABLE" | "FAILED";
+=======
+/** Type of PFTestResult */
+export type PFTestResult = "PASSED" | "NOT_APPLICABLE" | "FAILED";
+/** Type of Status */
+>>>>>>> main
 export type Status =
   | "ACCEPTED"
   | "NOTSTARTED"
@@ -487,6 +525,10 @@ export interface TestRunServerMetricConfig {
   readonly lastModifiedBy?: string;
 }
 
+<<<<<<< HEAD
+=======
+/** Type of Interval */
+>>>>>>> main
 export type Interval = "PT5S" | "PT10S" | "PT1M" | "PT5M" | "PT1H";
 
 export interface DimensionValueList {
@@ -530,6 +572,10 @@ export interface NameAndDesc {
   name?: string;
 }
 
+<<<<<<< HEAD
+=======
+/** Type of AggregationType */
+>>>>>>> main
 export type AggregationType =
   | "Average"
   | "Count"
@@ -538,6 +584,10 @@ export type AggregationType =
   | "Percentile90"
   | "Percentile95"
   | "Percentile99";
+<<<<<<< HEAD
+=======
+/** Type of MetricUnit */
+>>>>>>> main
 export type MetricUnit =
   | "NotSpecified"
   | "Percent"
@@ -557,6 +607,10 @@ export interface MetricAvailability {
   timeGrain?: TimeGrain;
 }
 
+<<<<<<< HEAD
+=======
+/** Type of TimeGrain */
+>>>>>>> main
 export type TimeGrain = "PT5S" | "PT10S" | "PT1M" | "PT5M" | "PT1H";
 
 /** Represents collection of metric namespaces. */

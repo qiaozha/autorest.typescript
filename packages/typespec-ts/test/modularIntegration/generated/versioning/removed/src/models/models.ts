@@ -7,6 +7,10 @@ export interface ModelV2 {
   unionProp: UnionV2;
 }
 
+<<<<<<< HEAD
+=======
+/** Type of EnumV2 */
+>>>>>>> main
 export type EnumV2 = "enumMemberV2";
 /** The version of the API. */
 export type Versions = "v1" | "v2";

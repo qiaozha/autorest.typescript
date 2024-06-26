@@ -155,31 +155,6 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   Failed = "Failed",
 }
 
-/** Standard Azure Resource Manager operation status response */
-export interface ArmOperationStatus {
-  /** The operation status */
-  status: ResourceProvisioningState;
-  /** The name of the  operationStatus resource */
-  readonly name?: string;
-  /** Operation start time */
-  readonly startTime?: Date;
-  /** Operation complete time */
-  readonly endTime?: Date;
-  /** The progress made toward completing the operation */
-  readonly percentComplete?: number;
-  /** Errors that occurred if the operation ended with Canceled or Failed status */
-  readonly error?: ErrorDetail;
-}
-
-/** The provisioning state of a resource type. */
-export type ResourceProvisioningState = string;
-
-export enum KnownResourceProvisioningState {
-  Succeeded = "Succeeded",
-  Failed = "Failed",
-  Canceled = "Canceled",
-}
-
 /** Represents a mongo cluster firewall rule. */
 export interface FirewallRule extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -194,6 +169,15 @@ export interface FirewallRuleProperties {
   startIpAddress: string;
   /** The end IP address of the mongo cluster firewall rule. Must be IPv4 format. */
   endIpAddress: string;
+}
+
+/** The provisioning state of a resource type. */
+export type ResourceProvisioningState = string;
+
+export enum KnownResourceProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled",
 }
 
 /** The response of a FirewallRule list operation. */
@@ -429,6 +413,8 @@ export enum KnownActionType {
   Internal = "Internal",
 }
 
+/** The available API versions. */
+export type Versions = "2024-03-01-preview";
 /** Alias for ProvisioningState */
 export type ProvisioningState =
   | string
