@@ -1,0 +1,13 @@
+emit:
+  - "@azure-tools/typespec-ts"
+options:
+  "@azure-tools/typespec-ts":
+    "emitter-output-dir": "{project-root}/generated/typespec-ts"
+    generateMetadata: true
+    generateTest: true
+    azureSdkForJs: false
+    isModularLibrary: true
+    packageDetails:
+      name: "@azure-rest/azure-appconfiguration"
+      description: "Azure App Configuration"
+    flavor: azure

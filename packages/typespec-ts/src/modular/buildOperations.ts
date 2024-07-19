@@ -135,6 +135,9 @@ export function buildOperationFiles(
       ]);
     }
     operationGroup.operations.forEach((o) => {
+      if (o.name === "putKeyValue") {
+        o;
+      }
       const operationDeclaration = getOperationFunction(o, clientType);
       const sendOperationDeclaration = getSendPrivateFunction(
         dpgContext,

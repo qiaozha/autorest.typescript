@@ -1036,7 +1036,7 @@ export function getRequestModelMapping(
             }`
       }`;
       props.push(definition);
-    } else if (property.type.type === "dict") {
+    } else if (property.type.type === "dict" && property.type.elementType?.name) {
       const modelName = property.type.elementType?.name;
       serializerName = modelName ? `${toCamelCase(modelName)}Serializer` : "";
       // definition = `"${property.restApiName}": ${nullOrUndefinedPrefix}${serializerName}(${propertyPath}.${property.clientName})`;
